@@ -1,0 +1,80 @@
+import type { Promotion, PromotionCategory } from '../types'
+
+export const mockPromotions: Promotion[] = [
+  {
+    id: 'PROMO-001',
+    title: 'ลดค่าธรรมเนียม 50%',
+    description: 'สำหรับลูกค้า Honda ที่ชำระค่างวดล่วงหน้า 7 วันขึ้นไป',
+    imageUrl: 'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=800&h=400&fit=crop',
+    discountPercentage: 50,
+    minPurchase: 1000,
+    validFrom: '2024-01-01T00:00:00Z',
+    validUntil: '2024-03-31T23:59:59Z',
+    category: 'discount',
+    isActive: true,
+    isFeatured: true,
+    terms: [
+      'ใช้ได้กับลูกค้า Honda ทุกคน',
+      'ชำระล่วงหน้าอย่างน้อย 7 วัน',
+      'ไม่สามารถใช้ร่วมกับโปรโมชั่นอื่นได้',
+    ],
+  },
+  {
+    id: 'PROMO-002',
+    title: 'ฟรีค่าธรรมเนียม 1 ครั้ง',
+    description: 'สำหรับลูกค้า Honda ใหม่ที่สมัครสมาชิกในเดือนนี้',
+    imageUrl: 'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=800&h=400&fit=crop',
+    validFrom: '2024-01-15T00:00:00Z',
+    validUntil: '2024-02-15T23:59:59Z',
+    category: 'free_fee',
+    isActive: true,
+    isFeatured: false,
+    terms: [
+      'สำหรับลูกค้า Honda ใหม่เท่านั้น',
+      'ใช้ได้ 1 ครั้งต่อบัญชี',
+      'ต้องสมัครสมาชิกก่อน 15 ก.พ. 67',
+    ],
+  },
+  {
+    id: 'PROMO-003',
+    title: 'คืนเงิน 100 บาท',
+    description: 'เมื่อชำระค่างวดรถ Honda ครบ 3 งวดติดต่อกัน',
+    imageUrl: 'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=800&h=400&fit=crop',
+    discountAmount: 100,
+    validFrom: '2024-01-01T00:00:00Z',
+    validUntil: '2024-12-31T23:59:59Z',
+    category: 'cashback',
+    isActive: true,
+    isFeatured: true,
+    terms: [
+      'ชำระครบ 3 งวดติดต่อกัน',
+      'ไม่มีการขาดชำระ',
+      'คืนเงินเข้าบัญชีภายใน 7 วัน',
+    ],
+  },
+  {
+    id: 'PROMO-004',
+    title: 'โปรโมชั่นพิเศษ Honda VIP',
+    description: 'สำหรับลูกค้า Honda VIP ลดค่าธรรมเนียม 30%',
+    imageUrl: 'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=800&h=400&fit=crop',
+    discountPercentage: 30,
+    validFrom: '2024-01-01T00:00:00Z',
+    validUntil: '2024-12-31T23:59:59Z',
+    category: 'special',
+    isActive: true,
+    isFeatured: false,
+    terms: [
+      'สำหรับลูกค้า Honda VIP เท่านั้น',
+      'ใช้ได้ตลอดปี 2567',
+      'ไม่สามารถโอนสิทธิ์ให้ผู้อื่นได้',
+    ],
+  },
+]
+
+export const mockPromotionCategories: { id: PromotionCategory; name: string }[] = [
+  { id: 'all', name: 'ทั้งหมด' },
+  { id: 'discount', name: 'ส่วนลด' },
+  { id: 'free_fee', name: 'ฟรีค่าธรรมเนียม' },
+  { id: 'cashback', name: 'คืนเงิน' },
+  { id: 'special', name: 'พิเศษ' },
+]

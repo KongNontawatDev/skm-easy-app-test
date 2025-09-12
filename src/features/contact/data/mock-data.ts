@@ -1,0 +1,58 @@
+import type { ContactInfo } from '../types'
+
+export const mockContactInfo: ContactInfo[] = [
+  {
+    id: '1',
+    type: 'phone',
+    title: 'โทรศัพท์',
+    value: '02-123-4567',
+    description: 'จันทร์-ศุกร์ 08:00-17:00',
+    icon: '📞',
+    isActive: true,
+  },
+  {
+    id: '2',
+    type: 'email',
+    title: 'อีเมล',
+    value: 'support@honda-easy.com',
+    description: 'ตอบกลับภายใน 24 ชั่วโมง',
+    icon: '📧',
+    isActive: true,
+  },
+  {
+    id: '3',
+    type: 'address',
+    title: 'ที่อยู่',
+    value: '123 ถนนสุขุมวิท แขวงคลองตัน เขตวัฒนา กรุงเทพฯ 10110',
+    description: 'สำนักงานใหญ่ Honda Easy Payment',
+    icon: '📍',
+    isActive: true,
+  },
+  {
+    id: '4',
+    type: 'hours',
+    title: 'เวลาทำการ',
+    value: 'จันทร์-ศุกร์ 08:00-17:00',
+    description: 'เสาร์-อาทิตย์ ปิดทำการ',
+    icon: '🕒',
+    isActive: true,
+  },
+  {
+    id: '5',
+    type: 'social',
+    title: 'Facebook',
+    value: 'Honda Easy Payment',
+    description: 'ติดตามข่าวสารและโปรโมชั่น',
+    icon: '📘',
+    isActive: true,
+  },
+  {
+    id: '6',
+    type: 'social',
+    title: 'Line',
+    value: '@HondaEasy',
+    description: 'แชทสอบถามข้อมูล',
+    icon: '💬',
+    isActive: true,
+  },
+]

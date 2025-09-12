@@ -1,0 +1,167 @@
+import type { Receipt } from '../types'
+
+export const mockReceipts: Receipt[] = [
+  {
+    id: 'RCP-001',
+    receiptNumber: 'RCP-2024-001',
+    invoiceId: 'INV-001',
+    contractId: 'CTR-001',
+    contractNumber: 'CTR-2024-001',
+    customerInfo: {
+      name: 'สมชาย ใจดี',
+      address: '123 ถนนสุขุมวิท แขวงคลองตัน เขตวัฒนา กรุงเทพฯ 10110',
+      taxId: '1234567890123',
+    },
+    vehicleInfo: {
+      brand: 'Toyota',
+      model: 'Camry',
+      plateNumber: 'กข-1234 กรุงเทพ',
+    },
+    paymentInfo: {
+      paymentDate: '2024-01-20T14:30:00Z',
+      amount: 16050,
+      method: 'โอนเงิน',
+      reference: 'TXN-20240120-001',
+      bankAccount: '123-4-56789-0',
+      status: 'completed',
+    },
+    items: [
+      {
+        id: 'ITEM-001',
+        description: 'ค่างวดรถยนต์ Toyota Camry งวดที่ 1',
+        amount: 15000,
+        period: 'มกราคม 2567',
+      },
+      {
+        id: 'ITEM-002',
+        description: 'ค่าธรรมเนียมการชำระ',
+        amount: 50,
+        period: 'มกราคม 2567',
+      },
+    ],
+    createdAt: '2024-01-20T14:30:00Z',
+    updatedAt: '2024-01-20T14:30:00Z',
+  },
+  {
+    id: 'RCP-002',
+    receiptNumber: 'RCP-2024-002',
+    invoiceId: 'INV-003',
+    contractId: 'CTR-002',
+    contractNumber: 'CTR-2024-002',
+    customerInfo: {
+      name: 'สมหญิง รักดี',
+      address: '456 ถนนพหลโยธิน แขวงลาดยาว เขตจตุจักร กรุงเทพฯ 10900',
+      taxId: '9876543210987',
+    },
+    vehicleInfo: {
+      brand: 'Honda',
+      model: 'Civic',
+      plateNumber: 'กข-5678 กรุงเทพ',
+    },
+    paymentInfo: {
+      paymentDate: '2024-01-25T11:15:00Z',
+      amount: 12840,
+      method: 'โอนเงิน',
+      reference: 'TXN-20240125-002',
+      bankAccount: '987-6-54321-0',
+      status: 'completed',
+    },
+    items: [
+      {
+        id: 'ITEM-003',
+        description: 'ค่างวดรถยนต์ Honda Civic งวดที่ 1',
+        amount: 12000,
+        period: 'มกราคม 2567',
+      },
+      {
+        id: 'ITEM-004',
+        description: 'ค่าธรรมเนียมการชำระ',
+        amount: 40,
+        period: 'มกราคม 2567',
+      },
+    ],
+    createdAt: '2024-01-25T11:15:00Z',
+    updatedAt: '2024-01-25T11:15:00Z',
+  },
+  {
+    id: 'RCP-003',
+    receiptNumber: 'RCP-2024-003',
+    invoiceId: 'INV-004',
+    contractId: 'CTR-003',
+    contractNumber: 'CTR-2023-015',
+    customerInfo: {
+      name: 'วิชัย เก่งมาก',
+      address: '789 ถนนรัชดาภิเษก แขวงห้วยขวาง เขตห้วยขวาง กรุงเทพฯ 10310',
+      taxId: '4567891234567',
+    },
+    vehicleInfo: {
+      brand: 'Nissan',
+      model: 'Almera',
+      plateNumber: 'กข-9999 กรุงเทพ',
+    },
+    paymentInfo: {
+      paymentDate: '2024-01-12T16:45:00Z',
+      amount: 10700,
+      method: 'โอนเงิน',
+      reference: 'TXN-20240112-003',
+      bankAccount: '456-7-89012-3',
+      status: 'completed',
+    },
+    items: [
+      {
+        id: 'ITEM-005',
+        description: 'ค่างวดรถยนต์ Nissan Almera งวดที่ 1',
+        amount: 10000,
+        period: 'มกราคม 2567',
+      },
+      {
+        id: 'ITEM-006',
+        description: 'ค่าธรรมเนียมการชำระ',
+        amount: 30,
+        period: 'มกราคม 2567',
+      },
+    ],
+    createdAt: '2024-01-12T16:45:00Z',
+    updatedAt: '2024-01-12T16:45:00Z',
+  },
+  {
+    id: 'RCP-004',
+    receiptNumber: 'RCP-2023-120',
+    invoiceId: 'INV-2023-120',
+    contractId: 'CTR-001',
+    contractNumber: 'CTR-2024-001',
+    customerInfo: {
+      name: 'สมชาย ใจดี',
+      address: '123 ถนนสุขุมวิท แขวงคลองตัน เขตวัฒนา กรุงเทพฯ 10110',
+      taxId: '1234567890123',
+    },
+    vehicleInfo: {
+      brand: 'Toyota',
+      model: 'Camry',
+      plateNumber: 'กข-1234 กรุงเทพ',
+    },
+    paymentInfo: {
+      paymentDate: '2023-12-15T10:00:00Z',
+      amount: 16050,
+      method: 'บัตรเครดิต',
+      reference: 'TXN-20231215-001',
+      status: 'completed',
+    },
+    items: [
+      {
+        id: 'ITEM-007',
+        description: 'ค่างวดรถยนต์ Toyota Camry งวดที่ 12',
+        amount: 15000,
+        period: 'ธันวาคม 2566',
+      },
+      {
+        id: 'ITEM-008',
+        description: 'ค่าธรรมเนียมการชำระ',
+        amount: 50,
+        period: 'ธันวาคม 2566',
+      },
+    ],
+    createdAt: '2023-12-15T10:00:00Z',
+    updatedAt: '2023-12-15T10:00:00Z',
+  },
+]

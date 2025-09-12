@@ -1,0 +1,165 @@
+import type { Invoice } from '../types'
+
+export const mockInvoices: Invoice[] = [
+  {
+    id: 'INV-001',
+    invoiceNumber: 'INV-2024-001',
+    contractId: 'CTR-001',
+    contractNumber: 'CTR-2024-001',
+    customerInfo: {
+      name: 'สมชาย ใจดี',
+      address: '123 ถนนสุขุมวิท แขวงคลองตัน เขตวัฒนา กรุงเทพฯ 10110',
+      taxId: '1234567890123',
+    },
+    vehicleInfo: {
+      brand: 'Toyota',
+      model: 'Camry',
+      plateNumber: 'กข-1234 กรุงเทพ',
+    },
+    billingInfo: {
+      issueDate: '2024-01-15T00:00:00Z',
+      dueDate: '2024-02-15T00:00:00Z',
+      paymentDate: '2024-01-20T00:00:00Z',
+      amount: 15000,
+      vat: 1050,
+      totalAmount: 16050,
+    },
+    paymentInfo: {
+      method: 'โอนเงิน',
+      reference: 'TXN-20240120-001',
+      status: 'paid',
+    },
+    items: [
+      {
+        id: 'ITEM-001',
+        description: 'ค่างวดรถยนต์ Toyota Camry งวดที่ 1',
+        quantity: 1,
+        unitPrice: 15000,
+        amount: 15000,
+      },
+    ],
+    status: 'paid',
+    createdAt: '2024-01-15T10:00:00Z',
+    updatedAt: '2024-01-20T14:30:00Z',
+  },
+  {
+    id: 'INV-002',
+    invoiceNumber: 'INV-2024-002',
+    contractId: 'CTR-001',
+    contractNumber: 'CTR-2024-001',
+    customerInfo: {
+      name: 'สมชาย ใจดี',
+      address: '123 ถนนสุขุมวิท แขวงคลองตัน เขตวัฒนา กรุงเทพฯ 10110',
+      taxId: '1234567890123',
+    },
+    vehicleInfo: {
+      brand: 'Toyota',
+      model: 'Camry',
+      plateNumber: 'กข-1234 กรุงเทพ',
+    },
+    billingInfo: {
+      issueDate: '2024-02-15T00:00:00Z',
+      dueDate: '2024-03-15T00:00:00Z',
+      amount: 15000,
+      vat: 1050,
+      totalAmount: 16050,
+    },
+    paymentInfo: {
+      method: 'บัตรเครดิต',
+      reference: '',
+      status: 'pending',
+    },
+    items: [
+      {
+        id: 'ITEM-002',
+        description: 'ค่างวดรถยนต์ Toyota Camry งวดที่ 2',
+        quantity: 1,
+        unitPrice: 15000,
+        amount: 15000,
+      },
+    ],
+    status: 'sent',
+    createdAt: '2024-02-15T10:00:00Z',
+    updatedAt: '2024-02-15T10:00:00Z',
+  },
+  {
+    id: 'INV-003',
+    invoiceNumber: 'INV-2024-003',
+    contractId: 'CTR-002',
+    contractNumber: 'CTR-2024-002',
+    customerInfo: {
+      name: 'สมหญิง รักดี',
+      address: '456 ถนนพหลโยธิน แขวงลาดยาว เขตจตุจักร กรุงเทพฯ 10900',
+      taxId: '9876543210987',
+    },
+    vehicleInfo: {
+      brand: 'Honda',
+      model: 'Civic',
+      plateNumber: 'กข-5678 กรุงเทพ',
+    },
+    billingInfo: {
+      issueDate: '2024-01-20T00:00:00Z',
+      dueDate: '2024-02-20T00:00:00Z',
+      amount: 12000,
+      vat: 840,
+      totalAmount: 12840,
+    },
+    paymentInfo: {
+      method: 'โอนเงิน',
+      reference: 'TXN-20240125-002',
+      status: 'paid',
+    },
+    items: [
+      {
+        id: 'ITEM-003',
+        description: 'ค่างวดรถยนต์ Honda Civic งวดที่ 1',
+        quantity: 1,
+        unitPrice: 12000,
+        amount: 12000,
+      },
+    ],
+    status: 'paid',
+    createdAt: '2024-01-20T09:30:00Z',
+    updatedAt: '2024-01-25T11:15:00Z',
+  },
+  {
+    id: 'INV-004',
+    invoiceNumber: 'INV-2024-004',
+    contractId: 'CTR-003',
+    contractNumber: 'CTR-2023-015',
+    customerInfo: {
+      name: 'วิชัย เก่งมาก',
+      address: '789 ถนนรัชดาภิเษก แขวงห้วยขวาง เขตห้วยขวาง กรุงเทพฯ 10310',
+      taxId: '4567891234567',
+    },
+    vehicleInfo: {
+      brand: 'Nissan',
+      model: 'Almera',
+      plateNumber: 'กข-9999 กรุงเทพ',
+    },
+    billingInfo: {
+      issueDate: '2024-01-10T00:00:00Z',
+      dueDate: '2024-02-10T00:00:00Z',
+      amount: 10000,
+      vat: 700,
+      totalAmount: 10700,
+    },
+    paymentInfo: {
+      method: 'โอนเงิน',
+      reference: 'TXN-20240112-003',
+      status: 'paid',
+    },
+    items: [
+      {
+        id: 'ITEM-004',
+        description: 'ค่างวดรถยนต์ Nissan Almera งวดที่ 1',
+        quantity: 1,
+        unitPrice: 10000,
+        amount: 10000,
+      },
+    ],
+    status: 'paid',
+    createdAt: '2024-01-10T14:00:00Z',
+    updatedAt: '2024-01-12T16:45:00Z',
+  },
+]

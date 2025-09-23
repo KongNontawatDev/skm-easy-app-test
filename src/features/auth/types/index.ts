@@ -1,7 +1,8 @@
 // Authentication types
 export interface SignInRequest {
-  email: string
-  password: string
+  nationalId: string
+  phoneNumber: string
+  captchaToken: string
   rememberMe?: boolean
 }
 
@@ -24,13 +25,14 @@ export interface AuthResponse {
 
 export interface User {
   id: string
+  nationalId: string
   firstName: string
   lastName: string
-  email: string
+  email?: string
   phone: string
   avatar?: string
   role: 'user' | 'admin'
-  isEmailVerified: boolean
+  isEmailVerified?: boolean
   isPhoneVerified: boolean
   createdAt: string
   updatedAt: string

@@ -9,7 +9,6 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SignUpRouteImport } from './routes/sign-up'
 import { Route as SignInRouteImport } from './routes/sign-in'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as PromotionRouteImport } from './routes/promotion'
@@ -41,11 +40,6 @@ import { Route as ReceiptContractIdReceiptIdRouteImport } from './routes/receipt
 import { Route as InvoiceContractIdInvoiceIdRouteImport } from './routes/invoice/$contractId/$invoiceId'
 import { Route as InstallmentPayIdRouteImport } from './routes/installment/pay/$id'
 
-const SignUpRoute = SignUpRouteImport.update({
-  id: '/sign-up',
-  path: '/sign-up',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const SignInRoute = SignInRouteImport.update({
   id: '/sign-in',
   path: '/sign-in',
@@ -206,7 +200,6 @@ export interface FileRoutesByFullPath {
   '/promotion': typeof PromotionRoute
   '/settings': typeof SettingsRoute
   '/sign-in': typeof SignInRoute
-  '/sign-up': typeof SignUpRoute
   '/blog/$id': typeof BlogIdRoute
   '/contract/$contractId': typeof ContractContractIdRoute
   '/contract/$id': typeof ContractIdRoute
@@ -239,7 +232,6 @@ export interface FileRoutesByTo {
   '/promotion': typeof PromotionRoute
   '/settings': typeof SettingsRoute
   '/sign-in': typeof SignInRoute
-  '/sign-up': typeof SignUpRoute
   '/blog/$id': typeof BlogIdRoute
   '/contract/$contractId': typeof ContractContractIdRoute
   '/contract/$id': typeof ContractIdRoute
@@ -273,7 +265,6 @@ export interface FileRoutesById {
   '/promotion': typeof PromotionRoute
   '/settings': typeof SettingsRoute
   '/sign-in': typeof SignInRoute
-  '/sign-up': typeof SignUpRoute
   '/blog/$id': typeof BlogIdRoute
   '/contract/$contractId': typeof ContractContractIdRoute
   '/contract/$id': typeof ContractIdRoute
@@ -308,7 +299,6 @@ export interface FileRouteTypes {
     | '/promotion'
     | '/settings'
     | '/sign-in'
-    | '/sign-up'
     | '/blog/$id'
     | '/contract/$contractId'
     | '/contract/$id'
@@ -341,7 +331,6 @@ export interface FileRouteTypes {
     | '/promotion'
     | '/settings'
     | '/sign-in'
-    | '/sign-up'
     | '/blog/$id'
     | '/contract/$contractId'
     | '/contract/$id'
@@ -374,7 +363,6 @@ export interface FileRouteTypes {
     | '/promotion'
     | '/settings'
     | '/sign-in'
-    | '/sign-up'
     | '/blog/$id'
     | '/contract/$contractId'
     | '/contract/$id'
@@ -408,7 +396,6 @@ export interface RootRouteChildren {
   PromotionRoute: typeof PromotionRoute
   SettingsRoute: typeof SettingsRoute
   SignInRoute: typeof SignInRoute
-  SignUpRoute: typeof SignUpRoute
   BlogIdRoute: typeof BlogIdRoute
   ContractContractIdRoute: typeof ContractContractIdRoute
   ContractIdRoute: typeof ContractIdRoute
@@ -435,13 +422,6 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/sign-up': {
-      id: '/sign-up'
-      path: '/sign-up'
-      fullPath: '/sign-up'
-      preLoaderRoute: typeof SignUpRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/sign-in': {
       id: '/sign-in'
       path: '/sign-in'
@@ -684,7 +664,6 @@ const rootRouteChildren: RootRouteChildren = {
   PromotionRoute: PromotionRoute,
   SettingsRoute: SettingsRoute,
   SignInRoute: SignInRoute,
-  SignUpRoute: SignUpRoute,
   BlogIdRoute: BlogIdRoute,
   ContractContractIdRoute: ContractContractIdRoute,
   ContractIdRoute: ContractIdRoute,

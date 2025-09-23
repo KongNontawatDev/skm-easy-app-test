@@ -9,11 +9,10 @@ import {
   Shield
 } from 'lucide-react'
 import { useState, useRef } from 'react'
-import { useRouter, useNavigate } from '@tanstack/react-router'
+import { useRouter } from '@tanstack/react-router'
 import { showToast } from '@/lib/toast'
 
 export function SignIn() {
-  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     nationalId: '',
     phoneNumber: ''
@@ -108,12 +107,12 @@ export function SignIn() {
     // // console.log('Sign in:', formData, 'Captcha token:', captchaToken)
     
     // Show loading toast
-    const loadingToast = showToast.loading('กำลังเข้าสู่ระบบ...')
+    const loadingToast = showToast.loading('กำลังลงทะเบียนเข้าสู่ระบบ...')
     
     // Simulate API call
     setTimeout(() => {
       showToast.dismiss(loadingToast)
-      showToast.success('เข้าสู่ระบบสำเร็จ', 'ยินดีต้อนรับสู่ระบบจัดการค่างวดรถ')
+      showToast.success('ลงทะเบียนเข้าสู่ระบบสำเร็จ', 'ยินดีต้อนรับสู่ระบบจัดการค่างวดรถ')
       router.navigate({ to: '/' })
     }, 2000)
   }
@@ -153,8 +152,8 @@ export function SignIn() {
     <div className="space-y-6">
       {/* Header */}
       <div className="text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">เข้าสู่ระบบ</h1>
-        <p className="text-gray-600">ยินดีต้อนรับกลับสู่ระบบจัดการค่างวดรถ</p>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">ลงทะเบียนเข้าสู่ระบบ</h1>
+        <p className="text-gray-600">กรอกข้อมูลเพื่อเข้าสู่ระบบจัดการค่างวดรถ</p>
       </div>
 
       {/* Form */}
@@ -224,14 +223,11 @@ export function SignIn() {
           )}
         </div>
 
-        <div className="flex items-center justify-between">
+        <div className="flex items-center">
           <label className="flex items-center">
             <input type="checkbox" className="rounded border-gray-300 text-[#EC1B2E] focus:ring-[#EC1B2E]" />
             <span className="ml-2 text-sm text-gray-600">จดจำฉัน</span>
           </label>
-          <button type="button" className="text-sm text-[#EC1B2E] hover:underline">
-            ลืมรหัสผ่าน?
-          </button>
         </div>
 
         <MobileButton 
@@ -239,7 +235,7 @@ export function SignIn() {
           className="w-full bg-[#EC1B2E] text-white disabled:bg-gray-400 disabled:cursor-not-allowed"
           disabled={!isCaptchaVerified}
         >
-          {isCaptchaVerified ? 'เข้าสู่ระบบ' : 'กรุณายืนยันตัวตนก่อน'}
+          {isCaptchaVerified ? 'ลงทะเบียนเข้าสู่ระบบ' : 'กรุณายืนยันตัวตนก่อน'}
         </MobileButton>
       </form>
 
@@ -266,17 +262,10 @@ export function SignIn() {
         </MobileButton>
       </div>
 
-      {/* Sign Up Link */}
+      {/* Help Text */}
       <div className="text-center">
-        <p className="text-gray-600">
-          ยังไม่มีบัญชี?{' '}
-          <button 
-            type="button"
-            onClick={() => navigate({ to: '/sign-up' })}
-            className="text-[#EC1B2E] hover:underline font-medium"
-          >
-            สมัครสมาชิก
-          </button>
+        <p className="text-sm text-gray-500">
+          หากมีปัญหาในการเข้าสู่ระบบ กรุณาติดต่อเจ้าหน้าที่
         </p>
       </div>
     </div>

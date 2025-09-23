@@ -18,7 +18,7 @@ import {
   Ticket,
   LogOut
 } from 'lucide-react'
-import { useNavigate } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
 
 export function Profile() {
   const navigate = useNavigate()
@@ -126,6 +126,10 @@ export function Profile() {
             <LogOut className="mr-2 h-5 w-5" />
             ออกจากระบบ
           </MobileButton>
+
+            <div className="my-3 text-center">
+          <Link to="/sign-in">ลงทะเบียนครั้งแรก</Link>
+              </div>
         </div>
       </MobileContent>
 

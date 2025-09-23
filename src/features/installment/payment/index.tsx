@@ -13,6 +13,7 @@ import {
   DollarSign
 } from 'lucide-react'
 import { useRouter, useSearch, useNavigate } from '@tanstack/react-router'
+import { getPaymentsByContract, getContractById } from '@/lib/mock-data'
 
 interface PaymentSearchParams {
   contractId?: string
@@ -26,70 +27,15 @@ export function PaymentList() {
   // Get contractId from URL parameters
   const contractId = search.contractId
 
-  // Mock data - ในแอปจริงจะ fetch จาก API
-  const allPayments = [
-    {
-      id: '1',
-      contractNo: 'CT-2024-001',
-      installmentNo: 13,
-      amount: 15000,
-      dueDate: '2024-02-15',
-      status: 'pending'
-    },
-    {
-      id: '2',
-      contractNo: 'CT-2024-001',
-      installmentNo: 12,
-      amount: 15000,
-      dueDate: '2024-01-15',
-      status: 'paid'
-    },
-    {
-      id: '3',
-      contractNo: 'CT-2024-001',
-      installmentNo: 11,
-      amount: 15000,
-      dueDate: '2023-12-15',
-      status: 'paid'
-    },
-    {
-      id: '4',
-      contractNo: 'CT-2024-002',
-      installmentNo: 5,
-      amount: 12000,
-      dueDate: '2024-02-20',
-      status: 'pending'
-    },
-    {
-      id: '5',
-      contractNo: 'CT-2024-002',
-      installmentNo: 4,
-      amount: 12000,
-      dueDate: '2024-01-20',
-      status: 'paid'
-    },
-    {
-      id: '6',
-      contractNo: 'CT-2024-003',
-      installmentNo: 19,
-      amount: 6250,
-      dueDate: '2024-02-25',
-      status: 'overdue'
-    },
-    {
-      id: '7',
-      contractNo: 'CT-2024-003',
-      installmentNo: 18,
-      amount: 6250,
-      dueDate: '2024-01-25',
-      status: 'paid'
-    }
-  ]
+  // ใช้ข้อมูลจากข้อมูลกลาง
+  const contract = contractId ? getContractById(contractId) : null
+  const allPayments = contractId ? getPaymentsByContract(contractId) : []
 
-  // Filter payments by contractId
-  const payments = contractId 
-    ? allPayments.filter(payment => payment.contractNo === contractId)
-    : allPayments
+  // Redirect to installment page if no contractId
+  if (!contractId) {
+    router.navigate({ to: '/installment' })
+    return null
+  }
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
@@ -106,121 +52,109 @@ export function PaymentList() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'paid':
-        return 'bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300'
       case 'pending':
-        return 'bg-yellow-100 dark:bg-yellow-900 text-yellow-700 dark:text-yellow-300'
+        return 'bg-yellow-100 text-yellow-800'
+      case 'paid':
+        return 'bg-green-100 text-green-800'
       case 'overdue':
-        return 'bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300'
+        return 'bg-red-100 text-red-800'
       default:
-        return 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+        return 'bg-gray-100 text-gray-800'
     }
   }
 
   const getStatusText = (status: string) => {
     switch (status) {
-      case 'paid':
-        return 'ชำระแล้ว'
       case 'pending':
         return 'รอชำระ'
+      case 'paid':
+        return 'ชำระแล้ว'
       case 'overdue':
-        return 'เกินกำหนด'
+        return 'ค้างชำระ'
       default:
-        return 'ไม่ทราบสถานะ'
+        return status
     }
   }
 
-  // If no contractId provided, redirect to installment page
-  if (!contractId) {
-    router.navigate({ to: '/installment' })
-    return null
+  const handlePayNow = (payment: { id: string }) => {
+    navigate({ to: '/installment/pay/$id', params: { id: payment.id } })
   }
 
   return (
     <MobileLayout>
       <MobileHeader 
-        title="ชำระค่างวด" 
-        showBackButton={true}
+        title="รายการชำระเงิน" 
         onBackClick={() => router.navigate({ to: '/installment' })}
       />
-      
-      <MobileContent className="pb-20">
-        <div className="space-y-6">
-          {/* Contract Info */}
-          <MobileCard className="p-4 bg-blue-50 dark:bg-blue-900/20">
-            <div className="text-center">
-              <h3 className="font-semibold text-blue-800 dark:text-blue-200 mb-1">
-                สัญญา {contractId}
-              </h3>
-              <p className="text-sm text-blue-600 dark:text-blue-400">
-                รายการชำระค่างวดสำหรับสัญญานี้
-              </p>
+      <MobileContent>
+        {/* Contract Info */}
+        {contract && (
+          <MobileCard>
+            <div className="flex items-center space-x-3 mb-3">
+              <CreditCard className="h-5 w-5 text-blue-600" />
+              <h3 className="text-lg font-semibold">สัญญา {contract.contractNumber}</h3>
+            </div>
+            <div className="text-sm text-gray-600">
+              <p>{contract.vehicleInfo.brand} {contract.vehicleInfo.model} ({contract.vehicleInfo.year})</p>
+              <p>ทะเบียน: {contract.vehicleInfo.plateNumber}</p>
             </div>
           </MobileCard>
+        )}
 
-          {/* Payment List */}
-          <div className="space-y-4">
-            {payments.map((payment) => (
-              <MobileCard key={payment.id} className="p-4">
-                <div className="flex items-center justify-between mb-3">
-                  <div>
-                    <h3 className="font-semibold text-gray-900 dark:text-gray-100">
-                      งวดที่ {payment.installmentNo}
-                    </h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      สัญญา: {payment.contractNo}
-                    </p>
+        {/* Payments List */}
+        <div className="space-y-3">
+          {allPayments.map((payment) => (
+            <MobileCard key={payment.id}>
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center space-x-3">
+                  <div className="bg-blue-100 p-2 rounded-lg">
+                    <Calendar className="h-5 w-5 text-blue-600" />
                   </div>
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(payment.status)}`}>
-                    {getStatusText(payment.status)}
+                  <div>
+                    <h4 className="font-semibold">งวดที่ {payment.installmentNo}</h4>
+                    <p className="text-sm text-gray-600">{formatDate(payment.dueDate)}</p>
+                  </div>
+                </div>
+                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(payment.status)}`}>
+                  {getStatusText(payment.status)}
+                </span>
+              </div>
+
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center space-x-2">
+                  <DollarSign className="h-4 w-4 text-green-600" />
+                  <span className="text-lg font-semibold text-green-600">
+                    {formatNumber(payment.amount)} บาท
                   </span>
                 </div>
-
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center text-gray-500 dark:text-gray-400">
-                    <Calendar className="w-4 h-4 mr-2" />
-                    <span className="text-sm">ครบกำหนด: {formatDate(payment.dueDate)}</span>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-lg font-bold text-[#EC1B2E]">
-                      {formatNumber(payment.amount)} ฿
-                    </div>
-                  </div>
-                </div>
-
-                {payment.status === 'pending' && (
-                  <MobileButton
-                    onClick={() => navigate({ to: '/installment/pay/$id', params: { id: payment.id } })}
-                    className="w-full"
-                  >
-                    <QrCode className="w-4 h-4 mr-2" />
-                    ชำระเงิน
-                  </MobileButton>
-                )}
-
-                {payment.status === 'paid' && (
-                  <div className="flex items-center justify-center text-green-600 dark:text-green-400">
-                    <DollarSign className="w-4 h-4 mr-2" />
-                    <span className="text-sm font-medium">ชำระเรียบร้อยแล้ว</span>
-                  </div>
-                )}
-              </MobileCard>
-            ))}
-          </div>
-
-          {/* Empty State */}
-          {payments.length === 0 && (
-            <div className="text-center py-10">
-              <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center">
-                <CreditCard className="w-8 h-8 text-gray-400" />
               </div>
-              <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">ไม่มีรายการชำระ</h3>
-              <p className="text-gray-500 dark:text-gray-400">ไม่มีรายการชำระค่างวดในขณะนี้</p>
-            </div>
-          )}
-        </div>
-      </MobileContent>
 
+              {payment.status === 'pending' || payment.status === 'overdue' ? (
+                <MobileButton
+                  onClick={() => handlePayNow(payment)}
+                  className="w-full bg-blue-600 text-white hover:bg-blue-700"
+                >
+                  <QrCode className="h-4 w-4 mr-2" />
+                  ชำระเงิน
+                </MobileButton>
+              ) : (
+                <div className="text-center text-sm text-gray-500 py-2">
+                  ชำระแล้ว
+                </div>
+              )}
+            </MobileCard>
+          ))}
+        </div>
+
+        {allPayments.length === 0 && (
+          <MobileCard>
+            <div className="text-center py-8">
+              <CreditCard className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+              <p className="text-gray-500">ไม่พบข้อมูลการชำระเงิน</p>
+            </div>
+          </MobileCard>
+        )}
+      </MobileContent>
       <BottomNavigation currentPath="/installment" />
     </MobileLayout>
   )

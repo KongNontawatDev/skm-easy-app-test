@@ -1,27 +1,21 @@
-import { 
-  MobileLayout, 
-  MobileHeader, 
-  MobileContent, 
-  BottomNavigation,
-  MobileCard,
-  MobileButton
-} from '@/components/mobile'
-import { 
-  Receipt as ReceiptIcon,
-  Download,
-  Eye,
-  Calendar,
-  ArrowLeft
-} from 'lucide-react'
-import { useParams, useNavigate } from '@tanstack/react-router'
-import { mockReceipts } from './data/mock-data'
+import { useParams } from '@tanstack/react-router'
+import { MobileLayout } from '@/components/mobile/mobile-layout'
+import { MobileHeader } from '@/components/mobile/mobile-header'
+import { MobileContent } from '@/components/mobile/mobile-content'
+import { MobileCard } from '@/components/mobile/mobile-card'
+import { MobileButton } from '@/components/mobile/mobile-button'
+import { BottomNavigation } from '@/components/mobile/bottom-navigation'
+import { ArrowLeft, Receipt, Calendar, DollarSign } from 'lucide-react'
+import { useNavigate } from '@tanstack/react-router'
+import { getReceiptsByContract, getContractById } from '@/lib/mock-data'
 
 export function ReceiptList() {
   const { contractId } = useParams({ from: '/receipt/$contractId' })
   const navigate = useNavigate()
 
-  // Filter receipts by contractId
-  const receipts = mockReceipts.filter(receipt => receipt.contractId === contractId)
+  // ใช้ข้อมูลจากข้อมูลกลาง
+  const contract = getContractById(contractId)
+  const allReceipts = getReceiptsByContract(contractId)
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
@@ -52,7 +46,7 @@ export function ReceiptList() {
   const getStatusText = (status: string) => {
     switch (status) {
       case 'completed':
-        return 'สำเร็จ'
+        return 'เสร็จสิ้น'
       case 'pending':
         return 'รอดำเนินการ'
       case 'failed':
@@ -62,111 +56,90 @@ export function ReceiptList() {
     }
   }
 
+  const handleViewReceipt = (receiptId: string) => {
+    navigate({ to: '/receipt/$contractId/$receiptId', params: { contractId, receiptId } })
+  }
+
   return (
     <MobileLayout>
       <MobileHeader 
-        title={`ใบเสร็จสัญญา ${contractId}`}
+        title="ใบเสร็จ" 
         onBackClick={() => navigate({ to: '/installment' })}
       />
-
-      <MobileContent className='pb-48'>
-        <div className='space-y-4'>
-          {/* Contract Info */}
-          <MobileCard className='p-4'>
-            <div className='flex items-center space-x-3'>
-              <div className='w-12 h-12 bg-green-100 rounded-full flex items-center justify-center'>
-                <ReceiptIcon className='w-6 h-6 text-green-600' />
-              </div>
-              <div>
-                <h3 className='font-semibold text-gray-900 dark:text-gray-100'>
-                  สัญญา {contractId}
-                </h3>
-                <p className='text-sm text-gray-500'>
-                  ใบเสร็จทั้งหมด {receipts.length} ใบ
-                </p>
-              </div>
+      <MobileContent>
+        {/* Contract Info */}
+        {contract && (
+          <MobileCard>
+            <div className="flex items-center space-x-3 mb-3">
+              <Receipt className="h-5 w-5 text-green-600" />
+              <h3 className="text-lg font-semibold">สัญญา {contract.contractNumber}</h3>
+            </div>
+            <div className="text-sm text-gray-600">
+              <p>{contract.vehicleInfo.brand} {contract.vehicleInfo.model} ({contract.vehicleInfo.year})</p>
+              <p>ทะเบียน: {contract.vehicleInfo.plateNumber}</p>
             </div>
           </MobileCard>
+        )}
 
-          {/* Receipt List */}
-          {receipts.length === 0 ? (
-            <MobileCard className='p-8 text-center'>
-              <div className='text-gray-500 dark:text-gray-400'>
-                <ReceiptIcon className='w-16 h-16 mx-auto mb-4 text-gray-300' />
-                <p className='text-lg font-medium mb-2 text-gray-900 dark:text-gray-100'>
-                  ไม่มีใบเสร็จ
-                </p>
-                <p className='text-sm'>ยังไม่มีใบเสร็จสำหรับสัญญานี้</p>
+        {/* Receipts List */}
+        <div className="space-y-3">
+          {allReceipts.map((receipt) => (
+            <MobileCard key={receipt.id}>
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center space-x-3">
+                  <div className="bg-green-100 p-2 rounded-lg">
+                    <Receipt className="h-5 w-5 text-green-600" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold">{receipt.receiptNumber}</h4>
+                    <p className="text-sm text-gray-600">{formatDate(receipt.paymentInfo.paymentDate)}</p>
+                  </div>
+                </div>
+                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(receipt.paymentInfo.status)}`}>
+                  {getStatusText(receipt.paymentInfo.status)}
+                </span>
               </div>
+
+              <div className="space-y-2 mb-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-600">วิธีการชำระ:</span>
+                  <span className="text-sm font-medium">{receipt.paymentInfo.method}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-600">ยอดเงิน:</span>
+                  <span className="text-lg font-semibold text-green-600">
+                    {formatNumber(receipt.paymentInfo.amount)} บาท
+                  </span>
+                </div>
+                {receipt.paymentInfo.reference && (
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-gray-600">เลขอ้างอิง:</span>
+                    <span className="text-sm font-medium">{receipt.paymentInfo.reference}</span>
+                  </div>
+                )}
+              </div>
+
+              <MobileButton
+                onClick={() => handleViewReceipt(receipt.id)}
+                className="w-full bg-green-600 text-white hover:bg-green-700"
+              >
+                <Receipt className="h-4 w-4 mr-2" />
+                ดูรายละเอียด
+              </MobileButton>
             </MobileCard>
-          ) : (
-            <div className='space-y-3'>
-              {receipts.map((receipt) => (
-                <MobileCard key={receipt.id} className='p-4'>
-                  <div className='flex items-start justify-between mb-3'>
-                    <div>
-                      <h4 className='font-semibold text-gray-900 dark:text-gray-100'>
-                        {receipt.receiptNumber}
-                      </h4>
-                      <p className='text-sm text-gray-500'>
-                        {receipt.vehicleInfo.brand} {receipt.vehicleInfo.model}
-                      </p>
-                    </div>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(receipt.paymentInfo.status)}`}>
-                      {getStatusText(receipt.paymentInfo.status)}
-                    </span>
-                  </div>
-
-                  <div className='space-y-2 mb-4'>
-                    <div className='flex justify-between text-sm'>
-                      <span className='text-gray-500'>วันที่ชำระ:</span>
-                      <span>{formatDate(receipt.paymentInfo.paymentDate)}</span>
-                    </div>
-                    <div className='flex justify-between text-sm'>
-                      <span className='text-gray-500'>วิธีการชำระ:</span>
-                      <span>{receipt.paymentInfo.method}</span>
-                    </div>
-                    <div className='flex justify-between text-sm'>
-                      <span className='text-gray-500'>จำนวนเงิน:</span>
-                      <span className='font-semibold text-[#EC1B2E]'>
-                        {formatNumber(receipt.paymentInfo.amount)} ฿
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className='flex space-x-2'>
-                    <MobileButton
-                      variant="outline"
-                      className="flex-1"
-                      onClick={() => navigate({ 
-                        to: '/receipt/$contractId/$receiptId', 
-                        params: { contractId, receiptId: receipt.id } 
-                      })}
-                    >
-                      <Eye className="w-4 h-4 mr-2" />
-                      ดูรายละเอียด
-                    </MobileButton>
-                    
-                    <MobileButton
-                      variant="outline"
-                      className="flex-1"
-                      onClick={() => {
-                        // Handle download
-                        console.log('Download receipt:', receipt.id)
-                      }}
-                    >
-                      <Download className="w-4 h-4 mr-2" />
-                      ดาวน์โหลด
-                    </MobileButton>
-                  </div>
-                </MobileCard>
-              ))}
-            </div>
-          )}
+          ))}
         </div>
-      </MobileContent>
 
-      <BottomNavigation currentPath='/installment' />
+        {allReceipts.length === 0 && (
+          <MobileCard>
+            <div className="text-center py-8">
+              <Receipt className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+              <p className="text-gray-500">ไม่พบข้อมูลใบเสร็จ</p>
+            </div>
+          </MobileCard>
+        )}
+      </MobileContent>
+      <BottomNavigation currentPath="/installment" />
     </MobileLayout>
   )
 }

@@ -1,77 +1,35 @@
-import type { ContractCard, QuickMenuItem, PromotionAd, HomeData } from '../types'
+import type { ContractCard, QuickMenuItem, PromotionAd, HomeData, ContractProgress } from '../types'
+import { CONTRACTS_DATA } from '@/lib/mock-data'
 
-export const mockContractCards: ContractCard[] = [
-  {
-    id: '1',
-    contractNumber: 'CT-2024-001',
-    vehicleInfo: {
-      brand: 'Honda',
-      model: 'CBR150R',
-      year: 2023,
-      color: 'แดง',
-      imageUrl: 'https://s38.wheelsage.org/picture/h/honda/cbr1000rr_sp/honda_cbr1000rr_sp_8.jpeg',
-    },
-    remainingAmount: 180000,
-    nextPaymentDate: '2024-02-15',
-    status: 'active',
-    progress: 65,
+// Mock data for contract cards carousel - ใช้ข้อมูลจากข้อมูลกลาง
+export const mockContractCards: ContractCard[] = CONTRACTS_DATA.map(contract => ({
+  id: contract.id,
+  contractNumber: contract.contractNumber,
+  vehicleInfo: {
+    brand: contract.vehicleInfo.brand,
+    model: contract.vehicleInfo.model,
+    year: contract.vehicleInfo.year,
+    color: contract.vehicleInfo.color,
+    imageUrl: contract.vehicleInfo.imageUrl,
   },
-  {
-    id: '2',
-    contractNumber: 'CT-2024-002',
-    vehicleInfo: {
-      brand: 'Honda',
-      model: 'PCX160',
-      year: 2022,
-      color: 'ดำ',
-      imageUrl: 'https://img.motofiixthailand.com/asset/files/17345971816726901.webp',
-    },
-    remainingAmount: 120000,
-    nextPaymentDate: '2024-02-20',
-    status: 'active',
-    progress: 80,
-  },
-  {
-    id: '3',
-    contractNumber: 'CT-2024-003',
-    vehicleInfo: {
-      brand: 'Honda',
-      model: 'Wave 125i',
-      year: 2021,
-      color: 'เงิน',
-      imageUrl: 'https://s359.kapook.com/rq/600/auto/10/pagebuilder/d00209a5-b85a-4592-8cd5-3955b2d799c2.jpg',
-    },
-    remainingAmount: 45000,
-    nextPaymentDate: '2024-02-25',
-    status: 'overdue',
-    progress: 90,
-  },
-]
+  remainingAmount: contract.financialInfo.remainingAmount,
+  nextPaymentDate: contract.nextPaymentDate,
+  status: contract.contractInfo.status,
+  progress: contract.progress,
+}))
 
-// Progress data for each contract
-export const mockContractProgressData = {
-  '1': {
-    totalAmount: 350000,
-    paidAmount: 170000,
-    nextDueDate: '2024-02-15',
-    installmentIndex: 8,
-    totalInstallments: 24,
-  },
-  '2': {
-    totalAmount: 280000,
-    paidAmount: 160000,
-    nextDueDate: '2024-02-20',
-    installmentIndex: 12,
-    totalInstallments: 20,
-  },
-  '3': {
-    totalAmount: 150000,
-    paidAmount: 105000,
-    nextDueDate: '2024-02-25',
-    installmentIndex: 18,
-    totalInstallments: 20,
-  },
-}
+// Progress data for each contract - ใช้ข้อมูลจากข้อมูลกลาง
+export const mockContractProgressData = CONTRACTS_DATA.reduce((acc, contract) => {
+  const paidAmount = contract.financialInfo.totalAmount - contract.financialInfo.remainingAmount
+  acc[contract.id] = {
+    totalAmount: contract.financialInfo.totalAmount,
+    paidAmount: paidAmount,
+    nextDueDate: contract.nextPaymentDate,
+    installmentIndex: Math.floor(paidAmount / contract.financialInfo.monthlyPayment),
+    totalInstallments: contract.financialInfo.term,
+  }
+  return acc
+}, {} as Record<string, ContractProgress>)
 
 // Mock data for progress component
 export const mockProgressData = {

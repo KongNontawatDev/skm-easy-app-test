@@ -39,6 +39,14 @@ export interface PromotionAd {
   isActive: boolean
 }
 
+export interface ContractProgress {
+  totalAmount: number
+  paidAmount: number
+  nextDueDate: string
+  installmentIndex: number
+  totalInstallments: number
+}
+
 export interface HomeData {
   welcome: WelcomeData
   contracts: ContractCard[]

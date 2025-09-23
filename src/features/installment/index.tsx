@@ -18,6 +18,7 @@ import {
 import { ContractCardsCarousel } from '../home/components/contract-cards-carousel'
 import { InstallmentProgress } from '../home/components/installment-progress'
 import { mockHomeData, mockContractProgressData } from '../home/data/mock-data'
+import { getContractById, getPaymentsByContract } from '@/lib/mock-data'
 import { useUploadContractImage } from '../home/hooks/useMutation'
 
 export function Installment() {
@@ -90,7 +91,7 @@ export function Installment() {
         title: 'ชำระค่างวด',
         description: 'ชำระค่างวดรถออนไลน์',
         icon: CreditCard,
-        path: `/installment/pay?contractId=${selectedContract.contractNumber}`,
+        path: `/installment/pay/${selectedContract.contractNumber}`,
         color: 'bg-orange-50 text-orange-600',
       },
     ]
@@ -179,33 +180,40 @@ export function Installment() {
         </div>
 
         {/* Fixed Bottom Payment Section */}
-        {selectedContract && selectedProgress && (
-          <div className='fixed w-full right-0 bottom-16 left-0 z-40 bg-white p-4 dark:bg-gray-800'>
-            <div className='mx-auto max-w-lg'>
-              <div className='mb-3 flex items-center justify-between px-5'>
-                <div>
-                  <p className='text-sm text-gray-500 dark:text-gray-400'>
-                    ยอดที่ต้องชำระ
-                  </p>
-                  <p className='text-2xl font-bold text-gray-900 dark:text-gray-100'>
-                    {selectedContract.remainingAmount.toLocaleString()} ฿
-                  </p>
-                  <p className='text-xs text-gray-500 dark:text-gray-400'>
-                    งวดที่ {selectedProgress.installmentIndex + 1} จาก{' '}
-                    {selectedProgress.totalInstallments}
-                  </p>
+        {selectedContract && selectedProgress && (() => {
+          // หาข้อมูลการชำระเงินที่ต้องชำระในงวดถัดไป
+          const contractData = getContractById(selectedContract.contractNumber)
+          const payments = getPaymentsByContract(selectedContract.contractNumber)
+          const nextPayment = payments.find(p => p.status === 'pending' || p.status === 'overdue')
+          
+          return (
+            <div className='fixed w-full right-0 bottom-16 left-0 z-40 bg-white p-4 dark:bg-gray-800'>
+              <div className='mx-auto max-w-lg'>
+                <div className='mb-3 flex items-center justify-between px-5'>
+                  <div>
+                    <p className='text-sm text-gray-500 dark:text-gray-400'>
+                      ยอดที่ต้องชำระ
+                    </p>
+                    <p className='text-2xl font-bold text-gray-900 dark:text-gray-100'>
+                      {nextPayment ? nextPayment.amount.toLocaleString() : contractData?.financialInfo.monthlyPayment.toLocaleString() || '0'} ฿
+                    </p>
+                    <p className='text-xs text-gray-500 dark:text-gray-400'>
+                      งวดที่ {nextPayment ? nextPayment.installmentNo : selectedProgress.installmentIndex + 1} จาก{' '}
+                      {selectedProgress.totalInstallments}
+                    </p>
+                  </div>
+                  <MobileButton
+                    onClick={handlePayNow}
+                    className='bg-[#EC1B2E] px-6 py-3 text-white hover:bg-[#C20010]'
+                  >
+                    <QrCode className='mr-2 h-5 w-5' />
+                    ชำระเลย
+                  </MobileButton>
                 </div>
-                <MobileButton
-                  onClick={handlePayNow}
-                  className='bg-[#EC1B2E] px-6 py-3 text-white hover:bg-[#C20010]'
-                >
-                  <QrCode className='mr-2 h-5 w-5' />
-                  ชำระเลย
-                </MobileButton>
               </div>
             </div>
-          </div>
-        )}
+          )
+        })()}
       </MobileContent>
 
       <BottomNavigation currentPath='/installment' />

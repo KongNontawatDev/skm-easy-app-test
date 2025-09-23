@@ -3,12 +3,15 @@ import { MockApiService } from '@/lib/mock-api'
 // Mock user data
 const mockUser = {
   id: '1',
-  name: 'สมชาย ใจดี',
+  nationalId: '1234567890123',
+  firstName: 'สมชาย',
+  lastName: 'ใจดี',
   email: 'somchai@example.com',
   phone: '0812345678',
   avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
   role: 'user',
-  isActive: true,
+  isPhoneVerified: true,
+  isEmailVerified: true,
   lastLoginAt: new Date().toISOString(),
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString()
@@ -40,9 +43,10 @@ export class AuthApiService {
     })
   }
 
-  // Sign up
+  // Sign up (ไม่ใช้ในระบบนี้ แต่เก็บไว้เพื่อความสมบูรณ์)
   static async signUp(data: {
-    name: string
+    firstName: string
+    lastName: string
     email: string
     phone: string
     password: string
@@ -50,7 +54,7 @@ export class AuthApiService {
     captchaToken: string
   }) {
     // Simulate validation
-    if (!data.name || !data.email || !data.phone || !data.password) {
+    if (!data.firstName || !data.lastName || !data.email || !data.phone || !data.password) {
       throw new Error('กรุณากรอกข้อมูลให้ครบถ้วน')
     }
 
@@ -66,7 +70,8 @@ export class AuthApiService {
     const newUser = {
       ...mockUser,
       id: 'new-user-' + Date.now(),
-      name: data.name,
+      firstName: data.firstName,
+      lastName: data.lastName,
       email: data.email,
       phone: data.phone
     }

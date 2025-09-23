@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { 
   MobileLayout, 
   MobileContent, 
@@ -11,9 +12,16 @@ import { mockHomeData } from './data/mock-data'
 
 export function Home() {
   const uploadImageMutation = useUploadContractImage()
+  const [selectedContractIndex, setSelectedContractIndex] = useState(0)
 
   const handleImageUpload = (contractId: string, file: File) => {
     uploadImageMutation.mutate({ contractId, file })
+  }
+
+  const handleContractChange = (index: number) => {
+    // eslint-disable-next-line no-console
+    console.log('Home: Contract changed to index:', index)
+    setSelectedContractIndex(index)
   }
 
   return (
@@ -22,7 +30,7 @@ export function Home() {
         <div className="space-y-6">
           {/* Welcome Section */}
           <div className="bg-gradient-to-r from-[#EC1B2E] to-[#C20010] rounded-2xl p-6 text-white">
-            <h1 className="text-2xl font-bold mb-2">สวัสดี! ผู้ใช้ทดสอบ 👋</h1>
+            <h1 className="text-2xl font-bold mb-2">สวัสดี! จอห์น โด 👋</h1>
             <p className="text-white/90 text-sm">ยินดีต้อนรับสู่ระบบจัดการค่างวดรถของสหกิจ มอเตอร์ไบค์</p>
           </div>
 
@@ -30,6 +38,8 @@ export function Home() {
           <ContractCardsCarousel
             contracts={mockHomeData.contracts}
             onImageUpload={handleImageUpload}
+            onContractChange={handleContractChange}
+            initialIndex={selectedContractIndex}
           />
 
           {/* Quick Menu */}

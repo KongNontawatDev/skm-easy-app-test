@@ -1,12 +1,12 @@
 import { MobileLayout, MobileHeader, MobileContent, MobileButton, BottomNavigation } from '@/components/mobile'
 import { DollarSign, FileText, Download, Share2, Phone, Car, CreditCard, CheckCircle, Clock, AlertCircle } from 'lucide-react'
-import { useLoaderData, useRouter } from '@tanstack/react-router'
-import { mockReceipts } from './data/mock-data'
+import { useParams, useRouter } from '@tanstack/react-router'
+import { getReceiptById } from '@/lib/mock-data'
 
 export function ReceiptDetail() {
   const router = useRouter()
-  const { id } = useLoaderData({ from: '/receipt/$id' }) as { id: string }
-  const receipt = mockReceipts.find(r => r.id === id)
+  const { contractId, receiptId } = useParams({ from: '/receipt/$contractId/$receiptId' })
+  const receipt = getReceiptById(receiptId)
 
   if (!receipt) {
     return (

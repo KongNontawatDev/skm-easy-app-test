@@ -16,21 +16,17 @@ import {
 } from 'lucide-react'
 import { useParams } from '@tanstack/react-router'
 import { useState, useEffect } from 'react'
+import { getContractById, getPaymentsByContract } from '@/lib/mock-data'
 
 export function PaymentDetail() {
   const { id: contractNumber } = useParams({ from: '/installment/pay/$id' })
   const [isLoading, setIsLoading] = useState(true)
   const [expiresAt, setExpiresAt] = useState<Date | null>(null)
 
-  // Mock data - ในแอปจริงจะ fetch จาก API
-  const payment = {
-    id: contractNumber,
-    contractNo: contractNumber || 'CT-2024-001',
-    installmentNo: 13,
-    amount: 15000,
-    dueDate: '2024-02-15',
-    status: 'pending'
-  }
+  // ใช้ข้อมูลจากข้อมูลกลาง
+  const contract = getContractById(contractNumber)
+  const payments = getPaymentsByContract(contractNumber)
+  const currentPayment = payments.find(p => p.status === 'pending' || p.status === 'overdue')
 
   useEffect(() => {
     // Simulate QR code generation
@@ -42,7 +38,29 @@ export function PaymentDetail() {
     }
 
     generateQRCode()
-  }, [payment.id, payment.amount, payment.contractNo])
+  }, [contractNumber])
+
+  if (!contract || !currentPayment) {
+    return (
+      <MobileLayout>
+        <MobileHeader title="ไม่พบข้อมูลการชำระ" />
+        <MobileContent>
+          <MobileCard>
+            <p className="text-center text-gray-500">ไม่พบข้อมูลการชำระที่ระบุ</p>
+          </MobileCard>
+        </MobileContent>
+      </MobileLayout>
+    )
+  }
+
+  const payment = {
+    id: currentPayment.id,
+    contractNo: currentPayment.contractNo,
+    installmentNo: currentPayment.installmentNo,
+    amount: currentPayment.amount,
+    dueDate: currentPayment.dueDate,
+    status: currentPayment.status
+  }
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)

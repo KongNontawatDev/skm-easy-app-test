@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useMemo } from 'react'
 import useEmblaCarousel from 'embla-carousel-react'
 import { Camera } from 'lucide-react'
 import type { ContractCard } from '../types'
 import { Link } from '@tanstack/react-router'
+import { getContractById, getPaymentsByContract } from '@/lib/mock-data'
 
 interface ContractCardsCarouselProps {
   contracts: ContractCard[]
@@ -31,16 +32,37 @@ export function ContractCardsCarousel({
   const [isUploading, setIsUploading] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
+  // คำนวณข้อมูลการชำระเงินล่วงหน้าเพื่อหลีกเลี่ยงการคำนวณซ้ำ
+  const contractPaymentData = useMemo(() => {
+    return contracts.map(contract => {
+      const contractData = getContractById(contract.contractNumber)
+      const payments = getPaymentsByContract(contract.contractNumber)
+      const nextPayment = payments.find(p => p.status === 'pending' || p.status === 'overdue')
+      
+      return {
+        contractId: contract.id,
+        amount: nextPayment ? nextPayment.amount : contractData?.financialInfo.monthlyPayment || 0
+      }
+    })
+  }, [contracts])
+
   useEffect(() => {
     if (!emblaApi) return
     
+    // eslint-disable-next-line no-console
+    console.log('Carousel: Setting up emblaApi listeners')
+    
     const onSelect = () => {
       const newIndex = emblaApi.selectedScrollSnap()
+      // eslint-disable-next-line no-console
+      console.log('Carousel: onSelect triggered, newIndex:', newIndex)
       setActiveIndex(newIndex)
       onContractChange?.(newIndex)
     }
     
     const onInit = () => {
+      // eslint-disable-next-line no-console
+      console.log('Carousel: onInit triggered')
       onSelect()
     }
     
@@ -49,6 +71,8 @@ export function ContractCardsCarousel({
     
     // Initialize immediately if already ready
     if (emblaApi.slideNodes().length > 0) {
+      // eslint-disable-next-line no-console
+      console.log('Carousel: Slide nodes ready, calling onSelect')
       onSelect()
     }
     
@@ -58,19 +82,40 @@ export function ContractCardsCarousel({
     }
   }, [emblaApi, onContractChange])
 
-  // Scroll ไปยัง initialIndex เมื่อ emblaApi พร้อม
+  // Debug: Log carousel state changes
   useEffect(() => {
-    if (emblaApi && initialIndex !== undefined && initialIndex !== activeIndex) {
-      emblaApi.scrollTo(initialIndex, true) // true = jump to position immediately
-    }
-  }, [emblaApi, initialIndex, activeIndex])
+    // eslint-disable-next-line no-console
+    console.log('Carousel state:', { activeIndex, contractsLength: contracts.length, initialIndex })
+  }, [activeIndex, contracts.length, initialIndex])
 
-  // Re-initialize carousel when contracts change
+  // Force update when contracts change
   useEffect(() => {
     if (emblaApi && contracts.length > 0) {
-      emblaApi.reInit()
+      // eslint-disable-next-line no-console
+      console.log('Carousel: Contracts changed, re-initializing')
+      // Reset active index when contracts change
+      setActiveIndex(0)
+      // Small delay to ensure DOM is updated
+      setTimeout(() => {
+        emblaApi.reInit()
+        // Scroll to first slide after re-init
+        emblaApi.scrollTo(0, false)
+        // eslint-disable-next-line no-console
+        console.log('Carousel: Re-initialized and scrolled to 0')
+      }, 100)
     }
-  }, [emblaApi, contracts.length])
+  }, [emblaApi, contracts])
+
+  // Scroll ไปยัง initialIndex เมื่อ emblaApi พร้อม
+  useEffect(() => {
+    if (emblaApi && initialIndex !== undefined) {
+      // eslint-disable-next-line no-console
+      console.log('Carousel: Scrolling to initialIndex:', initialIndex)
+      emblaApi.scrollTo(initialIndex, false) // false = smooth scroll
+      setActiveIndex(initialIndex)
+    }
+  }, [emblaApi, initialIndex])
+
 
   const handleImageUpload = (contractId: string) => {
     if (fileInputRef.current) {
@@ -127,10 +172,10 @@ export function ContractCardsCarousel({
       </div>
 
       {/* Embla Carousel */}
-      <div className="overflow-hidden" ref={emblaRef}>
+      <div className="overflow-hidden" ref={emblaRef} key={`carousel-${contracts.length}`}>
         <div className="flex gap-3">
           {contracts.map((contract, _index) => (
-            <div key={contract.id} className="shrink-0 basis-[90%] min-w-0">
+            <div key={`${contract.id}-${_index}`} className="shrink-0 basis-[90%] min-w-0">
               <div className="rounded-2xl p-0 bg-white dark:bg-gray-800">
                 {/* ภาพรถ */}
                 <div 
@@ -167,7 +212,7 @@ export function ContractCardsCarousel({
                   <div className="absolute left-2 bottom-2 rounded-md px-2 py-1 text-[11px] bg-white/80">
                     งวดถัดไป {formatDate(contract.nextPaymentDate)} • 
                     <b className="text-[#EC1B2E] ml-1">
-                      {contract.remainingAmount.toLocaleString('th-TH')} ฿
+                      {contractPaymentData.find(p => p.contractId === contract.id)?.amount.toLocaleString('th-TH') || '0'} ฿
                     </b>
                   </div>
                 </div>

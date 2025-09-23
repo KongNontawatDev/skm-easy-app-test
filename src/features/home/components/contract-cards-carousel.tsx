@@ -2,12 +2,14 @@ import { useEffect, useRef, useState } from 'react'
 import useEmblaCarousel from 'embla-carousel-react'
 import { Camera } from 'lucide-react'
 import type { ContractCard } from '../types'
+import { Link } from '@tanstack/react-router'
 
 interface ContractCardsCarouselProps {
   contracts: ContractCard[]
   onImageUpload?: (contractId: string, file: File) => void
   onContractChange?: (index: number) => void
   className?: string
+  initialIndex?: number
 }
 
 const gradient = 'linear-gradient(135deg, rgba(236, 27, 46, 0.2), rgba(194, 0, 16, 0.14))'
@@ -16,23 +18,59 @@ export function ContractCardsCarousel({
   contracts, 
   onImageUpload,
   onContractChange,
-  className 
+  className,
+  initialIndex = 0
 }: ContractCardsCarouselProps) {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ align: 'center' })
-  const [activeIndex, setActiveIndex] = useState(0)
+  const [emblaRef, emblaApi] = useEmblaCarousel({ 
+    align: 'center',
+    containScroll: 'trimSnaps',
+    dragFree: false,
+    skipSnaps: false
+  })
+  const [activeIndex, setActiveIndex] = useState(initialIndex)
   const [isUploading, setIsUploading] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     if (!emblaApi) return
+    
     const onSelect = () => {
       const newIndex = emblaApi.selectedScrollSnap()
       setActiveIndex(newIndex)
       onContractChange?.(newIndex)
     }
+    
+    const onInit = () => {
+      onSelect()
+    }
+    
     emblaApi.on('select', onSelect)
-    onSelect()
+    emblaApi.on('init', onInit)
+    
+    // Initialize immediately if already ready
+    if (emblaApi.slideNodes().length > 0) {
+      onSelect()
+    }
+    
+    return () => {
+      emblaApi.off('select', onSelect)
+      emblaApi.off('init', onInit)
+    }
   }, [emblaApi, onContractChange])
+
+  // Scroll ไปยัง initialIndex เมื่อ emblaApi พร้อม
+  useEffect(() => {
+    if (emblaApi && initialIndex !== undefined && initialIndex !== activeIndex) {
+      emblaApi.scrollTo(initialIndex, true) // true = jump to position immediately
+    }
+  }, [emblaApi, initialIndex, activeIndex])
+
+  // Re-initialize carousel when contracts change
+  useEffect(() => {
+    if (emblaApi && contracts.length > 0) {
+      emblaApi.reInit()
+    }
+  }, [emblaApi, contracts.length])
 
   const handleImageUpload = (contractId: string) => {
     if (fileInputRef.current) {
@@ -91,8 +129,8 @@ export function ContractCardsCarousel({
       {/* Embla Carousel */}
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex gap-3">
-          {contracts.map((contract) => (
-            <div key={contract.id} className="shrink-0 basis-[90%]">
+          {contracts.map((contract, _index) => (
+            <div key={contract.id} className="shrink-0 basis-[90%] min-w-0">
               <div className="rounded-2xl p-0 bg-white dark:bg-gray-800">
                 {/* ภาพรถ */}
                 <div 
@@ -135,7 +173,7 @@ export function ContractCardsCarousel({
                 </div>
                 
                 {/* ข้อมูลย่อ */}
-                <div className="p-3">
+                <Link to={`/installment`} className="p-3">
                   <div className="text-sm font-semibold text-[#EC1B2E]">
                     {contract.vehicleInfo.brand} {contract.vehicleInfo.model}
                   </div>
@@ -143,7 +181,7 @@ export function ContractCardsCarousel({
                     สัญญา: {contract.contractNumber} • สี {contract.vehicleInfo.color}
                   </div>
                   
-                </div>
+                </Link>
               </div>
             </div>
           ))}
@@ -151,18 +189,22 @@ export function ContractCardsCarousel({
       </div>
 
       {/* Indicators */}
-      <div className="flex items-center justify-center gap-1.5 mt-4">
-        {contracts.map((_, i) => (
-          <span 
-            key={i} 
-            onClick={() => emblaApi?.scrollTo(i)}
-            className="h-[6px] w-[10px] rounded-full cursor-pointer transition-colors"
-            style={{ 
-              background: i === activeIndex ? '#EC1B2E' : 'rgba(0, 0, 0, 0.25)' 
-            }} 
-          />
-        ))}
-      </div>
+      {contracts.length > 1 && (
+        <div className="flex items-center justify-center gap-1.5 mt-4">
+          {contracts.map((_, i) => (
+            <button
+              key={i} 
+              onClick={() => emblaApi?.scrollTo(i)}
+              className="h-[6px] w-[10px] rounded-full cursor-pointer transition-all duration-200 hover:scale-110"
+              style={{ 
+                background: i === activeIndex ? '#EC1B2E' : 'rgba(0, 0, 0, 0.25)',
+                transform: i === activeIndex ? 'scale(1.2)' : 'scale(1)'
+              }} 
+              aria-label={`ไปยังสไลด์ ${i + 1}`}
+            />
+          ))}
+        </div>
+      )}
 
       {/* Hidden File Input */}
       <input

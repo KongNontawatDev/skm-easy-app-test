@@ -5,16 +5,16 @@ export const mockReceipts: Receipt[] = [
     id: 'RCP-001',
     receiptNumber: 'RCP-2024-001',
     invoiceId: 'INV-001',
-    contractId: 'CTR-001',
-    contractNumber: 'CTR-2024-001',
+    contractId: 'CT-2024-001',
+    contractNumber: 'CT-2024-001',
     customerInfo: {
       name: 'สมชาย ใจดี',
       address: '123 ถนนสุขุมวิท แขวงคลองตัน เขตวัฒนา กรุงเทพฯ 10110',
       taxId: '1234567890123',
     },
     vehicleInfo: {
-      brand: 'Toyota',
-      model: 'Camry',
+      brand: 'Honda',
+      model: 'CBR150R',
       plateNumber: 'กข-1234 กรุงเทพ',
     },
     paymentInfo: {
@@ -28,7 +28,7 @@ export const mockReceipts: Receipt[] = [
     items: [
       {
         id: 'ITEM-001',
-        description: 'ค่างวดรถยนต์ Toyota Camry งวดที่ 1',
+        description: 'ค่างวดรถมอเตอร์ไซค์ Honda CBR150R งวดที่ 12',
         amount: 15000,
         period: 'มกราคม 2567',
       },
@@ -46,8 +46,8 @@ export const mockReceipts: Receipt[] = [
     id: 'RCP-002',
     receiptNumber: 'RCP-2024-002',
     invoiceId: 'INV-003',
-    contractId: 'CTR-002',
-    contractNumber: 'CTR-2024-002',
+    contractId: 'CT-2024-002',
+    contractNumber: 'CT-2024-002',
     customerInfo: {
       name: 'สมหญิง รักดี',
       address: '456 ถนนพหลโยธิน แขวงลาดยาว เขตจตุจักร กรุงเทพฯ 10900',

@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { axiosInstance } from '@/lib/axios'
+import { useNavigate } from '@tanstack/react-router'
 import type { 
   ProfileUpdateRequest, 
   ChangeEmailRequest, 
@@ -107,6 +108,7 @@ export const useUpdatePreferences = () => {
 // Delete account mutation
 export const useDeleteAccount = () => {
   const queryClient = useQueryClient()
+  const navigate = useNavigate()
 
   return useMutation({
     mutationFn: async (data: DeleteAccountRequest) => {
@@ -117,7 +119,7 @@ export const useDeleteAccount = () => {
       // Clear all data and redirect
       localStorage.clear()
       queryClient.clear()
-      window.location.href = '/auth/sign-in'
+      navigate({ to: '/sign-in' })
     },
   })
 }

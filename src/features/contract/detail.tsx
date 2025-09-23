@@ -15,40 +15,181 @@ import {
   MapPin
 } from 'lucide-react'
 import { useParams } from '@tanstack/react-router'
+import { mockHomeData } from '../home/data/mock-data'
 
 export function ContractDetail() {
-  const { id } = useParams({ from: '/contract/$id' })
+  const { contractId } = useParams({ from: '/contract/$contractId' })
+
+  // หาข้อมูลสัญญาจาก mockHomeData
+  const contractFromCarousel = mockHomeData.contracts.find(
+    contract => contract.contractNumber === contractId
+  )
 
   // Mock data - ในแอปจริงจะ fetch จาก API
-  const contract = {
-    id: id,
-    contractNumber: 'CT-2024-001',
+  const mockContracts = {
+    'CT-2024-001': {
+      id: 'CT-2024-001',
+      contractNumber: 'CT-2024-001',
+      vehicleInfo: {
+        brand: 'Honda',
+        model: 'CBR150R',
+        year: 2023,
+        color: 'แดง',
+        plateNumber: 'กข-1234',
+        imageUrl: 'https://s38.wheelsage.org/picture/h/honda/cbr1000rr_sp/honda_cbr1000rr_sp_8.jpeg'
+      },
+      customerInfo: {
+        name: 'สมชาย ใจดี',
+        phone: '081-234-5678',
+        email: 'somchai@email.com',
+        address: '123 ถนนสุขุมวิท กรุงเทพฯ 10110'
+      },
+      financialInfo: {
+        totalAmount: 350000,
+        downPayment: 50000,
+        loanAmount: 300000,
+        monthlyPayment: 15000,
+        interestRate: 2.5,
+        remainingAmount: 180000
+      },
+      contractInfo: {
+        startDate: '2023-06-01',
+        endDate: '2025-05-31',
+        term: 24,
+        status: 'active'
+      },
+      createdAt: '2023-06-01T00:00:00Z'
+    },
+    'CT-2024-002': {
+      id: 'CT-2024-002',
+      contractNumber: 'CT-2024-002',
+      vehicleInfo: {
+        brand: 'Honda',
+        model: 'PCX160',
+        year: 2022,
+        color: 'ดำ',
+        plateNumber: 'กข-5678',
+        imageUrl: 'https://img.motofiixthailand.com/asset/files/17345971816726901.webp'
+      },
+      customerInfo: {
+        name: 'สมศรี รักดี',
+        phone: '082-345-6789',
+        email: 'somsri@email.com',
+        address: '456 ถนนรัชดาภิเษก กรุงเทพฯ 10400'
+      },
+      financialInfo: {
+        totalAmount: 280000,
+        downPayment: 40000,
+        loanAmount: 240000,
+        monthlyPayment: 12000,
+        interestRate: 2.8,
+        remainingAmount: 120000
+      },
+      contractInfo: {
+        startDate: '2022-08-01',
+        endDate: '2024-07-31',
+        term: 20,
+        status: 'active'
+      },
+      createdAt: '2022-08-01T00:00:00Z'
+    },
+    'CT-2024-003': {
+      id: 'CT-2024-003',
+      contractNumber: 'CT-2024-003',
+      vehicleInfo: {
+        brand: 'Honda',
+        model: 'Wave 125i',
+        year: 2021,
+        color: 'เงิน',
+        plateNumber: 'กข-9012',
+        imageUrl: 'https://s359.kapook.com/rq/600/auto/10/pagebuilder/d00209a5-b85a-4592-8cd5-3955b2d799c2.jpg'
+      },
+      customerInfo: {
+        name: 'สมศักดิ์ ใจงาม',
+        phone: '083-456-7890',
+        email: 'somsak@email.com',
+        address: '789 ถนนลาดพร้าว กรุงเทพฯ 10230'
+      },
+      financialInfo: {
+        totalAmount: 150000,
+        downPayment: 25000,
+        loanAmount: 125000,
+        monthlyPayment: 6250,
+        interestRate: 3.0,
+        remainingAmount: 45000
+      },
+      contractInfo: {
+        startDate: '2021-12-01',
+        endDate: '2023-11-30',
+        term: 20,
+        status: 'overdue'
+      },
+      createdAt: '2021-12-01T00:00:00Z'
+    }
+  }
+
+  // ใช้ข้อมูลจาก carousel หรือ fallback ไปที่ mock data
+  const contract = contractFromCarousel ? {
+    id: contractFromCarousel.id,
+    contractNumber: contractFromCarousel.contractNumber,
     vehicleInfo: {
-      brand: 'Toyota',
-      model: 'Camry',
-      year: 2024,
-      color: 'ขาว',
+      brand: contractFromCarousel.vehicleInfo.brand,
+      model: contractFromCarousel.vehicleInfo.model,
+      year: contractFromCarousel.vehicleInfo.year,
+      color: contractFromCarousel.vehicleInfo.color,
       plateNumber: 'กข-1234',
-      imageUrl: '/placeholder-car.jpg'
+      imageUrl: contractFromCarousel.vehicleInfo.imageUrl
     },
     customerInfo: {
-      name: 'จอห์น โด',
+      name: 'สมชาย ใจดี',
       phone: '081-234-5678',
-      email: 'john.doe@example.com',
+      email: 'somchai@email.com',
       address: '123 ถนนสุขุมวิท กรุงเทพฯ 10110'
     },
     financialInfo: {
-      totalAmount: 1200000,
-      downPayment: 200000,
-      loanAmount: 1000000,
-      monthlyPayment: 15000,
-      interestRate: 3.5,
-      remainingAmount: 360000
+      totalAmount: contractFromCarousel.remainingAmount + 170000, // คำนวณจากข้อมูลที่มี
+      downPayment: 50000,
+      loanAmount: contractFromCarousel.remainingAmount + 120000,
+      monthlyPayment: contractFromCarousel.remainingAmount / 12, // ประมาณการ
+      interestRate: 2.5,
+      remainingAmount: contractFromCarousel.remainingAmount
+    },
+    contractInfo: {
+      startDate: '2023-06-01',
+      endDate: '2025-05-31',
+      term: 24,
+      status: contractFromCarousel.status
+    },
+    createdAt: '2023-06-01T00:00:00Z'
+  } : mockContracts[contractId as keyof typeof mockContracts] || {
+    id: contractId,
+    contractNumber: contractId,
+    vehicleInfo: {
+      brand: 'Honda',
+      model: 'Wave 125i',
+      year: 2023,
+      color: 'แดง',
+      plateNumber: 'กข-0000',
+      imageUrl: 'https://s359.kapook.com/rq/600/auto/10/pagebuilder/d00209a5-b85a-4592-8cd5-3955b2d799c2.jpg'
+    },
+    customerInfo: {
+      name: 'ลูกค้าทั่วไป',
+      phone: '080-000-0000',
+      email: 'customer@email.com',
+      address: 'ที่อยู่ลูกค้า'
+    },
+    financialInfo: {
+      totalAmount: 200000,
+      downPayment: 30000,
+      loanAmount: 170000,
+      monthlyPayment: 8500,
+      interestRate: 2.5,
+      remainingAmount: 100000
     },
     contractInfo: {
       startDate: '2024-01-01',
-      endDate: '2026-12-31',
-      term: 36,
+      endDate: '2025-12-31',
+      term: 20,
       status: 'active'
     },
     createdAt: '2024-01-01T00:00:00Z'
@@ -72,7 +213,7 @@ export function ContractDetail() {
       <MobileHeader 
         title="รายละเอียดสัญญา" 
         showBackButton={true}
-        onBackClick={() => window.location.href = '/contract'}
+        onBackClick={() => window.history.back()}
       />
       
       <MobileContent className="pb-20">

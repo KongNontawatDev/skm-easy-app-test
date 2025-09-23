@@ -17,28 +17,29 @@ import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TicketIndexRouteImport } from './routes/ticket/index'
-import { Route as ReceiptIndexRouteImport } from './routes/receipt/index'
 import { Route as NotificationIndexRouteImport } from './routes/notification/index'
-import { Route as InvoiceIndexRouteImport } from './routes/invoice/index'
 import { Route as InstallmentIndexRouteImport } from './routes/installment/index'
 import { Route as GuideIndexRouteImport } from './routes/guide/index'
 import { Route as CouponIndexRouteImport } from './routes/coupon/index'
-import { Route as ContractIndexRouteImport } from './routes/contract/index'
 import { Route as BlogIndexRouteImport } from './routes/blog/index'
 import { Route as TicketHistoryRouteImport } from './routes/ticket/history'
 import { Route as ReceiptIdRouteImport } from './routes/receipt/$id'
+import { Route as ReceiptContractIdRouteImport } from './routes/receipt/$contractId'
 import { Route as NotificationIdRouteImport } from './routes/notification/$id'
 import { Route as InvoiceIdRouteImport } from './routes/invoice/$id'
+import { Route as InvoiceContractIdRouteImport } from './routes/invoice/$contractId'
 import { Route as GuideIdRouteImport } from './routes/guide/$id'
 import { Route as CouponStaffScanRouteImport } from './routes/coupon/staff-scan'
 import { Route as CouponScanRouteImport } from './routes/coupon/scan'
 import { Route as CouponQrcodeRouteImport } from './routes/coupon/qrcode'
 import { Route as CouponIdRouteImport } from './routes/coupon/$id'
 import { Route as ContractIdRouteImport } from './routes/contract/$id'
+import { Route as ContractContractIdRouteImport } from './routes/contract/$contractId'
 import { Route as BlogIdRouteImport } from './routes/blog/$id'
 import { Route as InstallmentPayIndexRouteImport } from './routes/installment/pay/index'
+import { Route as ReceiptContractIdReceiptIdRouteImport } from './routes/receipt/$contractId/$receiptId'
+import { Route as InvoiceContractIdInvoiceIdRouteImport } from './routes/invoice/$contractId/$invoiceId'
 import { Route as InstallmentPayIdRouteImport } from './routes/installment/pay/$id'
-import { Route as InstallmentPayIdQrcodeRouteImport } from './routes/installment/pay/$id/qrcode'
 
 const SignUpRoute = SignUpRouteImport.update({
   id: '/sign-up',
@@ -80,19 +81,9 @@ const TicketIndexRoute = TicketIndexRouteImport.update({
   path: '/ticket/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ReceiptIndexRoute = ReceiptIndexRouteImport.update({
-  id: '/receipt/',
-  path: '/receipt/',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const NotificationIndexRoute = NotificationIndexRouteImport.update({
   id: '/notification/',
   path: '/notification/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const InvoiceIndexRoute = InvoiceIndexRouteImport.update({
-  id: '/invoice/',
-  path: '/invoice/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InstallmentIndexRoute = InstallmentIndexRouteImport.update({
@@ -110,11 +101,6 @@ const CouponIndexRoute = CouponIndexRouteImport.update({
   path: '/coupon/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ContractIndexRoute = ContractIndexRouteImport.update({
-  id: '/contract/',
-  path: '/contract/',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const BlogIndexRoute = BlogIndexRouteImport.update({
   id: '/blog/',
   path: '/blog/',
@@ -130,6 +116,11 @@ const ReceiptIdRoute = ReceiptIdRouteImport.update({
   path: '/receipt/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ReceiptContractIdRoute = ReceiptContractIdRouteImport.update({
+  id: '/receipt/$contractId',
+  path: '/receipt/$contractId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const NotificationIdRoute = NotificationIdRouteImport.update({
   id: '/notification/$id',
   path: '/notification/$id',
@@ -138,6 +129,11 @@ const NotificationIdRoute = NotificationIdRouteImport.update({
 const InvoiceIdRoute = InvoiceIdRouteImport.update({
   id: '/invoice/$id',
   path: '/invoice/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InvoiceContractIdRoute = InvoiceContractIdRouteImport.update({
+  id: '/invoice/$contractId',
+  path: '/invoice/$contractId',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GuideIdRoute = GuideIdRouteImport.update({
@@ -170,6 +166,11 @@ const ContractIdRoute = ContractIdRouteImport.update({
   path: '/contract/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContractContractIdRoute = ContractContractIdRouteImport.update({
+  id: '/contract/$contractId',
+  path: '/contract/$contractId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BlogIdRoute = BlogIdRouteImport.update({
   id: '/blog/$id',
   path: '/blog/$id',
@@ -180,15 +181,22 @@ const InstallmentPayIndexRoute = InstallmentPayIndexRouteImport.update({
   path: '/installment/pay/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ReceiptContractIdReceiptIdRoute =
+  ReceiptContractIdReceiptIdRouteImport.update({
+    id: '/$receiptId',
+    path: '/$receiptId',
+    getParentRoute: () => ReceiptContractIdRoute,
+  } as any)
+const InvoiceContractIdInvoiceIdRoute =
+  InvoiceContractIdInvoiceIdRouteImport.update({
+    id: '/$invoiceId',
+    path: '/$invoiceId',
+    getParentRoute: () => InvoiceContractIdRoute,
+  } as any)
 const InstallmentPayIdRoute = InstallmentPayIdRouteImport.update({
   id: '/installment/pay/$id',
   path: '/installment/pay/$id',
   getParentRoute: () => rootRouteImport,
-} as any)
-const InstallmentPayIdQrcodeRoute = InstallmentPayIdQrcodeRouteImport.update({
-  id: '/qrcode',
-  path: '/qrcode',
-  getParentRoute: () => InstallmentPayIdRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -200,28 +208,29 @@ export interface FileRoutesByFullPath {
   '/sign-in': typeof SignInRoute
   '/sign-up': typeof SignUpRoute
   '/blog/$id': typeof BlogIdRoute
+  '/contract/$contractId': typeof ContractContractIdRoute
   '/contract/$id': typeof ContractIdRoute
   '/coupon/$id': typeof CouponIdRoute
   '/coupon/qrcode': typeof CouponQrcodeRoute
   '/coupon/scan': typeof CouponScanRoute
   '/coupon/staff-scan': typeof CouponStaffScanRoute
   '/guide/$id': typeof GuideIdRoute
+  '/invoice/$contractId': typeof InvoiceContractIdRouteWithChildren
   '/invoice/$id': typeof InvoiceIdRoute
   '/notification/$id': typeof NotificationIdRoute
+  '/receipt/$contractId': typeof ReceiptContractIdRouteWithChildren
   '/receipt/$id': typeof ReceiptIdRoute
   '/ticket/history': typeof TicketHistoryRoute
   '/blog': typeof BlogIndexRoute
-  '/contract': typeof ContractIndexRoute
   '/coupon': typeof CouponIndexRoute
   '/guide': typeof GuideIndexRoute
   '/installment': typeof InstallmentIndexRoute
-  '/invoice': typeof InvoiceIndexRoute
   '/notification': typeof NotificationIndexRoute
-  '/receipt': typeof ReceiptIndexRoute
   '/ticket': typeof TicketIndexRoute
-  '/installment/pay/$id': typeof InstallmentPayIdRouteWithChildren
+  '/installment/pay/$id': typeof InstallmentPayIdRoute
+  '/invoice/$contractId/$invoiceId': typeof InvoiceContractIdInvoiceIdRoute
+  '/receipt/$contractId/$receiptId': typeof ReceiptContractIdReceiptIdRoute
   '/installment/pay': typeof InstallmentPayIndexRoute
-  '/installment/pay/$id/qrcode': typeof InstallmentPayIdQrcodeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -232,28 +241,29 @@ export interface FileRoutesByTo {
   '/sign-in': typeof SignInRoute
   '/sign-up': typeof SignUpRoute
   '/blog/$id': typeof BlogIdRoute
+  '/contract/$contractId': typeof ContractContractIdRoute
   '/contract/$id': typeof ContractIdRoute
   '/coupon/$id': typeof CouponIdRoute
   '/coupon/qrcode': typeof CouponQrcodeRoute
   '/coupon/scan': typeof CouponScanRoute
   '/coupon/staff-scan': typeof CouponStaffScanRoute
   '/guide/$id': typeof GuideIdRoute
+  '/invoice/$contractId': typeof InvoiceContractIdRouteWithChildren
   '/invoice/$id': typeof InvoiceIdRoute
   '/notification/$id': typeof NotificationIdRoute
+  '/receipt/$contractId': typeof ReceiptContractIdRouteWithChildren
   '/receipt/$id': typeof ReceiptIdRoute
   '/ticket/history': typeof TicketHistoryRoute
   '/blog': typeof BlogIndexRoute
-  '/contract': typeof ContractIndexRoute
   '/coupon': typeof CouponIndexRoute
   '/guide': typeof GuideIndexRoute
   '/installment': typeof InstallmentIndexRoute
-  '/invoice': typeof InvoiceIndexRoute
   '/notification': typeof NotificationIndexRoute
-  '/receipt': typeof ReceiptIndexRoute
   '/ticket': typeof TicketIndexRoute
-  '/installment/pay/$id': typeof InstallmentPayIdRouteWithChildren
+  '/installment/pay/$id': typeof InstallmentPayIdRoute
+  '/invoice/$contractId/$invoiceId': typeof InvoiceContractIdInvoiceIdRoute
+  '/receipt/$contractId/$receiptId': typeof ReceiptContractIdReceiptIdRoute
   '/installment/pay': typeof InstallmentPayIndexRoute
-  '/installment/pay/$id/qrcode': typeof InstallmentPayIdQrcodeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -265,28 +275,29 @@ export interface FileRoutesById {
   '/sign-in': typeof SignInRoute
   '/sign-up': typeof SignUpRoute
   '/blog/$id': typeof BlogIdRoute
+  '/contract/$contractId': typeof ContractContractIdRoute
   '/contract/$id': typeof ContractIdRoute
   '/coupon/$id': typeof CouponIdRoute
   '/coupon/qrcode': typeof CouponQrcodeRoute
   '/coupon/scan': typeof CouponScanRoute
   '/coupon/staff-scan': typeof CouponStaffScanRoute
   '/guide/$id': typeof GuideIdRoute
+  '/invoice/$contractId': typeof InvoiceContractIdRouteWithChildren
   '/invoice/$id': typeof InvoiceIdRoute
   '/notification/$id': typeof NotificationIdRoute
+  '/receipt/$contractId': typeof ReceiptContractIdRouteWithChildren
   '/receipt/$id': typeof ReceiptIdRoute
   '/ticket/history': typeof TicketHistoryRoute
   '/blog/': typeof BlogIndexRoute
-  '/contract/': typeof ContractIndexRoute
   '/coupon/': typeof CouponIndexRoute
   '/guide/': typeof GuideIndexRoute
   '/installment/': typeof InstallmentIndexRoute
-  '/invoice/': typeof InvoiceIndexRoute
   '/notification/': typeof NotificationIndexRoute
-  '/receipt/': typeof ReceiptIndexRoute
   '/ticket/': typeof TicketIndexRoute
-  '/installment/pay/$id': typeof InstallmentPayIdRouteWithChildren
+  '/installment/pay/$id': typeof InstallmentPayIdRoute
+  '/invoice/$contractId/$invoiceId': typeof InvoiceContractIdInvoiceIdRoute
+  '/receipt/$contractId/$receiptId': typeof ReceiptContractIdReceiptIdRoute
   '/installment/pay/': typeof InstallmentPayIndexRoute
-  '/installment/pay/$id/qrcode': typeof InstallmentPayIdQrcodeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -299,28 +310,29 @@ export interface FileRouteTypes {
     | '/sign-in'
     | '/sign-up'
     | '/blog/$id'
+    | '/contract/$contractId'
     | '/contract/$id'
     | '/coupon/$id'
     | '/coupon/qrcode'
     | '/coupon/scan'
     | '/coupon/staff-scan'
     | '/guide/$id'
+    | '/invoice/$contractId'
     | '/invoice/$id'
     | '/notification/$id'
+    | '/receipt/$contractId'
     | '/receipt/$id'
     | '/ticket/history'
     | '/blog'
-    | '/contract'
     | '/coupon'
     | '/guide'
     | '/installment'
-    | '/invoice'
     | '/notification'
-    | '/receipt'
     | '/ticket'
     | '/installment/pay/$id'
+    | '/invoice/$contractId/$invoiceId'
+    | '/receipt/$contractId/$receiptId'
     | '/installment/pay'
-    | '/installment/pay/$id/qrcode'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -331,28 +343,29 @@ export interface FileRouteTypes {
     | '/sign-in'
     | '/sign-up'
     | '/blog/$id'
+    | '/contract/$contractId'
     | '/contract/$id'
     | '/coupon/$id'
     | '/coupon/qrcode'
     | '/coupon/scan'
     | '/coupon/staff-scan'
     | '/guide/$id'
+    | '/invoice/$contractId'
     | '/invoice/$id'
     | '/notification/$id'
+    | '/receipt/$contractId'
     | '/receipt/$id'
     | '/ticket/history'
     | '/blog'
-    | '/contract'
     | '/coupon'
     | '/guide'
     | '/installment'
-    | '/invoice'
     | '/notification'
-    | '/receipt'
     | '/ticket'
     | '/installment/pay/$id'
+    | '/invoice/$contractId/$invoiceId'
+    | '/receipt/$contractId/$receiptId'
     | '/installment/pay'
-    | '/installment/pay/$id/qrcode'
   id:
     | '__root__'
     | '/'
@@ -363,28 +376,29 @@ export interface FileRouteTypes {
     | '/sign-in'
     | '/sign-up'
     | '/blog/$id'
+    | '/contract/$contractId'
     | '/contract/$id'
     | '/coupon/$id'
     | '/coupon/qrcode'
     | '/coupon/scan'
     | '/coupon/staff-scan'
     | '/guide/$id'
+    | '/invoice/$contractId'
     | '/invoice/$id'
     | '/notification/$id'
+    | '/receipt/$contractId'
     | '/receipt/$id'
     | '/ticket/history'
     | '/blog/'
-    | '/contract/'
     | '/coupon/'
     | '/guide/'
     | '/installment/'
-    | '/invoice/'
     | '/notification/'
-    | '/receipt/'
     | '/ticket/'
     | '/installment/pay/$id'
+    | '/invoice/$contractId/$invoiceId'
+    | '/receipt/$contractId/$receiptId'
     | '/installment/pay/'
-    | '/installment/pay/$id/qrcode'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -396,26 +410,26 @@ export interface RootRouteChildren {
   SignInRoute: typeof SignInRoute
   SignUpRoute: typeof SignUpRoute
   BlogIdRoute: typeof BlogIdRoute
+  ContractContractIdRoute: typeof ContractContractIdRoute
   ContractIdRoute: typeof ContractIdRoute
   CouponIdRoute: typeof CouponIdRoute
   CouponQrcodeRoute: typeof CouponQrcodeRoute
   CouponScanRoute: typeof CouponScanRoute
   CouponStaffScanRoute: typeof CouponStaffScanRoute
   GuideIdRoute: typeof GuideIdRoute
+  InvoiceContractIdRoute: typeof InvoiceContractIdRouteWithChildren
   InvoiceIdRoute: typeof InvoiceIdRoute
   NotificationIdRoute: typeof NotificationIdRoute
+  ReceiptContractIdRoute: typeof ReceiptContractIdRouteWithChildren
   ReceiptIdRoute: typeof ReceiptIdRoute
   TicketHistoryRoute: typeof TicketHistoryRoute
   BlogIndexRoute: typeof BlogIndexRoute
-  ContractIndexRoute: typeof ContractIndexRoute
   CouponIndexRoute: typeof CouponIndexRoute
   GuideIndexRoute: typeof GuideIndexRoute
   InstallmentIndexRoute: typeof InstallmentIndexRoute
-  InvoiceIndexRoute: typeof InvoiceIndexRoute
   NotificationIndexRoute: typeof NotificationIndexRoute
-  ReceiptIndexRoute: typeof ReceiptIndexRoute
   TicketIndexRoute: typeof TicketIndexRoute
-  InstallmentPayIdRoute: typeof InstallmentPayIdRouteWithChildren
+  InstallmentPayIdRoute: typeof InstallmentPayIdRoute
   InstallmentPayIndexRoute: typeof InstallmentPayIndexRoute
 }
 
@@ -477,25 +491,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TicketIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/receipt/': {
-      id: '/receipt/'
-      path: '/receipt'
-      fullPath: '/receipt'
-      preLoaderRoute: typeof ReceiptIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/notification/': {
       id: '/notification/'
       path: '/notification'
       fullPath: '/notification'
       preLoaderRoute: typeof NotificationIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/invoice/': {
-      id: '/invoice/'
-      path: '/invoice'
-      fullPath: '/invoice'
-      preLoaderRoute: typeof InvoiceIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/installment/': {
@@ -519,13 +519,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CouponIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/contract/': {
-      id: '/contract/'
-      path: '/contract'
-      fullPath: '/contract'
-      preLoaderRoute: typeof ContractIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/blog/': {
       id: '/blog/'
       path: '/blog'
@@ -547,6 +540,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ReceiptIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/receipt/$contractId': {
+      id: '/receipt/$contractId'
+      path: '/receipt/$contractId'
+      fullPath: '/receipt/$contractId'
+      preLoaderRoute: typeof ReceiptContractIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/notification/$id': {
       id: '/notification/$id'
       path: '/notification/$id'
@@ -559,6 +559,13 @@ declare module '@tanstack/react-router' {
       path: '/invoice/$id'
       fullPath: '/invoice/$id'
       preLoaderRoute: typeof InvoiceIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/invoice/$contractId': {
+      id: '/invoice/$contractId'
+      path: '/invoice/$contractId'
+      fullPath: '/invoice/$contractId'
+      preLoaderRoute: typeof InvoiceContractIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/guide/$id': {
@@ -603,6 +610,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContractIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contract/$contractId': {
+      id: '/contract/$contractId'
+      path: '/contract/$contractId'
+      fullPath: '/contract/$contractId'
+      preLoaderRoute: typeof ContractContractIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/blog/$id': {
       id: '/blog/$id'
       path: '/blog/$id'
@@ -617,6 +631,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InstallmentPayIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/receipt/$contractId/$receiptId': {
+      id: '/receipt/$contractId/$receiptId'
+      path: '/$receiptId'
+      fullPath: '/receipt/$contractId/$receiptId'
+      preLoaderRoute: typeof ReceiptContractIdReceiptIdRouteImport
+      parentRoute: typeof ReceiptContractIdRoute
+    }
+    '/invoice/$contractId/$invoiceId': {
+      id: '/invoice/$contractId/$invoiceId'
+      path: '/$invoiceId'
+      fullPath: '/invoice/$contractId/$invoiceId'
+      preLoaderRoute: typeof InvoiceContractIdInvoiceIdRouteImport
+      parentRoute: typeof InvoiceContractIdRoute
+    }
     '/installment/pay/$id': {
       id: '/installment/pay/$id'
       path: '/installment/pay/$id'
@@ -624,26 +652,30 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InstallmentPayIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/installment/pay/$id/qrcode': {
-      id: '/installment/pay/$id/qrcode'
-      path: '/qrcode'
-      fullPath: '/installment/pay/$id/qrcode'
-      preLoaderRoute: typeof InstallmentPayIdQrcodeRouteImport
-      parentRoute: typeof InstallmentPayIdRoute
-    }
   }
 }
 
-interface InstallmentPayIdRouteChildren {
-  InstallmentPayIdQrcodeRoute: typeof InstallmentPayIdQrcodeRoute
+interface InvoiceContractIdRouteChildren {
+  InvoiceContractIdInvoiceIdRoute: typeof InvoiceContractIdInvoiceIdRoute
 }
 
-const InstallmentPayIdRouteChildren: InstallmentPayIdRouteChildren = {
-  InstallmentPayIdQrcodeRoute: InstallmentPayIdQrcodeRoute,
+const InvoiceContractIdRouteChildren: InvoiceContractIdRouteChildren = {
+  InvoiceContractIdInvoiceIdRoute: InvoiceContractIdInvoiceIdRoute,
 }
 
-const InstallmentPayIdRouteWithChildren =
-  InstallmentPayIdRoute._addFileChildren(InstallmentPayIdRouteChildren)
+const InvoiceContractIdRouteWithChildren =
+  InvoiceContractIdRoute._addFileChildren(InvoiceContractIdRouteChildren)
+
+interface ReceiptContractIdRouteChildren {
+  ReceiptContractIdReceiptIdRoute: typeof ReceiptContractIdReceiptIdRoute
+}
+
+const ReceiptContractIdRouteChildren: ReceiptContractIdRouteChildren = {
+  ReceiptContractIdReceiptIdRoute: ReceiptContractIdReceiptIdRoute,
+}
+
+const ReceiptContractIdRouteWithChildren =
+  ReceiptContractIdRoute._addFileChildren(ReceiptContractIdRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -654,26 +686,26 @@ const rootRouteChildren: RootRouteChildren = {
   SignInRoute: SignInRoute,
   SignUpRoute: SignUpRoute,
   BlogIdRoute: BlogIdRoute,
+  ContractContractIdRoute: ContractContractIdRoute,
   ContractIdRoute: ContractIdRoute,
   CouponIdRoute: CouponIdRoute,
   CouponQrcodeRoute: CouponQrcodeRoute,
   CouponScanRoute: CouponScanRoute,
   CouponStaffScanRoute: CouponStaffScanRoute,
   GuideIdRoute: GuideIdRoute,
+  InvoiceContractIdRoute: InvoiceContractIdRouteWithChildren,
   InvoiceIdRoute: InvoiceIdRoute,
   NotificationIdRoute: NotificationIdRoute,
+  ReceiptContractIdRoute: ReceiptContractIdRouteWithChildren,
   ReceiptIdRoute: ReceiptIdRoute,
   TicketHistoryRoute: TicketHistoryRoute,
   BlogIndexRoute: BlogIndexRoute,
-  ContractIndexRoute: ContractIndexRoute,
   CouponIndexRoute: CouponIndexRoute,
   GuideIndexRoute: GuideIndexRoute,
   InstallmentIndexRoute: InstallmentIndexRoute,
-  InvoiceIndexRoute: InvoiceIndexRoute,
   NotificationIndexRoute: NotificationIndexRoute,
-  ReceiptIndexRoute: ReceiptIndexRoute,
   TicketIndexRoute: TicketIndexRoute,
-  InstallmentPayIdRoute: InstallmentPayIdRouteWithChildren,
+  InstallmentPayIdRoute: InstallmentPayIdRoute,
   InstallmentPayIndexRoute: InstallmentPayIndexRoute,
 }
 export const routeTree = rootRouteImport

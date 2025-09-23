@@ -18,8 +18,11 @@ import {
   Ticket,
   LogOut
 } from 'lucide-react'
+import { useNavigate } from '@tanstack/react-router'
 
 export function Profile() {
+  const navigate = useNavigate()
+  
   const menuItems = [
     {
       id: 'setting',
@@ -102,7 +105,7 @@ export function Profile() {
                 key={item.id}
                 variant="ghost"
                 className="w-full justify-between h-auto p-4"
-                onClick={() => window.location.href = item.path}
+                onClick={() => navigate({ to: item.path })}
               >
                 <div className="flex items-center space-x-4 w-full">
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center ${item.color}`}>

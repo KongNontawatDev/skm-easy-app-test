@@ -1,6 +1,7 @@
 import { MoreHorizontal, User, HelpCircle, Phone, LogOut } from 'lucide-react'
 import { MobileButton } from './mobile-button'
 import { showToast } from '@/lib/toast'
+import { useNavigate } from '@tanstack/react-router'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,8 +10,10 @@ import {
 } from '@/components/ui/dropdown-menu'
 
 export function MobileHeaderMenu() {
+  const navigate = useNavigate()
+  
   const handleNavigation = (path: string) => {
-    window.location.href = path
+    navigate({ to: path })
   }
 
   const handleLogout = () => {

@@ -9,10 +9,11 @@ import {
   Shield
 } from 'lucide-react'
 import { useState, useRef } from 'react'
-import { useRouter } from '@tanstack/react-router'
+import { useRouter, useNavigate } from '@tanstack/react-router'
 import { showToast } from '@/lib/toast'
 
 export function SignIn() {
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     nationalId: '',
     phoneNumber: ''
@@ -271,7 +272,7 @@ export function SignIn() {
           ยังไม่มีบัญชี?{' '}
           <button 
             type="button"
-            onClick={() => window.location.href = '/sign-up'}
+            onClick={() => navigate({ to: '/sign-up' })}
             className="text-[#EC1B2E] hover:underline font-medium"
           >
             สมัครสมาชิก

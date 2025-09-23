@@ -4,16 +4,16 @@ export const mockInvoices: Invoice[] = [
   {
     id: 'INV-001',
     invoiceNumber: 'INV-2024-001',
-    contractId: 'CTR-001',
-    contractNumber: 'CTR-2024-001',
+    contractId: 'CT-2024-001',
+    contractNumber: 'CT-2024-001',
     customerInfo: {
       name: 'สมชาย ใจดี',
       address: '123 ถนนสุขุมวิท แขวงคลองตัน เขตวัฒนา กรุงเทพฯ 10110',
       taxId: '1234567890123',
     },
     vehicleInfo: {
-      brand: 'Toyota',
-      model: 'Camry',
+      brand: 'Honda',
+      model: 'CBR150R',
       plateNumber: 'กข-1234 กรุงเทพ',
     },
     billingInfo: {
@@ -32,7 +32,7 @@ export const mockInvoices: Invoice[] = [
     items: [
       {
         id: 'ITEM-001',
-        description: 'ค่างวดรถยนต์ Toyota Camry งวดที่ 1',
+        description: 'ค่างวดรถมอเตอร์ไซค์ Honda CBR150R งวดที่ 12',
         quantity: 1,
         unitPrice: 15000,
         amount: 15000,
@@ -45,16 +45,16 @@ export const mockInvoices: Invoice[] = [
   {
     id: 'INV-002',
     invoiceNumber: 'INV-2024-002',
-    contractId: 'CTR-001',
-    contractNumber: 'CTR-2024-001',
+    contractId: 'CT-2024-001',
+    contractNumber: 'CT-2024-001',
     customerInfo: {
       name: 'สมชาย ใจดี',
       address: '123 ถนนสุขุมวิท แขวงคลองตัน เขตวัฒนา กรุงเทพฯ 10110',
       taxId: '1234567890123',
     },
     vehicleInfo: {
-      brand: 'Toyota',
-      model: 'Camry',
+      brand: 'Honda',
+      model: 'CBR150R',
       plateNumber: 'กข-1234 กรุงเทพ',
     },
     billingInfo: {
@@ -65,14 +65,14 @@ export const mockInvoices: Invoice[] = [
       totalAmount: 16050,
     },
     paymentInfo: {
-      method: 'บัตรเครดิต',
+      method: 'QR Code',
       reference: '',
       status: 'pending',
     },
     items: [
       {
         id: 'ITEM-002',
-        description: 'ค่างวดรถยนต์ Toyota Camry งวดที่ 2',
+        description: 'ค่างวดรถมอเตอร์ไซค์ Honda CBR150R งวดที่ 13',
         quantity: 1,
         unitPrice: 15000,
         amount: 15000,
@@ -85,16 +85,16 @@ export const mockInvoices: Invoice[] = [
   {
     id: 'INV-003',
     invoiceNumber: 'INV-2024-003',
-    contractId: 'CTR-002',
-    contractNumber: 'CTR-2024-002',
+    contractId: 'CT-2024-002',
+    contractNumber: 'CT-2024-002',
     customerInfo: {
-      name: 'สมหญิง รักดี',
-      address: '456 ถนนพหลโยธิน แขวงลาดยาว เขตจตุจักร กรุงเทพฯ 10900',
+      name: 'สมศรี รักดี',
+      address: '456 ถนนรัชดาภิเษก แขวงห้วยขวาง เขตห้วยขวาง กรุงเทพฯ 10400',
       taxId: '9876543210987',
     },
     vehicleInfo: {
       brand: 'Honda',
-      model: 'Civic',
+      model: 'PCX160',
       plateNumber: 'กข-5678 กรุงเทพ',
     },
     billingInfo: {
@@ -112,7 +112,7 @@ export const mockInvoices: Invoice[] = [
     items: [
       {
         id: 'ITEM-003',
-        description: 'ค่างวดรถยนต์ Honda Civic งวดที่ 1',
+        description: 'ค่างวดรถมอเตอร์ไซค์ Honda PCX160 งวดที่ 4',
         quantity: 1,
         unitPrice: 12000,
         amount: 12000,
@@ -125,24 +125,24 @@ export const mockInvoices: Invoice[] = [
   {
     id: 'INV-004',
     invoiceNumber: 'INV-2024-004',
-    contractId: 'CTR-003',
-    contractNumber: 'CTR-2023-015',
+    contractId: 'CT-2024-003',
+    contractNumber: 'CT-2024-003',
     customerInfo: {
-      name: 'วิชัย เก่งมาก',
-      address: '789 ถนนรัชดาภิเษก แขวงห้วยขวาง เขตห้วยขวาง กรุงเทพฯ 10310',
+      name: 'สมศักดิ์ ใจงาม',
+      address: '789 ถนนลาดพร้าว แขวงจอมพล เขตจตุจักร กรุงเทพฯ 10230',
       taxId: '4567891234567',
     },
     vehicleInfo: {
-      brand: 'Nissan',
-      model: 'Almera',
-      plateNumber: 'กข-9999 กรุงเทพ',
+      brand: 'Honda',
+      model: 'Wave 125i',
+      plateNumber: 'กข-9012 กรุงเทพ',
     },
     billingInfo: {
       issueDate: '2024-01-10T00:00:00Z',
       dueDate: '2024-02-10T00:00:00Z',
-      amount: 10000,
-      vat: 700,
-      totalAmount: 10700,
+      amount: 6250,
+      vat: 437.5,
+      totalAmount: 6687.5,
     },
     paymentInfo: {
       method: 'โอนเงิน',
@@ -152,10 +152,10 @@ export const mockInvoices: Invoice[] = [
     items: [
       {
         id: 'ITEM-004',
-        description: 'ค่างวดรถยนต์ Nissan Almera งวดที่ 1',
+        description: 'ค่างวดรถมอเตอร์ไซค์ Honda Wave 125i งวดที่ 18',
         quantity: 1,
-        unitPrice: 10000,
-        amount: 10000,
+        unitPrice: 6250,
+        amount: 6250,
       },
     ],
     status: 'paid',

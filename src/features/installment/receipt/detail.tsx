@@ -64,7 +64,7 @@ export function ReceiptDetail() {
       <MobileHeader 
         title="รายละเอียดใบเสร็จ" 
         showBackButton={true}
-        onBackClick={() => window.location.href = '/receipt'}
+        onBackClick={() => window.history.back()}
       />
       
       <MobileContent className="pb-20">

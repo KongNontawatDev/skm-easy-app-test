@@ -11,9 +11,10 @@ import {
   Phone
 } from 'lucide-react'
 import { useState } from 'react'
-import { useRouter } from '@tanstack/react-router'
+import { useRouter, useNavigate } from '@tanstack/react-router'
 
 export function SignUp() {
+  const navigate = useNavigate()
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [formData, setFormData] = useState({
@@ -178,7 +179,7 @@ export function SignUp() {
           มีบัญชีแล้ว?{' '}
           <button 
             type="button"
-            onClick={() => window.location.href = '/sign-in'}
+            onClick={() => navigate({ to: '/sign-in' })}
             className="text-[#EC1B2E] hover:underline font-medium"
           >
             เข้าสู่ระบบ

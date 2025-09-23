@@ -13,10 +13,11 @@ import {
   FileText,
   AlertCircle
 } from 'lucide-react'
-import { useParams } from '@tanstack/react-router'
+import { useParams, useNavigate } from '@tanstack/react-router'
 
 export function InvoiceDetail() {
   const { id } = useParams({ from: '/invoice/$id' })
+  const navigate = useNavigate()
 
   // Mock data - ในแอปจริงจะ fetch จาก API
   const invoice = {
@@ -80,7 +81,7 @@ export function InvoiceDetail() {
       <MobileHeader 
         title="รายละเอียดใบแจ้งหนี้" 
         showBackButton={true}
-        onBackClick={() => window.location.href = '/invoice'}
+        onBackClick={() => window.history.back()}
       />
       
       <MobileContent className="pb-20">
@@ -192,7 +193,7 @@ export function InvoiceDetail() {
               className="w-full"
               onClick={() => {
                 // Navigate to payment
-                window.location.href = `/installment/pay/${invoice.id}`
+                navigate({ to: '/installment/pay/$id', params: { id: invoice.id } })
               }}
             >
               <DollarSign className="w-5 h-5 mr-2" />

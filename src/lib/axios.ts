@@ -34,7 +34,10 @@ axiosInstance.interceptors.response.use(
     if (error.response?.status === 401) {
       // Clear token and redirect to login
       localStorage.removeItem('auth_token')
-      window.location.href = '/auth/sign-in'
+      // Redirect to sign-in page
+      if (typeof window !== 'undefined') {
+        window.location.href = '/sign-in'
+      }
     }
     return Promise.reject(error)
   }

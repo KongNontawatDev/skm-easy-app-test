@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { axiosInstance } from '@/lib/axios'
+import { useNavigate } from '@tanstack/react-router'
 import type { 
   SignInRequest, 
   SignUpRequest, 
@@ -12,6 +13,7 @@ import type {
 // Sign in mutation
 export const useSignIn = () => {
   const queryClient = useQueryClient()
+  const navigate = useNavigate()
 
   return useMutation<AuthResponse, Error, SignInRequest>({
     mutationFn: async (data) => {
@@ -28,7 +30,7 @@ export const useSignIn = () => {
       queryClient.setQueryData(['auth-status'], true)
       
       // Redirect to home
-      window.location.href = '/'
+      navigate({ to: '/' })
     },
   })
 }
@@ -36,6 +38,7 @@ export const useSignIn = () => {
 // Sign up mutation
 export const useSignUp = () => {
   const queryClient = useQueryClient()
+  const navigate = useNavigate()
 
   return useMutation<AuthResponse, Error, SignUpRequest>({
     mutationFn: async (data) => {
@@ -52,7 +55,7 @@ export const useSignUp = () => {
       queryClient.setQueryData(['auth-status'], true)
       
       // Redirect to home
-      window.location.href = '/'
+      navigate({ to: '/' })
     },
   })
 }
@@ -60,6 +63,7 @@ export const useSignUp = () => {
 // Sign out mutation
 export const useSignOut = () => {
   const queryClient = useQueryClient()
+  const navigate = useNavigate()
 
   return useMutation({
     mutationFn: async () => {
@@ -74,7 +78,7 @@ export const useSignOut = () => {
       queryClient.clear()
       
       // Redirect to sign in
-      window.location.href = '/sign-in'
+      navigate({ to: '/sign-in' })
     },
   })
 }
@@ -91,6 +95,7 @@ export const useForgotPassword = () => {
 
 // Reset password mutation
 export const useResetPassword = () => {
+  const navigate = useNavigate()
 
   return useMutation<{ message: string }, Error, ResetPasswordRequest>({
     mutationFn: async (data) => {
@@ -98,7 +103,7 @@ export const useResetPassword = () => {
       return response.data
     },
     onSuccess: () => {
-      window.location.href = '/sign-in'
+      navigate({ to: '/sign-in' })
     },
   })
 }

@@ -2,15 +2,24 @@ import { useState } from 'react'
 import { MobileLayout, MobileHeader, MobileContent, BottomNavigation } from '@/components/mobile'
 import { InvoiceCard } from './components/invoice-card'
 import { mockInvoices } from './data/mock-data'
-import { useRouter } from '@tanstack/react-router'
+import { useRouter, useSearch } from '@tanstack/react-router'
 import { Search, Filter, Download } from 'lucide-react'
+
+interface InvoiceSearchParams {
+  contractId?: string
+}
 
 export function Invoice() {
   const router = useRouter()
+  const search = useSearch({ from: '/invoice/' }) as InvoiceSearchParams
   const [searchTerm, setSearchTerm] = useState('')
   const [statusFilter, setStatusFilter] = useState<string>('all')
 
+  // Get contractId from URL parameters
+  const contractId = search.contractId
+
   const filteredInvoices = mockInvoices.filter(invoice => {
+    const matchesContract = !contractId || invoice.contractNumber === contractId
     const matchesSearch = 
       invoice.invoiceNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
       invoice.contractNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -19,7 +28,7 @@ export function Invoice() {
     
     const matchesStatus = statusFilter === 'all' || invoice.status === statusFilter
     
-    return matchesSearch && matchesStatus
+    return matchesContract && matchesSearch && matchesStatus
   })
 
   const handleViewDetail = (invoiceId: string) => {
@@ -34,9 +43,19 @@ export function Invoice() {
     { value: 'draft', label: 'ร่าง' },
   ]
 
+  // If no contractId provided, redirect to installment page
+  if (!contractId) {
+    router.navigate({ to: '/installment' })
+    return null
+  }
+
   return (
     <MobileLayout>
-      <MobileHeader title="ใบแจ้งหนี้" showMoreMenu={true} />
+      <MobileHeader 
+        title="ใบแจ้งหนี้" 
+        showBackButton={true}
+        onBackClick={() => router.navigate({ to: '/installment' })}
+      />
       <MobileContent className="pb-20">
         <div className="space-y-6">
           {/* Search and Filter */}
@@ -73,7 +92,7 @@ export function Invoice() {
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-semibold text-gray-900">
-                ใบแจ้งหนี้ ({filteredInvoices.length})
+                ใบแจ้งหนี้สัญญา {contractId} ({filteredInvoices.length})
               </h3>
               <button className="flex items-center text-[#EC1B2E] text-sm font-medium">
                 <Download className="w-4 h-4 mr-1" />

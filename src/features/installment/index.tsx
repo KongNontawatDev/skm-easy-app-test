@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   FileText,
   Receipt,
@@ -7,6 +7,7 @@ import {
   ArrowRight,
   QrCode,
 } from 'lucide-react'
+import { useNavigate } from '@tanstack/react-router'
 import {
   MobileLayout,
   MobileHeader,
@@ -20,8 +21,24 @@ import { mockHomeData, mockContractProgressData } from '../home/data/mock-data'
 import { useUploadContractImage } from '../home/hooks/useMutation'
 
 export function Installment() {
+  const navigate = useNavigate()
   const uploadImageMutation = useUploadContractImage()
+  
   const [selectedContractIndex, setSelectedContractIndex] = useState(0)
+  const [isInitialized, setIsInitialized] = useState(false)
+
+  // โหลดสถานะจาก localStorage เมื่อ component mount
+  useEffect(() => {
+    const savedIndex = localStorage.getItem('selectedContractIndex')
+    if (savedIndex !== null) {
+      const index = parseInt(savedIndex, 10)
+      // ตรวจสอบว่า index ยังอยู่ในช่วงที่ถูกต้อง
+      if (index >= 0 && index < mockHomeData.contracts.length) {
+        setSelectedContractIndex(index)
+      }
+    }
+    setIsInitialized(true)
+  }, [])
 
   const handleImageUpload = (contractId: string, file: File) => {
     uploadImageMutation.mutate({ contractId, file })
@@ -29,6 +46,8 @@ export function Installment() {
 
   const handleContractChange = (index: number) => {
     setSelectedContractIndex(index)
+    // บันทึกสถานะลง localStorage
+    localStorage.setItem('selectedContractIndex', index.toString())
   }
 
   const selectedContract = mockHomeData.contracts[selectedContractIndex]
@@ -38,45 +57,67 @@ export function Installment() {
       ]
     : null
 
-  const menuItems = [
-    {
-      id: 'contract',
-      title: 'ข้อมูลสัญญา',
-      description: 'ดูรายละเอียดสัญญาค่างวดรถ',
-      icon: FileText,
-      path: '/contract',
-      color: 'bg-blue-50 text-blue-600',
-    },
-    {
-      id: 'invoice',
-      title: 'ใบแจ้งหนี้',
-      description: 'ดูใบแจ้งหนี้ค่างวดรถ',
-      icon: Receipt,
-      path: '/invoice',
-      color: 'bg-green-50 text-green-600',
-    },
-    {
-      id: 'receipt',
-      title: 'ประวัติการชำระ/ใบเสร็จ',
-      description: 'ดูประวัติการชำระและใบเสร็จ',
-      icon: History,
-      path: '/receipt',
-      color: 'bg-purple-50 text-purple-600',
-    },
-    {
-      id: 'payment',
-      title: 'ชำระค่างวด',
-      description: 'ชำระค่างวดรถออนไลน์',
-      icon: CreditCard,
-      path: '/installment/pay',
-      color: 'bg-orange-50 text-orange-600',
-    },
-  ]
+  const getMenuItems = () => {
+    if (!selectedContract) return []
+    
+    return [
+      {
+        id: 'contract',
+        title: 'ข้อมูลสัญญา',
+        description: 'ดูรายละเอียดสัญญาค่างวดรถ',
+        icon: FileText,
+        path: `/contract/${selectedContract.contractNumber}`,
+        color: 'bg-blue-50 text-blue-600',
+      },
+      {
+        id: 'invoice',
+        title: 'ใบแจ้งหนี้',
+        description: 'ดูใบแจ้งหนี้ค่างวดรถ',
+        icon: Receipt,
+        path: `/invoice/${selectedContract.contractNumber}`,
+        color: 'bg-green-50 text-green-600',
+      },
+      {
+        id: 'receipt',
+        title: 'ประวัติการชำระ/ใบเสร็จ',
+        description: 'ดูประวัติการชำระและใบเสร็จ',
+        icon: History,
+        path: `/receipt/${selectedContract.contractNumber}`,
+        color: 'bg-purple-50 text-purple-600',
+      },
+      {
+        id: 'payment',
+        title: 'ชำระค่างวด',
+        description: 'ชำระค่างวดรถออนไลน์',
+        icon: CreditCard,
+        path: `/installment/pay?contractId=${selectedContract.contractNumber}`,
+        color: 'bg-orange-50 text-orange-600',
+      },
+    ]
+  }
 
   const handlePayNow = () => {
     if (selectedContract) {
-      window.location.href = `/installment/pay/${selectedContract.id}`
+      navigate({ to: '/installment/pay/$id', params: { id: selectedContract.contractNumber } })
     }
+  }
+
+  // แสดง loading จนกว่าจะโหลดสถานะจาก localStorage เสร็จ
+  if (!isInitialized) {
+    return (
+      <MobileLayout>
+        <MobileHeader title='ค่างวดรถ' showMoreMenu={true} />
+        <MobileContent className='pb-48'>
+          <div className='flex items-center justify-center h-64'>
+            <div className='text-center'>
+              <div className='w-8 h-8 border-4 border-gray-300 border-t-blue-600 rounded-full animate-spin mx-auto mb-4'></div>
+              <p className='text-gray-500'>กำลังโหลด...</p>
+            </div>
+          </div>
+        </MobileContent>
+        <BottomNavigation currentPath='/installment' />
+      </MobileLayout>
+    )
   }
 
   return (
@@ -90,6 +131,7 @@ export function Installment() {
             contracts={mockHomeData.contracts}
             onImageUpload={handleImageUpload}
             onContractChange={handleContractChange}
+            initialIndex={selectedContractIndex}
           />
 
           {/* Installment Progress */}
@@ -108,12 +150,12 @@ export function Installment() {
             <h2 className='text-lg font-semibold text-gray-900 dark:text-gray-100'>
               เมนูหลัก
             </h2>
-            {menuItems.map((item) => (
+            {getMenuItems().map((item) => (
               <MobileButton
                 key={item.id}
                 variant='ghost'
                 className='h-auto w-full justify-start p-4'
-                onClick={() => (window.location.href = item.path)}
+                onClick={() => navigate({ to: item.path })}
               >
                 <div className='flex w-full items-center space-x-4'>
                   <div
@@ -140,7 +182,7 @@ export function Installment() {
         {selectedContract && selectedProgress && (
           <div className='fixed w-full right-0 bottom-16 left-0 z-40 bg-white p-4 dark:bg-gray-800'>
             <div className='mx-auto max-w-lg'>
-              <div className='mb-3 flex items-center justify-between'>
+              <div className='mb-3 flex items-center justify-between px-5'>
                 <div>
                   <p className='text-sm text-gray-500 dark:text-gray-400'>
                     ยอดที่ต้องชำระ
@@ -170,3 +212,4 @@ export function Installment() {
     </MobileLayout>
   )
 }
+

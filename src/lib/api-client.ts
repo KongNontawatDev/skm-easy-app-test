@@ -57,7 +57,10 @@ class ApiClient {
             // Refresh failed, redirect to login
             localStorage.removeItem(STORAGE_KEYS.AUTH_TOKEN)
             localStorage.removeItem(STORAGE_KEYS.REFRESH_TOKEN)
-            window.location.href = '/sign-in'
+            // Redirect to sign-in page
+            if (typeof window !== 'undefined') {
+              window.location.href = '/sign-in'
+            }
           }
         }
         

@@ -184,7 +184,7 @@ export function Coupon() {
                               size="sm"
                               onClick={() => handleClaimCoupon(coupon.id)}
                             >
-                              รับคูปอง
+                              เก็บ
                             </MobileButton>
                           )}
                           {coupon.status === 'claimed' && (
@@ -192,7 +192,7 @@ export function Coupon() {
                               size="sm"
                               onClick={() => handleUseQR(coupon.id)}
                             >
-                              ใช้คูปอง
+                              ใช้
                             </MobileButton>
                           )}
                           <MobileButton
@@ -200,7 +200,7 @@ export function Coupon() {
                             size="sm"
                             onClick={() => handleViewDetail(coupon.id)}
                           >
-                              รายละเอียด
+                              ดู
                           </MobileButton>
                         </div>
                       </div>

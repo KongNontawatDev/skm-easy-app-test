@@ -16,7 +16,11 @@ export function GeneralError() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Button className="w-full" onClick={() => window.location.reload()}>
+          <Button className="w-full" onClick={() => {
+            if (typeof window !== 'undefined') {
+              window.location.reload()
+            }
+          }}>
             ลองใหม่
           </Button>
         </CardContent>

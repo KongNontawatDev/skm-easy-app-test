@@ -12,7 +12,10 @@ import {
   Eye,
   Calendar
 } from 'lucide-react'
+import { useNavigate } from '@tanstack/react-router'
+
 export function Receipt() {
+  const navigate = useNavigate()
 
   // Mock data - ในแอปจริงจะ fetch จาก API
   const receipts = [
@@ -54,7 +57,7 @@ export function Receipt() {
       <MobileHeader 
         title="ประวัติการชำระ/ใบเสร็จ" 
         showBackButton={true}
-        onBackClick={() => window.location.href = '/installment'}
+        onBackClick={() => window.history.back()}
       />
       
       <MobileContent className="pb-20">
@@ -93,7 +96,7 @@ export function Receipt() {
                   <MobileButton
                     variant="outline"
                     className="flex-1"
-                    onClick={() => window.location.href = `/receipt/${receipt.id}`}
+                    onClick={() => navigate({ to: '/receipt/$id', params: { id: receipt.id } })}
                   >
                     <Eye className="w-4 h-4 mr-2" />
                     ดูรายละเอียด

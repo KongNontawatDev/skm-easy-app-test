@@ -2,16 +2,25 @@ import { useState } from 'react'
 import { MobileLayout, MobileHeader, MobileContent, BottomNavigation } from '@/components/mobile'
 import { ReceiptCard } from './components/receipt-card'
 import { mockReceipts } from './data/mock-data'
-import { useRouter } from '@tanstack/react-router'
+import { useRouter, useSearch } from '@tanstack/react-router'
 import { Search, Download } from 'lucide-react'
+
+interface ReceiptSearchParams {
+  contractId?: string
+}
 
 export function Receipt() {
   const router = useRouter()
+  const search = useSearch({ from: '/receipt/' }) as ReceiptSearchParams
   const [searchTerm, setSearchTerm] = useState('')
   const [statusFilter, setStatusFilter] = useState<string>('all')
   const [dateFilter, setDateFilter] = useState<string>('all')
 
+  // Get contractId from URL parameters
+  const contractId = search.contractId
+
   const filteredReceipts = mockReceipts.filter(receipt => {
+    const matchesContract = !contractId || receipt.contractNumber === contractId
     const matchesSearch = 
       receipt.receiptNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
       receipt.contractNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -45,7 +54,7 @@ export function Receipt() {
       }
     })()
     
-    return matchesSearch && matchesStatus && matchesDate
+    return matchesContract && matchesSearch && matchesStatus && matchesDate
   })
 
   const handleViewDetail = (receiptId: string) => {
@@ -68,9 +77,19 @@ export function Receipt() {
     { value: 'year', label: 'ปีนี้' },
   ]
 
+  // If no contractId provided, redirect to installment page
+  if (!contractId) {
+    router.navigate({ to: '/installment' })
+    return null
+  }
+
   return (
     <MobileLayout>
-      <MobileHeader title="ประวัติการชำระ/ใบเสร็จ" showMoreMenu={true} />
+      <MobileHeader 
+        title="ประวัติการชำระ/ใบเสร็จ" 
+        showBackButton={true}
+        onBackClick={() => router.navigate({ to: '/installment' })}
+      />
       <MobileContent className="pb-20">
         <div className="space-y-6">
           {/* Search and Filter */}
@@ -115,7 +134,7 @@ export function Receipt() {
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-semibold text-gray-900">
-                ใบเสร็จ ({filteredReceipts.length})
+                ใบเสร็จสัญญา {contractId} ({filteredReceipts.length})
               </h3>
               <button className="flex items-center text-[#EC1B2E] text-sm font-medium">
                 <Download className="w-4 h-4 mr-1" />

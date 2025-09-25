@@ -1,6 +1,6 @@
 import path from 'path'
 import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react-swc'
+import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { tanstackRouter } from '@tanstack/router-plugin/vite'
 import { VitePWA } from 'vite-plugin-pwa'
@@ -13,7 +13,9 @@ export default defineConfig({
       autoCodeSplitting: true,
     }),
     react({
-      // Enable SWC optimizations
+      // Use automatic JSX runtime for React 19
+      jsxRuntime: 'automatic',
+      jsxImportSource: 'react'
     }),
     tailwindcss(),
     VitePWA({
@@ -99,12 +101,16 @@ export default defineConfig({
     minify: 'esbuild',
     target: 'esnext',
     cssCodeSplit: true,
+    commonjsOptions: {
+      include: [/node_modules/]
+    },
     rollupOptions: {
       output: {
         manualChunks: (id) => {
           // Vendor chunks
           if (id.includes('node_modules')) {
-            if (id.includes('react') || id.includes('react-dom')) {
+            // Keep all React-related packages together
+            if (id.includes('react') || id.includes('react-dom') || id.includes('react/jsx-runtime') || id.includes('react-is')) {
               return 'react-vendor'
             }
             if (id.includes('@tanstack')) {
@@ -159,6 +165,8 @@ export default defineConfig({
     include: [
       'react',
       'react-dom',
+      'react/jsx-runtime',
+      'react/jsx-dev-runtime',
       '@tanstack/react-router',
       '@tanstack/react-query',
       'lucide-react',
@@ -166,5 +174,9 @@ export default defineConfig({
       'recharts'
     ],
     exclude: ['@tanstack/react-router-devtools']
+  },
+  define: {
+    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+    'global': 'globalThis'
   }
 })

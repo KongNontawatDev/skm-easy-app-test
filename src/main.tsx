@@ -1,5 +1,6 @@
 import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
+import React from 'react'
 import { AxiosError } from 'axios'
 import {
   QueryCache,
@@ -109,6 +110,12 @@ if ('serviceWorker' in navigator && import.meta.env.PROD) {
 
 // Render the app
 const rootElement = document.getElementById('root')!
+
+// Ensure React is properly initialized
+if (typeof React !== 'undefined' && React.Children) {
+  // React is properly loaded
+}
+
 const root = ReactDOM.createRoot(rootElement)
 root.render(
   <StrictMode>

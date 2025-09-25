@@ -109,24 +109,22 @@ if ('serviceWorker' in navigator && import.meta.env.PROD) {
 
 // Render the app
 const rootElement = document.getElementById('root')!
-if (!rootElement.innerHTML) {
-  const root = ReactDOM.createRoot(rootElement)
-  root.render(
-    <StrictMode>
-      <ErrorBoundary>
-        <QueryClientProvider client={queryClient}>
-          <ThemeProvider>
-            <FontProvider>
-              <DirectionProvider>
-                <ToastProvider>
-                  <RouterProvider router={router} />
-                  <Toaster position="top-center" />
-                </ToastProvider>
-              </DirectionProvider>
-            </FontProvider>
-          </ThemeProvider>
-        </QueryClientProvider>
-      </ErrorBoundary>
-    </StrictMode>
-  )
-}
+const root = ReactDOM.createRoot(rootElement)
+root.render(
+  <StrictMode>
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider>
+          <FontProvider>
+            <DirectionProvider>
+              <ToastProvider>
+                <RouterProvider router={router} />
+                <Toaster position="top-center" />
+              </ToastProvider>
+            </DirectionProvider>
+          </FontProvider>
+        </ThemeProvider>
+      </QueryClientProvider>
+    </ErrorBoundary>
+  </StrictMode>
+)

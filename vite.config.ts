@@ -15,7 +15,20 @@ export default defineConfig({
     react({
       // Use automatic JSX runtime for React 19
       jsxRuntime: 'automatic',
-      jsxImportSource: 'react'
+      jsxImportSource: 'react',
+      // Add React 19 compatibility fixes
+      babel: {
+        plugins: [
+          // Ensure React is properly imported
+          ['@babel/plugin-transform-react-jsx', {
+            runtime: 'automatic',
+            importSource: 'react'
+          }]
+        ]
+      },
+      // Add React 19 compatibility fixes
+      fastRefresh: true,
+      include: ['**/*.{js,jsx,ts,tsx}']
     }),
     tailwindcss(),
     VitePWA({
@@ -104,8 +117,11 @@ export default defineConfig({
     commonjsOptions: {
       include: [/node_modules/]
     },
+    // Add React 19 compatibility fixes for Vercel
     rollupOptions: {
+      external: [],
       output: {
+        // Ensure proper chunking for React 19
         manualChunks: (id) => {
           // Vendor chunks
           if (id.includes('node_modules')) {

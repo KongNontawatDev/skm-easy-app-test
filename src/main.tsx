@@ -1,6 +1,5 @@
-import { StrictMode } from 'react'
+import React, { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
-import React from 'react'
 import { AxiosError } from 'axios'
 import {
   QueryCache,
@@ -111,9 +110,20 @@ if ('serviceWorker' in navigator && import.meta.env.PROD) {
 // Render the app
 const rootElement = document.getElementById('root')!
 
-// Ensure React is properly initialized
-if (typeof React !== 'undefined' && React.Children) {
-  // React is properly loaded
+// Ensure React is properly initialized for React 19
+if (typeof React === 'undefined') {
+  throw new Error('React is not defined')
+}
+
+// Ensure React.Children is available
+if (!React.Children) {
+  throw new Error('React.Children is not available')
+}
+
+// Add React 19 compatibility fix
+if (typeof window !== 'undefined') {
+  // Ensure React is available globally for React 19
+  (window as any).React = React
 }
 
 const root = ReactDOM.createRoot(rootElement)

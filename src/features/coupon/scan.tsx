@@ -56,7 +56,6 @@ export function CouponScan() {
   const handleClaimCoupon = () => {
     if (scanResult?.store) {
       // ในแอพจริงจะเป็นการเรียก API เพื่อรับคูปอง
-      // console.log('Claiming coupon from store:', scanResult.store.id)
       
       // Mock success
       setScanResult({

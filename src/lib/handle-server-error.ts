@@ -3,7 +3,6 @@ import { toast } from 'sonner'
 
 export function handleServerError(error: unknown) {
   // TODO: Implement proper error logging
-  // console.log(error)
 
   let errMsg = 'Something went wrong!'
 

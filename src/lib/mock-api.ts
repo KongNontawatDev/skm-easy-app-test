@@ -76,14 +76,24 @@ export class MockApiService {
   }
 
   // Mock data retrieval based on endpoint
-  private static async getMockData<T>(_endpoint: string, _params?: QueryParams): Promise<T> {
-    // This will be implemented by importing actual mock data
-    // For now, return empty object as placeholder
+  private static async getMockData<T>(endpoint: string, _params?: QueryParams): Promise<T> {
+    // Import mock data dynamically based on endpoint
+    if (endpoint.includes('/refinance/vehicles')) {
+      const { mockRefinanceVehicles } = await import('@/features/refinance/data/mock-data')
+      return mockRefinanceVehicles as T
+    }
+    
+    if (endpoint.includes('/credit-check/results')) {
+      const { mockCreditCheckResults } = await import('@/features/refinance/data/mock-data')
+      return mockCreditCheckResults as T
+    }
+    
+    // For other endpoints, return empty object as placeholder
     return {} as T
   }
 
   // Mock data creation
-  private static async createMockData<T>(_endpoint: string, data: any): Promise<T> {
+  private static async createMockData<T>(endpoint: string, data: any): Promise<T> {
     // Generate ID and timestamps
     const newData = {
       ...data,
@@ -91,6 +101,55 @@ export class MockApiService {
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     }
+
+    // Handle specific endpoints
+    if (endpoint.includes('/refinance/check')) {
+      // Mock refinance check response
+      return {
+        success: true,
+        data: {
+          id: this.generateId(),
+          brand: 'Honda',
+          model: 'Wave 125',
+          year: 2020,
+          color: 'แดง',
+          plateNumber: 'กข-1234 กรุงเทพฯ',
+          condition: 'excellent',
+          estimatedValue: 45000,
+          refinanceAmount: 30000,
+          monthlyPayment: 2500,
+          interestRate: 2.5,
+          termMonths: 12,
+          eligibility: {
+            isEligible: true,
+            score: 85,
+            reasons: ['รถอายุไม่เกิน 5 ปี', 'สภาพรถดี', 'เอกสารครบถ้วน'],
+            requirements: ['บัตรประชาชน', 'ใบขับขี่', 'ทะเบียนรถ', 'ประกันภัย']
+          },
+          requirements: ['บัตรประชาชน', 'ใบขับขี่', 'ทะเบียนรถ', 'ประกันภัย']
+        },
+        message: 'ตรวจสอบการรีไฟแนนสำเร็จ'
+      } as T
+    }
+
+    if (endpoint.includes('/credit-check/submit')) {
+      // Mock credit check response
+      return {
+        success: true,
+        data: {
+          creditScore: Math.floor(Math.random() * 300) + 500, // 500-800
+          eligibility: Math.random() > 0.3, // 70% chance of approval
+          approvedAmount: Math.floor(Math.random() * 50000) + 20000, // 20k-70k
+          interestRate: Math.random() * 2 + 2, // 2-4%
+          monthlyPayment: Math.floor(Math.random() * 3000) + 2000, // 2k-5k
+          termMonths: 12,
+          requirements: ['บัตรประชาชน', 'ใบขับขี่', 'หลักฐานรายได้', 'บัญชีธนาคาร'],
+          message: 'ข้อมูลได้รับการส่งเรียบร้อยแล้ว เราจะติดต่อกลับภายใน 24 ชั่วโมง'
+        },
+        message: 'ส่งข้อมูลตรวจสอบเครดิตสำเร็จ'
+      } as T
+    }
+
     return newData as T
   }
 

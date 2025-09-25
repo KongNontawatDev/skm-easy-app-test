@@ -20,7 +20,6 @@ export function Home() {
 
   const handleContractChange = (index: number) => {
     // eslint-disable-next-line no-console
-    console.log('Home: Contract changed to index:', index)
     setSelectedContractIndex(index)
   }
 

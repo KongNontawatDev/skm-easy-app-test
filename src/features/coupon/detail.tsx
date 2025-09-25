@@ -245,7 +245,6 @@ export function CouponDetail() {
                 onClick={() => {
                   // ในแอพจริงจะเป็นการเรียก API เพื่อรับคูปอง
                   // TODO: Implement actual coupon claiming API
-                  // // console.log('Claim coupon:', coupon.id)
                   alert('รับคูปองสำเร็จ!')
                 }}
                 className="w-full"

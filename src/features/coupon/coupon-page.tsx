@@ -57,7 +57,6 @@ export function Coupon() {
   const handleClaimCoupon = (_couponId: string) => {
     // ในแอพจริงจะเป็นการเรียก API เพื่อรับคูปอง
     // TODO: Implement actual coupon claiming API
-    // // console.log('Claim coupon:', couponId)
     // อัปเดตสถานะคูปองเป็น 'claimed'
   }
 

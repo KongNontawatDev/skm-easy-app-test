@@ -27,7 +27,6 @@ const queryClient = new QueryClient({
       retry: (failureCount, error) => {
         // TODO: Implement proper error logging
         if (import.meta.env.DEV) {
-          // console.log({ failureCount, error })
         }
 
         if (failureCount >= 0 && import.meta.env.DEV) return false
@@ -92,6 +91,20 @@ declare module '@tanstack/react-router' {
   interface Register {
     router: typeof router
   }
+}
+
+
+// Register service worker for PWA
+if ('serviceWorker' in navigator && import.meta.env.PROD) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(() => {
+        // Service worker registered successfully
+      })
+      .catch(() => {
+        // Service worker registration failed
+      })
+  })
 }
 
 // Render the app

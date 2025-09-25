@@ -10,7 +10,6 @@ export function Contact() {
 
   const handleSubmitForm = (_data: unknown) => {
     // TODO: Implement actual form submission
-    // // console.log('Submit contact form:', data)
     setShowForm(false)
     // Here you would typically send the data to your API
     alert('ส่งข้อความเรียบร้อยแล้ว เราจะติดต่อกลับภายใน 24 ชั่วโมง')

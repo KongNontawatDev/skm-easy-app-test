@@ -5,7 +5,6 @@ import { mockTickets } from './data/mock-data'
 export function TicketHistory() {
   const handleViewDetail = (_ticketId: string) => {
     // Navigate to ticket detail (if needed)
-    // console.log('View ticket:', ticketId)
   }
 
   return (

@@ -1,4 +1,4 @@
-import { useParams } from '@tanstack/react-router'
+import { useParams, Link, useNavigate } from '@tanstack/react-router'
 import { MobileLayout } from '@/components/mobile/mobile-layout'
 import { MobileHeader } from '@/components/mobile/mobile-header'
 import { MobileContent } from '@/components/mobile/mobile-content'
@@ -6,7 +6,6 @@ import { MobileCard } from '@/components/mobile/mobile-card'
 import { MobileButton } from '@/components/mobile/mobile-button'
 import { BottomNavigation } from '@/components/mobile/bottom-navigation'
 import { ArrowLeft, Receipt, Calendar, DollarSign } from 'lucide-react'
-import { useNavigate } from '@tanstack/react-router'
 import { getReceiptsByContract, getContractById } from '@/lib/mock-data'
 
 export function ReceiptList() {
@@ -56,9 +55,7 @@ export function ReceiptList() {
     }
   }
 
-  const handleViewReceipt = (receiptId: string) => {
-    navigate({ to: '/receipt/$contractId/$receiptId', params: { contractId, receiptId } })
-  }
+  // Navigation is now handled by Link component
 
   return (
     <MobileLayout>
@@ -119,13 +116,21 @@ export function ReceiptList() {
                 )}
               </div>
 
-              <MobileButton
-                onClick={() => handleViewReceipt(receipt.id)}
-                className="w-full bg-green-600 text-white hover:bg-green-700"
-              >
-                <Receipt className="h-4 w-4 mr-2" />
-                ดูรายละเอียด
-              </MobileButton>
+               <Link
+                 to="/receipt/detail/$receiptId"
+                 params={{ receiptId: receipt.id }}
+                 className="w-full"
+                 onClick={() => {
+                   // eslint-disable-next-line no-console
+                 }}
+               >
+                <MobileButton
+                  className="w-full bg-green-600 text-white hover:bg-green-700"
+                >
+                  <Receipt className="h-4 w-4 mr-2" />
+                  ดูรายละเอียด
+                </MobileButton>
+              </Link>
             </MobileCard>
           ))}
         </div>

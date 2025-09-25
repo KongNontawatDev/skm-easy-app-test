@@ -104,7 +104,6 @@ export function SignIn() {
     
     // Handle sign in logic here
     // TODO: Implement actual sign in API call
-    // // console.log('Sign in:', formData, 'Captcha token:', captchaToken)
     
     // Show loading toast
     const loadingToast = showToast.loading('กำลังลงทะเบียนเข้าสู่ระบบ...')

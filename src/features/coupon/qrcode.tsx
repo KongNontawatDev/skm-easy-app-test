@@ -64,7 +64,6 @@ export function CouponQRCode() {
       }
     } catch (_error) {
       // TODO: Implement proper error handling
-      // console.error('Error accessing camera:', error)
       alert('ไม่สามารถเข้าถึงกล้องได้ กรุณาอนุญาตการเข้าถึงกล้อง')
     }
   }

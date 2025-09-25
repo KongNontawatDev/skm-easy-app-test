@@ -17,23 +17,26 @@ import {
   Car
 } from 'lucide-react'
 import { useParams, useNavigate } from '@tanstack/react-router'
-import { mockInvoices } from './data/mock-data'
+import { getInvoiceById } from '@/lib/mock-data'
 
 export function InvoiceDetail() {
-  const { contractId, invoiceId } = useParams({ from: '/invoice/$contractId/$invoiceId' })
+  const { invoiceId } = useParams({ from: '/invoice/detail/$invoiceId' })
   const navigate = useNavigate()
 
-  // Find invoice by contractId and invoiceId
-  const invoice = mockInvoices.find(
-    inv => inv.contractId === contractId && inv.id === invoiceId
-  )
+  // Debug logging
+  // eslint-disable-next-line no-console
+
+  // Find invoice by invoiceId from central data
+  const invoice = getInvoiceById(invoiceId)
+  
+  // eslint-disable-next-line no-console
 
   if (!invoice) {
     return (
       <MobileLayout>
         <MobileHeader 
           title="ไม่พบใบแจ้งหนี้"
-          onBackClick={() => navigate({ to: '/invoice/$contractId', params: { contractId } })}
+          onBackClick={() => navigate({ to: '/installment' })}
         />
         <MobileContent className='pb-48'>
           <MobileCard className='p-8 text-center'>
@@ -92,7 +95,7 @@ export function InvoiceDetail() {
     <MobileLayout>
       <MobileHeader 
         title={`ใบแจ้งหนี้ ${invoice.invoiceNumber}`}
-        onBackClick={() => navigate({ to: '/invoice/$contractId', params: { contractId } })}
+         onBackClick={() => navigate({ to: '/invoice/$contractId', params: { contractId: invoice.contractId } })}
       />
 
       <MobileContent className='pb-48'>
@@ -283,7 +286,6 @@ export function InvoiceDetail() {
               className="w-full"
               onClick={() => {
                 // Handle download
-                console.log('Download invoice:', invoice.id)
               }}
             >
               <Download className="w-5 h-5 mr-2" />

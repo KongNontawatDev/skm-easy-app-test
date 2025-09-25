@@ -14,7 +14,6 @@ export function Promotion() {
 
   const handleViewDetail = (_promotionId: string) => {
     // Navigate to promotion detail (if needed)
-    // console.log('View promotion:', promotionId)
   }
 
   return (

@@ -30,12 +30,10 @@ export function Notification() {
 
   const handleMarkAsRead = (_notificationId: string) => {
     // Here you would typically update the notification status in your state management
-    // console.log('Mark as read:', notificationId)
   }
 
   const handleMarkAllAsRead = () => {
     // Here you would typically mark all notifications as read
-    // console.log('Mark all as read')
   }
 
   const typeOptions = [

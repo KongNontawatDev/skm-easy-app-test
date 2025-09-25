@@ -9,11 +9,9 @@ export function useClaimCoupon() {
     {
       onSuccess: (data) => {
         // Show success message
-        console.log('Coupon claimed successfully:', data.data.title)
       },
       onError: (error) => {
         // Show error message
-        console.error('Failed to claim coupon:', error.message)
       }
     }
   )
@@ -26,11 +24,9 @@ export function useUseCoupon() {
     {
       onSuccess: (data) => {
         // Show success message
-        console.log('Coupon used successfully:', data.data.title)
       },
       onError: (error) => {
         // Show error message
-        console.error('Failed to use coupon:', error.message)
       }
     }
   )

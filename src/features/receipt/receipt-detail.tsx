@@ -8,33 +8,33 @@ import {
 } from '@/components/mobile'
 import { 
   Download,
-  Eye,
   Receipt as ReceiptIcon,
-  FileText,
   AlertCircle,
-  Calendar,
   User,
   Car,
   CreditCard
 } from 'lucide-react'
 import { useParams, useNavigate } from '@tanstack/react-router'
-import { mockReceipts } from './data/mock-data'
+import { getReceiptById } from '@/lib/mock-data'
 
 export function ReceiptDetail() {
-  const { contractId, receiptId } = useParams({ from: '/receipt/$contractId/$receiptId' })
+  const { receiptId } = useParams({ from: '/receipt/detail/$receiptId' })
   const navigate = useNavigate()
 
-  // Find receipt by contractId and receiptId
-  const receipt = mockReceipts.find(
-    rec => rec.contractId === contractId && rec.id === receiptId
-  )
+  // Debug logging
+  // eslint-disable-next-line no-console
+
+  // Find receipt by receiptId from central data
+  const receipt = getReceiptById(receiptId)
+  
+  // eslint-disable-next-line no-console
 
   if (!receipt) {
     return (
       <MobileLayout>
         <MobileHeader 
           title="ไม่พบใบเสร็จ"
-          onBackClick={() => navigate({ to: '/receipt/$contractId', params: { contractId } })}
+          onBackClick={() => navigate({ to: '/installment' })}
         />
         <MobileContent className='pb-48'>
           <MobileCard className='p-8 text-center'>
@@ -93,7 +93,7 @@ export function ReceiptDetail() {
     <MobileLayout>
       <MobileHeader 
         title={`ใบเสร็จ ${receipt.receiptNumber}`}
-        onBackClick={() => navigate({ to: '/receipt/$contractId', params: { contractId } })}
+         onBackClick={() => navigate({ to: '/receipt/$contractId', params: { contractId: receipt.contractId } })}
       />
 
       <MobileContent className='pb-48'>
@@ -241,10 +241,10 @@ export function ReceiptDetail() {
             <MobileButton
               variant="outline"
               className="w-full"
-              onClick={() => {
-                // Handle download
-                console.log('Download receipt:', receipt.id)
-              }}
+               onClick={() => {
+                 // Handle download
+                 // eslint-disable-next-line no-console
+               }}
             >
               <Download className="w-5 h-5 mr-2" />
               ดาวน์โหลดใบเสร็จ

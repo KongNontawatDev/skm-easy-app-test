@@ -50,19 +50,16 @@ export function ContractCardsCarousel({
     if (!emblaApi) return
     
     // eslint-disable-next-line no-console
-    console.log('Carousel: Setting up emblaApi listeners')
     
     const onSelect = () => {
       const newIndex = emblaApi.selectedScrollSnap()
       // eslint-disable-next-line no-console
-      console.log('Carousel: onSelect triggered, newIndex:', newIndex)
       setActiveIndex(newIndex)
       onContractChange?.(newIndex)
     }
     
     const onInit = () => {
       // eslint-disable-next-line no-console
-      console.log('Carousel: onInit triggered')
       onSelect()
     }
     
@@ -72,7 +69,6 @@ export function ContractCardsCarousel({
     // Initialize immediately if already ready
     if (emblaApi.slideNodes().length > 0) {
       // eslint-disable-next-line no-console
-      console.log('Carousel: Slide nodes ready, calling onSelect')
       onSelect()
     }
     
@@ -85,14 +81,12 @@ export function ContractCardsCarousel({
   // Debug: Log carousel state changes
   useEffect(() => {
     // eslint-disable-next-line no-console
-    console.log('Carousel state:', { activeIndex, contractsLength: contracts.length, initialIndex })
   }, [activeIndex, contracts.length, initialIndex])
 
   // Force update when contracts change
   useEffect(() => {
     if (emblaApi && contracts.length > 0) {
       // eslint-disable-next-line no-console
-      console.log('Carousel: Contracts changed, re-initializing')
       // Reset active index when contracts change
       setActiveIndex(0)
       // Small delay to ensure DOM is updated
@@ -101,7 +95,6 @@ export function ContractCardsCarousel({
         // Scroll to first slide after re-init
         emblaApi.scrollTo(0, false)
         // eslint-disable-next-line no-console
-        console.log('Carousel: Re-initialized and scrolled to 0')
       }, 100)
     }
   }, [emblaApi, contracts])
@@ -110,7 +103,6 @@ export function ContractCardsCarousel({
   useEffect(() => {
     if (emblaApi && initialIndex !== undefined) {
       // eslint-disable-next-line no-console
-      console.log('Carousel: Scrolling to initialIndex:', initialIndex)
       emblaApi.scrollTo(initialIndex, false) // false = smooth scroll
       setActiveIndex(initialIndex)
     }

@@ -94,12 +94,10 @@ export function PaymentDetail() {
 
   const handleDownload = () => {
     // Mock download functionality
-    // console.log('Download QR Code')
   }
 
   const handleShare = () => {
     // Mock share functionality
-    // console.log('Share QR Code')
   }
 
   const isExpired = expiresAt && new Date() > expiresAt
@@ -150,9 +148,12 @@ export function PaymentDetail() {
           {/* QR Code */}
           <MobileCard className="p-6">
             <div className="text-center">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
-                สแกน QR Code เพื่อชำระเงิน
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
+                QR Code สำหรับโอนเงิน
               </h3>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+                บันทึก QR Code นี้แล้วอัพโหลดในแอพธนาคาร
+              </p>
               
               {isLoading ? (
                 <div className="w-64 h-64 mx-auto bg-gray-100 dark:bg-gray-700 rounded-2xl flex items-center justify-center">
@@ -185,30 +186,40 @@ export function PaymentDetail() {
           {/* Instructions */}
           <MobileCard className="p-4">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
-              วิธีการชำระเงิน
+              วิธีการโอนเงิน
             </h3>
             <div className="space-y-3 text-sm text-gray-600 dark:text-gray-400">
               <div className="flex items-start">
                 <div className="w-6 h-6 bg-[#EC1B2E] text-white rounded-full flex items-center justify-center text-xs font-bold mr-3 mt-0.5">1</div>
-                <p>เปิดแอปธนาคารหรือแอปชำระเงิน</p>
+                <p>บันทึก QR Code ด้านบนลงในอุปกรณ์ของคุณ</p>
               </div>
               <div className="flex items-start">
                 <div className="w-6 h-6 bg-[#EC1B2E] text-white rounded-full flex items-center justify-center text-xs font-bold mr-3 mt-0.5">2</div>
-                <p>เลือกเมนู "สแกน QR Code"</p>
+                <p>เปิดแอปธนาคารหรือแอปชำระเงิน</p>
               </div>
               <div className="flex items-start">
                 <div className="w-6 h-6 bg-[#EC1B2E] text-white rounded-full flex items-center justify-center text-xs font-bold mr-3 mt-0.5">3</div>
-                <p>สแกน QR Code ด้านบน</p>
+                <p>เลือกเมนู "สแกน QR Code" หรือ "อัพโหลดรูปภาพ"</p>
               </div>
               <div className="flex items-start">
                 <div className="w-6 h-6 bg-[#EC1B2E] text-white rounded-full flex items-center justify-center text-xs font-bold mr-3 mt-0.5">4</div>
-                <p>ตรวจสอบข้อมูลและยืนยันการชำระเงิน</p>
+                <p>อัพโหลดรูป QR Code ที่บันทึกไว้</p>
+              </div>
+              <div className="flex items-start">
+                <div className="w-6 h-6 bg-[#EC1B2E] text-white rounded-full flex items-center justify-center text-xs font-bold mr-3 mt-0.5">5</div>
+                <p>ตรวจสอบข้อมูลและยืนยันการโอนเงิน</p>
               </div>
             </div>
           </MobileCard>
 
           {/* Actions */}
           <div className="space-y-3">
+            <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700 rounded-lg p-3">
+              <p className="text-sm text-yellow-800 dark:text-yellow-200 text-center">
+                💡 <strong>คำแนะนำ:</strong> บันทึก QR Code นี้ลงในแกลเลอรี่ แล้วเปิดแอพธนาคารเพื่ออัพโหลดรูปภาพ
+              </p>
+            </div>
+            
             <MobileButton
               onClick={handleRefresh}
               disabled={isLoading}
@@ -225,7 +236,7 @@ export function PaymentDetail() {
                 onClick={handleDownload}
               >
                 <Download className="w-4 h-4 mr-2" />
-                บันทึก
+                บันทึก QR Code
               </MobileButton>
               
               <MobileButton

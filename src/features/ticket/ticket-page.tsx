@@ -12,11 +12,9 @@ export function Ticket() {
 
   const handleViewDetail = (_ticketId: string) => {
     // Navigate to ticket detail (if needed)
-    // console.log('View ticket:', ticketId)
   }
 
   const handleSubmitTicket = (_data: Record<string, unknown>) => {
-    // console.log('Submit ticket:', data)
     setShowForm(false)
     // Here you would typically send the data to your API
   }

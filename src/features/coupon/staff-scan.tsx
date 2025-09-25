@@ -92,7 +92,6 @@ export function StaffScan() {
       setIsProcessing(true)
       
       // ในแอพจริงจะเป็นการเรียก API เพื่อใช้คูปอง
-      // console.log('Using coupon:', scanResult.coupon.id)
       
       setTimeout(() => {
         setScanResult({

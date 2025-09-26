@@ -94,18 +94,6 @@ declare module '@tanstack/react-router' {
 }
 
 
-// Register service worker for PWA
-if ('serviceWorker' in navigator && import.meta.env.PROD) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
-      .then(() => {
-        // Service worker registered successfully
-      })
-      .catch(() => {
-        // Service worker registration failed
-      })
-  })
-}
 
 // Render the app
 const rootElement = document.getElementById('root')!

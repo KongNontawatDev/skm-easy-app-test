@@ -20,7 +20,6 @@
     "test:watch": "echo \"No tests specified\" && exit 0",
     "test:coverage": "echo \"No tests specified\" && exit 0",
     "knip": "npx knip",
-    "pwa:generate": "npx vite build && npx workbox generateSW",
     "perf:audit": "npx lighthouse http://localhost:3000 --output=html --output-path=./lighthouse-report.html"
   },
   "dependencies": {
@@ -97,8 +96,6 @@
     "typescript": "~5.9.2",
     "typescript-eslint": "^8.39.1",
     "vite": "^7.1.2",
-    "vite-bundle-analyzer": "^1.2.3",
-    "vite-plugin-pwa": "^1.0.3",
-    "workbox-window": "^7.3.0"
+    "vite-bundle-analyzer": "^1.2.3"
   }
 }

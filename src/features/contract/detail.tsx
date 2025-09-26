@@ -3,22 +3,32 @@ import {
   MobileHeader, 
   MobileContent, 
   BottomNavigation,
-  MobileCard
+  MobileCard,
+  MobileButton
 } from '@/components/mobile'
 import { 
   DollarSign,
   FileText,
   Car,
-  User
+  User,
+  Calendar,
+  Download,
+  QrCode,
+  Clock,
+  CheckCircle,
+  Receipt,
+  CreditCard
 } from 'lucide-react'
-import { useParams } from '@tanstack/react-router'
-import { getContractById } from '@/lib/mock-data'
+import { useParams, useNavigate } from '@tanstack/react-router'
+import { getContractById, getPaymentsByContract } from '@/lib/mock-data'
 
 export function ContractDetail() {
   const { contractId } = useParams({ from: '/contract/$contractId' })
+  const navigate = useNavigate()
 
   // ใช้ข้อมูลจากข้อมูลกลาง
   const contract = getContractById(contractId)
+  const payments = contract ? getPaymentsByContract(contractId) : []
 
   if (!contract) {
     return (
@@ -70,6 +80,60 @@ export function ContractDetail() {
       default:
         return status
     }
+  }
+
+  const getPaymentStatusColor = (status: string) => {
+    switch (status) {
+      case 'pending':
+        return 'bg-yellow-100 text-yellow-800'
+      case 'paid':
+        return 'bg-green-100 text-green-800'
+      case 'overdue':
+        return 'bg-red-100 text-red-800'
+      default:
+        return 'bg-gray-100 text-gray-800'
+    }
+  }
+
+  const getPaymentStatusText = (status: string) => {
+    switch (status) {
+      case 'pending':
+        return 'รอชำระ'
+      case 'paid':
+        return 'ชำระแล้ว'
+      case 'overdue':
+        return 'ค้างชำระ'
+      default:
+        return status
+    }
+  }
+
+  const handlePayment = () => {
+    navigate({ to: '/installment/pay', search: { contractId } })
+  }
+
+  const handleDownloadContract = () => {
+    // Mock download functionality
+    // In a real app, this would trigger a file download
+    alert('ดาวน์โหลดสัญญา')
+  }
+
+  const handleDownloadInvoice = () => {
+    // Mock download functionality
+    // In a real app, this would trigger a file download
+    alert('ดาวน์โหลดใบแจ้งหนี้')
+  }
+
+  const handleDownloadReceipt = () => {
+    // Mock download functionality
+    // In a real app, this would trigger a file download
+    alert('ดาวน์โหลดใบเสร็จ')
+  }
+
+  const handleDownloadPaymentSchedule = () => {
+    // Mock download functionality
+    // In a real app, this would trigger a file download
+    alert('ดาวน์โหลดตารางงวดผ่อนชำระ')
   }
 
   return (
@@ -202,11 +266,134 @@ export function ContractDetail() {
           </div>
         </MobileCard>
 
-        {/* ปุ่มดาวน์โหลดสัญญา */}
+        {/* ตารางงวดผ่อนชำระ */}
         <MobileCard>
-          <button className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors">
-            ดาวน์โหลดสัญญา
-          </button>
+          <div className="flex items-center space-x-3 mb-4">
+            <Calendar className="h-5 w-5 text-blue-600" />
+            <h3 className="text-lg font-semibold">ตารางงวดผ่อนชำระ</h3>
+          </div>
+          
+          <div className="space-y-3">
+            {payments.map((payment) => (
+              <div key={payment.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div className="flex items-center space-x-3">
+                  <div className="bg-blue-100 p-2 rounded-lg">
+                    <Calendar className="h-4 w-4 text-blue-600" />
+                  </div>
+                  <div>
+                    <p className="font-medium">งวดที่ {payment.installmentNo}</p>
+                    <p className="text-sm text-gray-600">{formatDate(payment.dueDate)}</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <p className="font-semibold text-green-600">{formatNumber(payment.amount)} บาท</p>
+                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${getPaymentStatusColor(payment.status)}`}>
+                    {getPaymentStatusText(payment.status)}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </MobileCard>
+
+        {/* ประวัติการชำระเงิน */}
+        <MobileCard>
+          <div className="flex items-center space-x-3 mb-4">
+            <Clock className="h-5 w-5 text-green-600" />
+            <h3 className="text-lg font-semibold">ประวัติการชำระเงิน</h3>
+          </div>
+          
+          <div className="space-y-3">
+            {payments.filter(p => p.status === 'paid').map((payment) => (
+              <div key={payment.id} className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                <div className="flex items-center space-x-3">
+                  <CheckCircle className="h-5 w-5 text-green-600" />
+                  <div>
+                    <p className="font-medium">งวดที่ {payment.installmentNo}</p>
+                    <p className="text-sm text-gray-600">{formatDate(payment.dueDate)}</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <p className="font-semibold text-green-600">{formatNumber(payment.amount)} บาท</p>
+                  <p className="text-xs text-green-600">ชำระแล้ว</p>
+                </div>
+              </div>
+            ))}
+            
+            {payments.filter(p => p.status === 'paid').length === 0 && (
+              <div className="text-center text-gray-500 py-4">
+                ยังไม่มีการชำระเงิน
+              </div>
+            )}
+          </div>
+        </MobileCard>
+
+        {/* ปุ่มชำระเงิน */}
+        <MobileCard>
+          <MobileButton
+            onClick={handlePayment}
+            variant="primary"
+            size="lg"
+            fullWidth
+            className="mb-3"
+          >
+            <QrCode className="h-5 w-5 mr-2" />
+            ชำระเงิน
+          </MobileButton>
+        </MobileCard>
+
+        {/* ปุ่มดาวน์โหลดเอกสาร */}
+        <MobileCard>
+          <div className="flex items-center space-x-3 mb-4">
+            <Download className="h-5 w-5 text-purple-600" />
+            <h3 className="text-lg font-semibold">ดาวน์โหลดเอกสาร</h3>
+          </div>
+          
+          <div className="space-y-3">
+            <MobileButton
+              onClick={handleDownloadContract}
+              variant="outline"
+              size="md"
+              fullWidth
+              className="justify-start"
+            >
+              <FileText className="h-4 w-4 mr-2" />
+              ดาวน์โหลดสัญญา
+            </MobileButton>
+            
+            <MobileButton
+              onClick={handleDownloadInvoice}
+              variant="outline"
+              size="md"
+              fullWidth
+              className="justify-start"
+            >
+              <Receipt className="h-4 w-4 mr-2" />
+              ดาวน์โหลดใบแจ้งหนี้
+            </MobileButton>
+            
+            <MobileButton
+              onClick={handleDownloadReceipt}
+              variant="outline"
+              size="md"
+              fullWidth
+              className="justify-start"
+            >
+              <CreditCard className="h-4 w-4 mr-2" />
+              ดาวน์โหลดใบเสร็จ
+            </MobileButton>
+            
+            <MobileButton
+              onClick={handleDownloadPaymentSchedule}
+              variant="outline"
+              size="md"
+              fullWidth
+              className="justify-start"
+            >
+              <Calendar className="h-4 w-4 mr-2" />
+              ดาวน์โหลดตารางงวดผ่อนชำระ
+            </MobileButton>
+          </div>
         </MobileCard>
       </MobileContent>
       <BottomNavigation currentPath="/contract" />

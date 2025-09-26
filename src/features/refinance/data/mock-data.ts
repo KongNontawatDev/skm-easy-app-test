@@ -9,7 +9,7 @@ export const mockRefinanceVehicles: RefinanceVehicle[] = [
     year: 2020,
     color: 'แดง',
     plateNumber: 'กข-1234 กรุงเทพฯ',
-    imageUrl: 'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=300&h=200&fit=crop',
+    imageUrl: 'https://autostation.com/wp-content/uploads/2024/11/honda_wave_125i_05.jpg',
     condition: 'excellent',
     estimatedValue: 45000,
     refinanceAmount: 30000,
@@ -24,28 +24,7 @@ export const mockRefinanceVehicles: RefinanceVehicle[] = [
     },
     requirements: ['บัตรประชาชน', 'ใบขับขี่', 'ทะเบียนรถ', 'ประกันภัย']
   },
-  {
-    id: '2',
-    brand: 'Yamaha',
-    model: 'Fino',
-    year: 2019,
-    color: 'ขาว',
-    plateNumber: 'คง-5678 กรุงเทพฯ',
-    imageUrl: 'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=300&h=200&fit=crop',
-    condition: 'good',
-    estimatedValue: 38000,
-    refinanceAmount: 25000,
-    monthlyPayment: 2100,
-    interestRate: 2.8,
-    termMonths: 12,
-    eligibility: {
-      isEligible: true,
-      score: 78,
-      reasons: ['รถอายุไม่เกิน 5 ปี', 'สภาพรถดี'],
-      requirements: ['บัตรประชาชน', 'ใบขับขี่', 'ทะเบียนรถ', 'ประกันภัย']
-    },
-    requirements: ['บัตรประชาชน', 'ใบขับขี่', 'ทะเบียนรถ', 'ประกันภัย']
-  },
+
   {
     id: '3',
     brand: 'Honda',
@@ -53,7 +32,7 @@ export const mockRefinanceVehicles: RefinanceVehicle[] = [
     year: 2021,
     color: 'ดำ',
     plateNumber: 'จฉ-9012 กรุงเทพฯ',
-    imageUrl: 'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=300&h=200&fit=crop',
+    imageUrl: 'https://s359.kapook.com/rq/600/auto/10/pagebuilder/b7d424f7-19f3-4ca6-8704-ff135c1328db.jpg',
     condition: 'excellent',
     estimatedValue: 65000,
     refinanceAmount: 45000,
@@ -68,50 +47,8 @@ export const mockRefinanceVehicles: RefinanceVehicle[] = [
     },
     requirements: ['บัตรประชาชน', 'ใบขับขี่', 'ทะเบียนรถ', 'ประกันภัย', 'ใบเสร็จการผ่อน']
   },
-  {
-    id: '4',
-    brand: 'Kawasaki',
-    model: 'Ninja 250',
-    year: 2018,
-    color: 'เขียว',
-    plateNumber: 'ชซ-3456 กรุงเทพฯ',
-    imageUrl: 'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=300&h=200&fit=crop',
-    condition: 'fair',
-    estimatedValue: 55000,
-    refinanceAmount: 35000,
-    monthlyPayment: 3000,
-    interestRate: 3.2,
-    termMonths: 12,
-    eligibility: {
-      isEligible: true,
-      score: 65,
-      reasons: ['รถอายุไม่เกิน 6 ปี', 'สภาพรถพอใช้'],
-      requirements: ['บัตรประชาชน', 'ใบขับขี่', 'ทะเบียนรถ', 'ประกันภัย', 'ใบตรวจสภาพรถ']
-    },
-    requirements: ['บัตรประชาชน', 'ใบขับขี่', 'ทะเบียนรถ', 'ประกันภัย', 'ใบตรวจสภาพรถ']
-  },
-  {
-    id: '5',
-    brand: 'Suzuki',
-    model: 'GSX-R150',
-    year: 2020,
-    color: 'น้ำเงิน',
-    plateNumber: 'ญฐ-7890 กรุงเทพฯ',
-    imageUrl: 'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=300&h=200&fit=crop',
-    condition: 'good',
-    estimatedValue: 48000,
-    refinanceAmount: 32000,
-    monthlyPayment: 2700,
-    interestRate: 2.7,
-    termMonths: 12,
-    eligibility: {
-      isEligible: true,
-      score: 80,
-      reasons: ['รถอายุไม่เกิน 5 ปี', 'สภาพรถดี', 'เอกสารครบถ้วน'],
-      requirements: ['บัตรประชาชน', 'ใบขับขี่', 'ทะเบียนรถ', 'ประกันภัย']
-    },
-    requirements: ['บัตรประชาชน', 'ใบขับขี่', 'ทะเบียนรถ', 'ประกันภัย']
-  }
+
+
 ]
 
 // Mock data for credit check results

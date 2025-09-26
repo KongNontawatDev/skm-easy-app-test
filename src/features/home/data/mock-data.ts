@@ -62,13 +62,7 @@ export const mockQuickMenuItems: QuickMenuItem[] = [
     path: '/credit-check',
     color: 'bg-blue-50 text-blue-600',
   },
-  {
-    id: '4',
-    title: 'คู่มือใช้งาน',
-    icon: '📖',
-    path: '/guide',
-    color: 'bg-purple-50 text-purple-600',
-  },
+ 
   {
     id: '5',
     title: 'ติดต่อร้าน',
@@ -90,13 +84,7 @@ export const mockQuickMenuItems: QuickMenuItem[] = [
     path: '/coupon',
     color: 'bg-yellow-50 text-yellow-600',
   },
-  {
-    id: '8',
-    title: 'การตั้งค่า',
-    icon: '⚙️',
-    path: '/settings',
-    color: 'bg-gray-50 text-gray-600',
-  },
+ 
 ]
 
 export const mockPromotionAds: PromotionAd[] = [

@@ -139,7 +139,7 @@ export function ContractDetail() {
   return (
     <MobileLayout>
       <MobileHeader title={`สัญญา ${contract.contractNumber}`} />
-      <MobileContent>
+      <MobileContent className='pb-20'>
         {/* ข้อมูลรถ */}
         <MobileCard>
           <div className="flex items-center space-x-3 mb-4">
@@ -267,7 +267,7 @@ export function ContractDetail() {
         </MobileCard>
 
         {/* ตารางงวดผ่อนชำระ */}
-        <MobileCard>
+        {/* <MobileCard>
           <div className="flex items-center space-x-3 mb-4">
             <Calendar className="h-5 w-5 text-blue-600" />
             <h3 className="text-lg font-semibold">ตารางงวดผ่อนชำระ</h3>
@@ -294,10 +294,10 @@ export function ContractDetail() {
               </div>
             ))}
           </div>
-        </MobileCard>
+        </MobileCard> */}
 
         {/* ประวัติการชำระเงิน */}
-        <MobileCard>
+        {/* <MobileCard>
           <div className="flex items-center space-x-3 mb-4">
             <Clock className="h-5 w-5 text-green-600" />
             <h3 className="text-lg font-semibold">ประวัติการชำระเงิน</h3>
@@ -326,7 +326,7 @@ export function ContractDetail() {
               </div>
             )}
           </div>
-        </MobileCard>
+        </MobileCard> */}
 
         {/* ปุ่มชำระเงิน */}
         <MobileCard>

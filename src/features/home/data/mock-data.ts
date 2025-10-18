@@ -1,31 +1,40 @@
 import type { ContractCard, QuickMenuItem, PromotionAd, HomeData, ContractProgress } from '../types'
-import { CONTRACTS_DATA } from '@/lib/mock-data'
+import { CONTRACTS_DATA, getPaymentsByContract } from '@/lib/mock-data'
 
 // Mock data for contract cards carousel - ใช้ข้อมูลจากข้อมูลกลาง
-export const mockContractCards: ContractCard[] = CONTRACTS_DATA.map(contract => ({
-  id: contract.id,
-  contractNumber: contract.contractNumber,
-  vehicleInfo: {
-    brand: contract.vehicleInfo.brand,
-    model: contract.vehicleInfo.model,
-    year: contract.vehicleInfo.year,
-    color: contract.vehicleInfo.color,
-    imageUrl: contract.vehicleInfo.imageUrl,
-  },
-  remainingAmount: contract.financialInfo.remainingAmount,
-  nextPaymentDate: contract.nextPaymentDate,
-  status: contract.contractInfo.status,
-  progress: contract.progress,
-}))
+export const mockContractCards: ContractCard[] = CONTRACTS_DATA.map(contract => {
+  const payments = getPaymentsByContract(contract.contractNumber)
+  const paidPayments = payments.filter(p => p.status === 'paid')
+  const progress = contract.financialInfo.term > 0 ? Math.round((paidPayments.length / contract.financialInfo.term) * 100) : 0
+  
+  return {
+    id: contract.id,
+    contractNumber: contract.contractNumber,
+    vehicleInfo: {
+      brand: contract.vehicleInfo.brand,
+      model: contract.vehicleInfo.model,
+      year: contract.vehicleInfo.year,
+      color: contract.vehicleInfo.color,
+      imageUrl: contract.vehicleInfo.imageUrl,
+    },
+    remainingAmount: contract.financialInfo.remainingAmount,
+    nextPaymentDate: contract.nextPaymentDate,
+    status: contract.contractInfo.status,
+    progress: progress,
+  }
+})
 
 // Progress data for each contract - ใช้ข้อมูลจากข้อมูลกลาง
 export const mockContractProgressData = CONTRACTS_DATA.reduce((acc, contract) => {
-  const paidAmount = contract.financialInfo.totalAmount - contract.financialInfo.remainingAmount
+  const payments = getPaymentsByContract(contract.contractNumber)
+  const paidPayments = payments.filter(p => p.status === 'paid')
+  const paidAmount = paidPayments.reduce((sum, payment) => sum + payment.amount, 0)
+  
   acc[contract.id] = {
     totalAmount: contract.financialInfo.totalAmount,
     paidAmount: paidAmount,
     nextDueDate: contract.nextPaymentDate,
-    installmentIndex: Math.floor(paidAmount / contract.financialInfo.monthlyPayment),
+    installmentIndex: paidPayments.length,
     totalInstallments: contract.financialInfo.term,
   }
   return acc

@@ -13,7 +13,7 @@ export interface Guide {
   updatedAt: string
 }
 
-export type GuideCategory = 'all' | 'payment' | 'account' | 'app_usage' | 'troubleshooting'
+export type GuideCategory = 'all' | 'payment' | 'contract' | 'coupon' | 'account' | 'notification' | 'troubleshooting' | 'refinance' | 'promotion' | 'app_usage'
 export type GuideDifficulty = 'beginner' | 'intermediate' | 'advanced'
 
 export interface GuideStep {

@@ -33,12 +33,22 @@ export function GuideDetail() {
     switch (category) {
       case 'payment':
         return 'การชำระเงิน'
+      case 'contract':
+        return 'สัญญาและเอกสาร'
+      case 'coupon':
+        return 'คูปองส่วนลด'
       case 'account':
-        return 'บัญชี'
+        return 'บัญชีและโปรไฟล์'
+      case 'notification':
+        return 'แจ้งเตือน'
+      case 'troubleshooting':
+        return 'แจ้งปัญหา'
+      case 'refinance':
+        return 'รีไฟแนนซ์'
+      case 'promotion':
+        return 'โปรโมชั่น'
       case 'app_usage':
         return 'การใช้งานแอป'
-      case 'troubleshooting':
-        return 'แก้ไขปัญหา'
       default:
         return 'ทั่วไป'
     }
@@ -60,6 +70,13 @@ export function GuideDetail() {
             <p className="text-gray-600 text-sm mb-4">
               {guide.excerpt}
             </p>
+
+            {/* Content Description */}
+            <div className="bg-gray-50 rounded-xl p-3 mb-4">
+              <p className="text-gray-700 text-sm leading-relaxed">
+                {guide.content}
+              </p>
+            </div>
 
             <div className="flex items-center justify-between text-sm text-gray-500">
               <div className="flex items-center space-x-4">
@@ -112,6 +129,43 @@ export function GuideDetail() {
                 </div>
               </div>
             ))}
+          </div>
+
+          {/* Additional Information */}
+          <div className="bg-white rounded-2xl p-4">
+            <h3 className="text-lg font-semibold text-gray-900 mb-3">ข้อมูลเพิ่มเติม</h3>
+            <div className="space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="text-gray-600">วันที่สร้าง:</span>
+                <span className="text-gray-900 font-medium">
+                  {new Date(guide.createdAt).toLocaleDateString('th-TH', {
+                    day: '2-digit',
+                    month: 'long',
+                    year: 'numeric'
+                  })}
+                </span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-600">อัปเดตล่าสุด:</span>
+                <span className="text-gray-900 font-medium">
+                  {new Date(guide.updatedAt).toLocaleDateString('th-TH', {
+                    day: '2-digit',
+                    month: 'long',
+                    year: 'numeric'
+                  })}
+                </span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-600">สถานะ:</span>
+                <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                  guide.isPublished 
+                    ? 'bg-green-100 text-green-700' 
+                    : 'bg-gray-100 text-gray-700'
+                }`}>
+                  {guide.isPublished ? 'เผยแพร่แล้ว' : 'ยังไม่เผยแพร่'}
+                </span>
+              </div>
+            </div>
           </div>
 
           {/* Tags */}

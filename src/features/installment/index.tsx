@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import {
-  FileText,
   Receipt,
   CreditCard,
   History,
@@ -18,7 +17,8 @@ import {
 import { ContractCardsCarousel } from '../home/components/contract-cards-carousel'
 import { InstallmentProgress } from '../home/components/installment-progress'
 import { mockHomeData, mockContractProgressData } from '../home/data/mock-data'
-import { getContractById, getPaymentsByContract } from '@/lib/mock-data'
+import { getPaymentsByContract } from '@/lib/mock-data'
+import { calculateTotalOverdueAmount, getOverdueCount } from '@/lib/payment-utils'
 import { useUploadContractImage } from '../home/hooks/useMutation'
 
 export function Installment() {
@@ -62,14 +62,6 @@ export function Installment() {
     if (!selectedContract) return []
     
     return [
-      {
-        id: 'contract',
-        title: 'ข้อมูลสัญญา',
-        description: 'ดูรายละเอียดสัญญาค่างวดรถ',
-        icon: FileText,
-        path: `/contract/${selectedContract.contractNumber}`,
-        color: 'bg-blue-50 text-blue-600',
-      },
       {
         id: 'invoice',
         title: 'ใบแจ้งหนี้',
@@ -181,10 +173,10 @@ export function Installment() {
 
         {/* Fixed Bottom Payment Section */}
         {selectedContract && selectedProgress && (() => {
-          // หาข้อมูลการชำระเงินที่ต้องชำระในงวดถัดไป
-          const contractData = getContractById(selectedContract.contractNumber)
+          // หาข้อมูลการชำระเงินที่ค้างชำระทั้งหมด
           const payments = getPaymentsByContract(selectedContract.contractNumber)
-          const nextPayment = payments.find(p => p.status === 'pending' || p.status === 'overdue')
+          const totalOverdueAmount = calculateTotalOverdueAmount(payments)
+          const overdueCount = getOverdueCount(payments)
           
           return (
             <div className='fixed w-full right-0 bottom-16 left-0 z-40 bg-white p-4 dark:bg-gray-800'>
@@ -195,11 +187,10 @@ export function Installment() {
                       ยอดที่ต้องชำระ
                     </p>
                     <p className='text-2xl font-bold text-gray-900 dark:text-gray-100'>
-                      {nextPayment ? nextPayment.amount.toLocaleString() : contractData?.financialInfo.monthlyPayment.toLocaleString() || '0'} ฿
+                      {totalOverdueAmount.toLocaleString()} ฿
                     </p>
                     <p className='text-xs text-gray-500 dark:text-gray-400'>
-                      งวดที่ {nextPayment ? nextPayment.installmentNo : selectedProgress.installmentIndex + 1} จาก{' '}
-                      {selectedProgress.totalInstallments}
+                      {overdueCount > 0 ? `ค้างชำระ ${overdueCount} งวด` : 'ไม่มีงวดที่ค้างชำระ'}
                     </p>
                   </div>
                   <MobileButton

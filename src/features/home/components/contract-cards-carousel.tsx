@@ -4,6 +4,7 @@ import { Camera } from 'lucide-react'
 import type { ContractCard } from '../types'
 import { Link } from '@tanstack/react-router'
 import { getContractById, getPaymentsByContract } from '@/lib/mock-data'
+import { calculateTotalOverdueAmount } from '@/lib/payment-utils'
 
 interface ContractCardsCarouselProps {
   contracts: ContractCard[]
@@ -35,13 +36,12 @@ export function ContractCardsCarousel({
   // คำนวณข้อมูลการชำระเงินล่วงหน้าเพื่อหลีกเลี่ยงการคำนวณซ้ำ
   const contractPaymentData = useMemo(() => {
     return contracts.map(contract => {
-      const contractData = getContractById(contract.contractNumber)
       const payments = getPaymentsByContract(contract.contractNumber)
-      const nextPayment = payments.find(p => p.status === 'pending' || p.status === 'overdue')
+      const totalOverdueAmount = calculateTotalOverdueAmount(payments)
       
       return {
         contractId: contract.id,
-        amount: nextPayment ? nextPayment.amount : contractData?.financialInfo.monthlyPayment || 0
+        amount: totalOverdueAmount
       }
     })
   }, [contracts])

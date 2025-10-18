@@ -11,9 +11,9 @@ export const mockRefinanceVehicles: RefinanceVehicle[] = [
     plateNumber: 'กข-1234 กรุงเทพฯ',
     imageUrl: 'https://autostation.com/wp-content/uploads/2024/11/honda_wave_125i_05.jpg',
     condition: 'excellent',
-    estimatedValue: 45000,
-    refinanceAmount: 30000,
-    monthlyPayment: 2500,
+    estimatedValue: 35000,
+    refinanceAmount: 25000,
+    monthlyPayment: 2100,
     interestRate: 2.5,
     termMonths: 12,
     eligibility: {
@@ -34,9 +34,9 @@ export const mockRefinanceVehicles: RefinanceVehicle[] = [
     plateNumber: 'จฉ-9012 กรุงเทพฯ',
     imageUrl: 'https://s359.kapook.com/rq/600/auto/10/pagebuilder/b7d424f7-19f3-4ca6-8704-ff135c1328db.jpg',
     condition: 'excellent',
-    estimatedValue: 65000,
-    refinanceAmount: 45000,
-    monthlyPayment: 3800,
+    estimatedValue: 55000,
+    refinanceAmount: 40000,
+    monthlyPayment: 3400,
     interestRate: 2.3,
     termMonths: 12,
     eligibility: {
@@ -64,8 +64,8 @@ export const mockCreditCheckResults: CreditCheckResult[] = [
     monthlyPayment: 4200,
     termMonths: 12,
     status: 'approved',
-    submittedAt: '2024-01-15T10:30:00Z',
-    processedAt: '2024-01-15T14:30:00Z',
+    submittedAt: '2026-10-15T10:30:00Z',
+    processedAt: '2026-10-15T14:30:00Z',
     requirements: ['บัตรประชาชน', 'ใบขับขี่', 'หลักฐานรายได้', 'บัญชีธนาคาร'],
     notes: 'ลูกค้าผ่านการตรวจสอบเครดิต สามารถอนุมัติได้'
   },
@@ -80,8 +80,8 @@ export const mockCreditCheckResults: CreditCheckResult[] = [
     monthlyPayment: 3000,
     termMonths: 12,
     status: 'approved',
-    submittedAt: '2024-01-14T09:15:00Z',
-    processedAt: '2024-01-14T11:45:00Z',
+    submittedAt: '2026-10-14T09:15:00Z',
+    processedAt: '2026-10-14T11:45:00Z',
     requirements: ['บัตรประชาชน', 'ใบขับขี่', 'หลักฐานรายได้', 'บัญชีธนาคาร'],
     notes: 'ลูกค้าผ่านการตรวจสอบเครดิต สามารถอนุมัติได้'
   },
@@ -96,8 +96,8 @@ export const mockCreditCheckResults: CreditCheckResult[] = [
     monthlyPayment: 0,
     termMonths: 0,
     status: 'rejected',
-    submittedAt: '2024-01-13T16:20:00Z',
-    processedAt: '2024-01-13T18:30:00Z',
+    submittedAt: '2026-10-13T16:20:00Z',
+    processedAt: '2026-10-13T18:30:00Z',
     requirements: ['บัตรประชาชน', 'ใบขับขี่', 'หลักฐานรายได้', 'บัญชีธนาคาร'],
     notes: 'เครดิตสกอร์ต่ำเกินไป ต้องเพิ่มหลักฐานรายได้'
   },
@@ -112,7 +112,7 @@ export const mockCreditCheckResults: CreditCheckResult[] = [
     monthlyPayment: 3800,
     termMonths: 12,
     status: 'pending',
-    submittedAt: '2024-01-16T08:45:00Z',
+    submittedAt: '2026-10-16T08:45:00Z',
     requirements: ['บัตรประชาชน', 'ใบขับขี่', 'หลักฐานรายได้', 'บัญชีธนาคาร'],
     notes: 'รอการตรวจสอบเอกสารเพิ่มเติม'
   }

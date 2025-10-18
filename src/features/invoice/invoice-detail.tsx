@@ -8,7 +8,6 @@ import {
 } from '@/components/mobile'
 import { 
   Download,
-  Eye,
   DollarSign,
   FileText,
   AlertCircle,
@@ -23,13 +22,8 @@ export function InvoiceDetail() {
   const { invoiceId } = useParams({ from: '/invoice/detail/$invoiceId' })
   const navigate = useNavigate()
 
-  // Debug logging
-  // eslint-disable-next-line no-console
-
   // Find invoice by invoiceId from central data
   const invoice = getInvoiceById(invoiceId)
-  
-  // eslint-disable-next-line no-console
 
   if (!invoice) {
     return (
@@ -223,13 +217,38 @@ export function InvoiceDetail() {
               
               <div className='border-t pt-3 space-y-2'>
                 <div className='flex justify-between'>
-                  <span className='text-gray-500'>จำนวนเงิน:</span>
+                  <span className='text-gray-500'>ค่างวด:</span>
                   <span>{formatNumber(invoice.billingInfo.amount)} ฿</span>
                 </div>
+                
+                {/* ค่าปรับล่าช้า */}
                 <div className='flex justify-between'>
-                  <span className='text-gray-500'>ภาษีมูลค่าเพิ่ม (7%):</span>
-                  <span>{formatNumber(invoice.billingInfo.vat)} ฿</span>
+                  <span className='text-gray-500'>ค่าปรับล่าช้า:</span>
+                  <span className={invoice.billingInfo.lateFee && invoice.billingInfo.lateFee > 0 ? 'text-red-600' : 'text-gray-500'}>
+                    {formatNumber(invoice.billingInfo.lateFee || 0)} ฿
+                  </span>
                 </div>
+                
+                {/* ค่าติดตามหนี้ */}
+                <div className='flex justify-between'>
+                  <span className='text-gray-500'>ค่าติดตามหนี้:</span>
+                  <span className={invoice.billingInfo.collectionFee && invoice.billingInfo.collectionFee > 0 ? 'text-red-600' : 'text-gray-500'}>
+                    {formatNumber(invoice.billingInfo.collectionFee || 0)} ฿
+                  </span>
+                </div>
+                
+                {/* ค่าธรรมเนียมอื่นๆ */}
+                <div className='flex justify-between'>
+                  <span className='text-gray-500'>ค่าธรรมเนียมอื่นๆ:</span>
+                  <span>{formatNumber(invoice.billingInfo.otherFees || 0)} ฿</span>
+                </div>
+                
+                {/* ค่าอื่นๆ */}
+                <div className='flex justify-between'>
+                  <span className='text-gray-500'>ค่าอื่นๆ:</span>
+                  <span>0 ฿</span>
+                </div>
+                
                 <div className='flex justify-between font-semibold text-lg'>
                   <span>รวมทั้งสิ้น:</span>
                   <span className='text-[#EC1B2E]'>{formatNumber(invoice.billingInfo.totalAmount)} ฿</span>

@@ -104,7 +104,7 @@ export function RefinanceVehicleCard({ vehicle, onCheckEligibility }: RefinanceV
             <span className="text-sm font-medium">ผ่อนเดือนละ</span>
           </div>
           <p className="text-lg font-bold text-gray-900 dark:text-gray-100">
-            {vehicle.monthlyPayment.toLocaleString()} บาท
+            {vehicle.monthlyPayment.toLocaleString()} บาท / {vehicle.termMonths} เดือน
           </p>
         </div>
       </div>

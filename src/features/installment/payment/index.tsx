@@ -14,6 +14,7 @@ import {
 } from 'lucide-react'
 import { useRouter, useSearch, useNavigate } from '@tanstack/react-router'
 import { getPaymentsByContract, getContractById } from '@/lib/mock-data'
+import { calculatePaymentBreakdown, calculateTotalOverdueAmount, getOverdueCount } from '@/lib/payment-utils'
 
 interface PaymentSearchParams {
   contractId?: string
@@ -80,6 +81,10 @@ export function PaymentList() {
     navigate({ to: '/installment/pay/$id', params: { id: payment.id } })
   }
 
+  // คำนวณยอดรวมของงวดที่ค้างชำระ
+  const totalOverdueAmount = calculateTotalOverdueAmount(allPayments)
+  const overdueCount = getOverdueCount(allPayments)
+
   return (
     <MobileLayout>
       <MobileHeader 
@@ -94,10 +99,29 @@ export function PaymentList() {
               <CreditCard className="h-5 w-5 text-blue-600" />
               <h3 className="text-lg font-semibold">สัญญา {contract.contractNumber}</h3>
             </div>
-            <div className="text-sm text-gray-600">
+            <div className="text-sm text-gray-600 mb-3">
               <p>{contract.vehicleInfo.brand} {contract.vehicleInfo.model} ({contract.vehicleInfo.year})</p>
               <p>ทะเบียน: {contract.vehicleInfo.plateNumber}</p>
             </div>
+            
+            {/* ยอดรวมที่ต้องชำระ */}
+            {overdueCount > 0 && (
+              <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-lg p-3">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-red-800 dark:text-red-200">
+                      ยอดรวมที่ต้องชำระ
+                    </p>
+                    <p className="text-xs text-red-600 dark:text-red-400">
+                      ค้างชำระ {overdueCount} งวด
+                    </p>
+                  </div>
+                  <span className="text-xl font-bold text-red-600">
+                    {formatNumber(totalOverdueAmount)} ฿
+                  </span>
+                </div>
+              </div>
+            )}
           </MobileCard>
         )}
 
@@ -124,7 +148,10 @@ export function PaymentList() {
                 <div className="flex items-center space-x-2">
                   <DollarSign className="h-4 w-4 text-green-600" />
                   <span className="text-lg font-semibold text-green-600">
-                    {formatNumber(payment.amount)} บาท
+                    {payment.status === 'pending' || payment.status === 'overdue' 
+                      ? formatNumber(calculatePaymentBreakdown(payment).totalAmount)
+                      : formatNumber(payment.amount)
+                    } บาท
                   </span>
                 </div>
               </div>

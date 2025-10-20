@@ -20,16 +20,13 @@ export function calculatePaymentBreakdown(payment: { amount: number; dueDate: st
   // ค่าปรับล่าช้า (500 บาท ต่องวดที่ค้างเกิน 1 งวด)
   const lateFee = daysOverdue > 0 ? 500 : 0
   
-  // ค่าติดตามหนี้ (5 บาท ต่องวดที่ค้างเกิน 1 งวด)
-  const collectionFee = daysOverdue > 0 ? 5 : 0
+  // ค่าติดตามหนี้ (10 บาท ต่องวดที่ค้างเกิน 1 งวด)
+  const collectionFee = daysOverdue > 0 ? 10 : 0
   
   // ค่าธรรมเนียมอื่นๆ (5 บาท)
   const otherFees = 5
   
-  // ค่าอื่นๆ (0 บาท)
-  const additionalFees = 0
-  
-  const totalAmount = baseAmount + lateFee + collectionFee + otherFees + additionalFees
+  const totalAmount = baseAmount + lateFee + collectionFee + otherFees
   
   return {
     baseAmount,

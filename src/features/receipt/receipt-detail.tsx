@@ -250,12 +250,6 @@ export function ReceiptDetail() {
                   <span>{formatNumber(receipt.paymentInfo.otherFees || 0)} ฿</span>
                 </div>
                 
-                {/* ค่าอื่นๆ */}
-                <div className='flex justify-between'>
-                  <span className='text-gray-500'>ค่าอื่นๆ:</span>
-                  <span>0 ฿</span>
-                </div>
-                
                 <div className='flex justify-between font-semibold text-lg pt-2 border-t border-gray-200 dark:border-gray-700'>
                   <span>รวมทั้งสิ้น:</span>
                   <span className='text-[#EC1B2E]'>{formatNumber(receipt.paymentInfo.amount)} ฿</span>

@@ -243,12 +243,6 @@ export function InvoiceDetail() {
                   <span>{formatNumber(invoice.billingInfo.otherFees || 0)} ฿</span>
                 </div>
                 
-                {/* ค่าอื่นๆ */}
-                <div className='flex justify-between'>
-                  <span className='text-gray-500'>ค่าอื่นๆ:</span>
-                  <span>0 ฿</span>
-                </div>
-                
                 <div className='flex justify-between font-semibold text-lg'>
                   <span>รวมทั้งสิ้น:</span>
                   <span className='text-[#EC1B2E]'>{formatNumber(invoice.billingInfo.totalAmount)} ฿</span>

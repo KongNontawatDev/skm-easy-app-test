@@ -163,7 +163,7 @@ export const CONTRACTS_DATA: ContractData[] = [
       status: 'overdue' // ค้างชำระ 3 งวด
     },
     progress: 87, // 21 งวดที่ชำระแล้ว / 24 งวดทั้งหมด = 87.5%
-    nextPaymentDate: '2026-08-15', // งวดที่ 22 ที่ค้างชำระ
+    nextPaymentDate: '2025-11-15', // งวดที่ 24 ที่ค้างชำระ
     createdAt: '2024-08-01T00:00:00Z'
   },
   {
@@ -244,13 +244,13 @@ export const CONTRACTS_DATA: ContractData[] = [
 
 // ข้อมูลการชำระเงิน
 export const PAYMENTS_DATA: PaymentData[] = [
-  // CT-2024-001 - ค้างชำระ 3 งวด (ผ่อนไปแล้ว 21 งวด) - วันที่ปัจจุบัน: 17 ตุลาคม 2026
+  // CT-2024-001 - ค้างชำระ 3 งวด (ผ่อนไปแล้ว 21 งวด) - วันที่ปัจจุบัน: 20 ตุลาคม 2025
   {
     id: 'PAY-001-24',
     contractNo: 'CT-2024-001',
     installmentNo: 24,
     amount: 3750,
-    dueDate: '2026-07-15',
+    dueDate: '2025-11-15',
     status: 'pending'
   },
   {
@@ -258,7 +258,7 @@ export const PAYMENTS_DATA: PaymentData[] = [
     contractNo: 'CT-2024-001',
     installmentNo: 23,
     amount: 3750,
-    dueDate: '2026-06-15',
+    dueDate: '2025-10-15',
     status: 'overdue'
   },
   {
@@ -266,7 +266,7 @@ export const PAYMENTS_DATA: PaymentData[] = [
     contractNo: 'CT-2024-001',
     installmentNo: 22,
     amount: 3750,
-    dueDate: '2026-05-15',
+    dueDate: '2025-09-15',
     status: 'overdue'
   },
   {
@@ -274,7 +274,7 @@ export const PAYMENTS_DATA: PaymentData[] = [
     contractNo: 'CT-2024-001',
     installmentNo: 21,
     amount: 3750,
-    dueDate: '2026-04-15',
+    dueDate: '2025-08-15',
     status: 'overdue'
   },
   {
@@ -282,7 +282,7 @@ export const PAYMENTS_DATA: PaymentData[] = [
     contractNo: 'CT-2024-001',
     installmentNo: 20,
     amount: 3750,
-    dueDate: '2026-03-15',
+    dueDate: '2025-07-15',
     status: 'paid'
   },
   {
@@ -290,7 +290,7 @@ export const PAYMENTS_DATA: PaymentData[] = [
     contractNo: 'CT-2024-001',
     installmentNo: 19,
     amount: 3750,
-    dueDate: '2026-02-15',
+    dueDate: '2025-06-15',
     status: 'paid'
   },
   {
@@ -298,7 +298,7 @@ export const PAYMENTS_DATA: PaymentData[] = [
     contractNo: 'CT-2024-001',
     installmentNo: 18,
     amount: 3750,
-    dueDate: '2026-01-15',
+    dueDate: '2025-05-15',
     status: 'paid'
   },
   {
@@ -306,7 +306,7 @@ export const PAYMENTS_DATA: PaymentData[] = [
     contractNo: 'CT-2024-001',
     installmentNo: 17,
     amount: 3750,
-    dueDate: '2025-12-15',
+    dueDate: '2025-04-15',
     status: 'paid'
   },
   {
@@ -314,7 +314,7 @@ export const PAYMENTS_DATA: PaymentData[] = [
     contractNo: 'CT-2024-001',
     installmentNo: 16,
     amount: 3750,
-    dueDate: '2025-11-15',
+    dueDate: '2025-03-15',
     status: 'paid'
   },
   {
@@ -322,7 +322,7 @@ export const PAYMENTS_DATA: PaymentData[] = [
     contractNo: 'CT-2024-001',
     installmentNo: 15,
     amount: 3750,
-    dueDate: '2025-10-15',
+    dueDate: '2025-02-15',
     status: 'paid'
   },
   {
@@ -683,13 +683,14 @@ export const INVOICES_DATA: InvoiceData[] = [
       plateNumber: 'กข-1234 กรุงเทพ'
     },
     billingInfo: {
-      issueDate: '2026-05-15T00:00:00Z',
-      dueDate: '2026-06-15T00:00:00Z',
-      paymentDate: '2026-05-20T00:00:00Z',
+      issueDate: '2025-05-15T00:00:00Z',
+      dueDate: '2025-06-15T00:00:00Z',
+      paymentDate: '2025-05-20T00:00:00Z',
       amount: 3750,
-      totalAmount: 3760, // 3750 + 5 (ค่าธรรมเนียมอื่นๆ) + 5 (ค่าติดตามหนี้) = 3760
+      vat: 0,
+      totalAmount: 3765, // 3750 + 5 (ค่าธรรมเนียมอื่นๆ) + 10 (ค่าติดตามหนี้) = 3765
       lateFee: 0,
-      collectionFee: 5,
+      collectionFee: 10,
       otherFees: 5
     },
     paymentInfo: {
@@ -707,8 +708,8 @@ export const INVOICES_DATA: InvoiceData[] = [
       }
     ],
     status: 'paid',
-    createdAt: '2026-05-15T10:00:00Z',
-    updatedAt: '2026-05-20T14:30:00Z'
+    createdAt: '2025-05-15T10:00:00Z',
+    updatedAt: '2025-05-20T14:30:00Z'
   },
   {
     id: 'INV-002',
@@ -726,12 +727,13 @@ export const INVOICES_DATA: InvoiceData[] = [
       plateNumber: 'กข-1234 กรุงเทพ'
     },
     billingInfo: {
-      issueDate: '2026-06-15T00:00:00Z',
-      dueDate: '2026-07-15T00:00:00Z',
+      issueDate: '2025-06-15T00:00:00Z',
+      dueDate: '2025-07-15T00:00:00Z',
       amount: 3750,
-      totalAmount: 4260, // 3750 + 500 (ค่าปรับล่าช้า) + 5 (ค่าติดตามหนี้) + 5 (ค่าธรรมเนียมอื่นๆ) = 4260
+      vat: 0,
+      totalAmount: 4265, // 3750 + 500 (ค่าปรับล่าช้า) + 10 (ค่าติดตามหนี้) + 5 (ค่าธรรมเนียมอื่นๆ) = 4265
       lateFee: 500,
-      collectionFee: 5,
+      collectionFee: 10,
       otherFees: 5
     },
     paymentInfo: {
@@ -749,8 +751,8 @@ export const INVOICES_DATA: InvoiceData[] = [
       }
     ],
     status: 'sent',
-    createdAt: '2026-06-15T10:00:00Z',
-    updatedAt: '2026-06-15T10:00:00Z'
+    createdAt: '2025-06-15T10:00:00Z',
+    updatedAt: '2025-06-15T10:00:00Z'
   },
   {
     id: 'INV-003',
@@ -771,11 +773,11 @@ export const INVOICES_DATA: InvoiceData[] = [
       issueDate: '2024-01-20T00:00:00Z',
       dueDate: '2024-02-20T00:00:00Z',
       amount: 12000,
-      vat: 840,
-      totalAmount: 12840,
+      vat: 0,
+      totalAmount: 12015, // 12000 + 5 (ค่าธรรมเนียมอื่นๆ) + 10 (ค่าติดตามหนี้) = 12015
       lateFee: 0,
-      collectionFee: 0,
-      otherFees: 100
+      collectionFee: 10,
+      otherFees: 5
     },
     paymentInfo: {
       method: 'โอนเงิน',
@@ -814,9 +816,10 @@ export const INVOICES_DATA: InvoiceData[] = [
       issueDate: '2026-08-01T00:00:00Z',
       dueDate: '2026-09-01T00:00:00Z',
       amount: 2750,
-      totalAmount: 3260, // 2750 + 500 (ค่าปรับล่าช้า) + 5 (ค่าติดตามหนี้) + 5 (ค่าธรรมเนียมอื่นๆ) = 3260
+      vat: 0,
+      totalAmount: 3265, // 2750 + 500 (ค่าปรับล่าช้า) + 10 (ค่าติดตามหนี้) + 5 (ค่าธรรมเนียมอื่นๆ) = 3265
       lateFee: 500,
-      collectionFee: 5,
+      collectionFee: 10,
       otherFees: 5
     },
     paymentInfo: {
@@ -858,15 +861,15 @@ export const RECEIPTS_DATA: ReceiptData[] = [
       plateNumber: 'กข-1234 กรุงเทพ'
     },
     paymentInfo: {
-      paymentDate: '2026-05-20T14:30:00Z',
-      amount: 3760,
+      paymentDate: '2025-05-20T14:30:00Z',
+      amount: 3765,
       method: 'โอนเงิน',
-      reference: 'TXN-20260520-001',
+      reference: 'TXN-20250520-001',
       bankAccount: '123-4-56789-0',
       status: 'completed',
       baseAmount: 3750,
       lateFee: 0,
-      collectionFee: 5,
+      collectionFee: 10,
       otherFees: 5
     },
     items: [
@@ -874,17 +877,17 @@ export const RECEIPTS_DATA: ReceiptData[] = [
         id: 'ITEM-001',
         description: 'ค่างวดรถมอเตอร์ไซค์ Honda CBR150R งวดที่ 22',
         amount: 3750,
-        period: 'พฤษภาคม 2569'
+        period: 'พฤษภาคม 2568'
       },
       {
         id: 'ITEM-002',
         description: 'ค่าธรรมเนียมการชำระ',
-        amount: 10,
-        period: 'พฤษภาคม 2569'
+        amount: 15,
+        period: 'พฤษภาคม 2568'
       }
     ],
-    createdAt: '2026-05-20T14:30:00Z',
-    updatedAt: '2026-05-20T14:30:00Z'
+    createdAt: '2025-05-20T14:30:00Z',
+    updatedAt: '2025-05-20T14:30:00Z'
   },
   {
     id: 'RCP-002',
@@ -904,15 +907,15 @@ export const RECEIPTS_DATA: ReceiptData[] = [
     },
     paymentInfo: {
       paymentDate: '2024-01-25T11:15:00Z',
-      amount: 12840,
+      amount: 12015,
       method: 'โอนเงิน',
       reference: 'TXN-20240125-002',
       bankAccount: '987-6-54321-0',
       status: 'completed',
       baseAmount: 12000,
       lateFee: 0,
-      collectionFee: 0,
-      otherFees: 100
+      collectionFee: 10,
+      otherFees: 5
     },
     items: [
       {
@@ -924,7 +927,7 @@ export const RECEIPTS_DATA: ReceiptData[] = [
       {
         id: 'ITEM-004',
         description: 'ค่าธรรมเนียมการชำระ',
-        amount: 40,
+        amount: 15,
         period: 'มกราคม 2567'
       }
     ],
@@ -949,15 +952,15 @@ export const RECEIPTS_DATA: ReceiptData[] = [
     },
     paymentInfo: {
       paymentDate: '2024-01-12T16:45:00Z',
-      amount: 6687.5,
+      amount: 6615, // 6000 + 500 (ค่าปรับล่าช้า) + 10 (ค่าติดตามหนี้) + 5 (ค่าธรรมเนียมอื่นๆ) + 100 (ค่าอื่นๆ) = 6615
       method: 'โอนเงิน',
       reference: 'TXN-20240112-003',
       bankAccount: '456-7-89012-3',
       status: 'completed',
       baseAmount: 6000,
       lateFee: 500,
-      collectionFee: 500,
-      otherFees: 100
+      collectionFee: 10,
+      otherFees: 5
     },
     items: [
       {
